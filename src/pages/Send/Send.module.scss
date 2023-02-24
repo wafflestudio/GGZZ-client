@@ -96,7 +96,7 @@
           width:30px;
         }
       }
-      &.writing, &.voice, &.submit {
+      &.writing, &.voice, &.submit,&.image {
         transform: translateY(-100%);
         .closeModal{
           visibility: visible;
