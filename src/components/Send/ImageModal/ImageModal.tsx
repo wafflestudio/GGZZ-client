@@ -14,14 +14,21 @@ const ImageModal = () => {
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
   const [activeDeviceId, setActiveDeviceId] = useState<string | undefined>(undefined);
 
+  // useEffect(() => {
+  //   async function getDevices() {
+  //     const devices = await navigator.mediaDevices.enumerateDevices();
+  //     const videoDevices = devices.filter((i) => i.kind == "videoinput");
+  //     setDevices(videoDevices);
+  //   }
+  //   getDevices();
+  // }, [isCameraOn]);
   useEffect(() => {
-    async function getDevices() {
+    (async () => {
       const devices = await navigator.mediaDevices.enumerateDevices();
       const videoDevices = devices.filter((i) => i.kind == "videoinput");
       setDevices(videoDevices);
-    }
-    getDevices();
-  }, []);
+    })();
+  });
 
   return (
     <div className={styles.imageModal}>
