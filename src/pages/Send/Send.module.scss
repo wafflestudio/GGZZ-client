@@ -102,4 +102,26 @@
       }
     }
   }
+  .submit{
+    position:absolute;
+    background: red;
+    border:none;
+    font:inherit;
+    bottom:0;
+    right:0;
+    width:40%;
+    div{
+      position:absolute;
+      font:inherit;
+      bottom:6vw;
+      right:6vw;
+      font-size:8vw;
+    }
+    img{
+      position: absolute;
+      bottom:0;
+      right:0;
+      width:100%;
+    }
+  }
 }

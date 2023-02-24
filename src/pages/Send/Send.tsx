@@ -4,6 +4,7 @@ import writing_icon from "../../assets/icon/writing.svg";
 import mic_icon from "../../assets/icon/mic.svg";
 import camera_icon from "../../assets/icon/camera.svg";
 import close_icon from "../../assets/icon/close.svg";
+import submit_icon from "../../assets/icon/corner.svg";
 
 import VoiceModal from "../../components/Send/VoiceModal/VoiceModal";
 import TextModal from "../../components/Send/Text/TextModal";
@@ -73,6 +74,15 @@ const Send = () => {
           </button>
         </div>
       </div>
+      <button
+        className={styles.submit}
+        onClick={() => {
+          alert("쪽지를 남기겠습니까?");
+        }}
+      >
+        <img src={submit_icon} />
+        <div>남기기</div>
+      </button>
     </div>
   );
 };
