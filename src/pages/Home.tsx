@@ -23,6 +23,7 @@ const Home = () => {
   const [radius, setRadius] = useState<number>(800);
   const {
     coordinates: currentLLCoordinates,
+    heading,
     cancelLocationWatch,
     error,
   } = useWatchLocation(geolocationOptions);
@@ -58,23 +59,20 @@ const Home = () => {
       <ul className={styles["map"]}>
         <li
           className={styles["current-location"]}
-          style={{ width: `${(20 * 800) / radius}px`, height: `${(20 * 800) / radius}px` }}
-        ></li>
+          style={{
+            width: `${(20 * 800) / radius}px`,
+            height: `${(20 * 800) / radius}px`,
+            fontSize: `${(15 * 800) / radius}px`,
+            transform: `rotate(${!heading || isNaN(heading) ? 0 : heading}deg)`,
+          }}
+        >
+          A
+        </li>
         {LettersDataforDisplay.map((letter, index) => (
           <Letter key={index} letter={letter} radius={radius} />
-          // <li
-          //   className={styles["letter"]}
-          //   key={index}
-          //   style={{
-          //     transform: `translate(${(letter.XYCoordinates.x / (radius * 2)) * 100}vh, ${
-          //       (letter.XYCoordinates.y / (radius * 2)) * 100
-          //     }vh)`,
-          //   }}
-          // >
-          //   <button>편지</button>
-          // </li>
         ))}
       </ul>
+
       <ul className={styles["zoom-buttons"]}>
         <li className={styles["zoom-button"]}>
           <button
