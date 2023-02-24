@@ -29,7 +29,7 @@ const Home = () => {
   const distPerLon = getDistPerLatOrLon(currentLLCoordinates, false);
 
   const radius = 1000; // m
-  const dummyLetters = [{ LLCoordinates: { lat: 37.479, lon: 126.9507, } }];
+  const dummyLetters = [{ LLCoordinates: { lat: 37.479, lon: 126.9507 } }];
   const filteredLetters = dummyLetters.filter(
     (letter) => getDistanceFromLatLonInM(currentLLCoordinates, letter.LLCoordinates) <= radius
   );
@@ -37,7 +37,7 @@ const Home = () => {
     ...letter,
     XYCoordinates: {
       x: (letter.LLCoordinates.lat - currentLLCoordinates.lat) * distPerLat, // m
-      y: (letter.LLCoordinates.lon - currentLLCoordinates.lon) * distPerLon, // m 
+      y: (letter.LLCoordinates.lon - currentLLCoordinates.lon) * distPerLon, // m
       // 1500m : 600px => 3/5
     },
   }));
