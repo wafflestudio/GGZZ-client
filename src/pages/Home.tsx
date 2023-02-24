@@ -39,6 +39,7 @@ const Home = () => {
     { LLCoordinates: { lat: 37.480197, lon: 126.9539 } },
     { LLCoordinates: { lat: 37.479101, lon: 126.95267 } },
     { LLCoordinates: { lat: 37.479137, lon: 126.95141 } },
+    { LLCoordinates: { lat: 37.482334, lon: 126.953658 } },
   ];
   const filteredLetters = dummyLetters.filter(
     (letter) => getDistanceFromLatLonInM(currentLLCoordinates, letter.LLCoordinates) <= radius

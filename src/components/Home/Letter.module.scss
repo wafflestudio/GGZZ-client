@@ -1,3 +1,9 @@
 .letter {
   position: absolute;
+  &:last-child{
+    button{
+      background-color: red !important;
+
+    }
+  }
 }
