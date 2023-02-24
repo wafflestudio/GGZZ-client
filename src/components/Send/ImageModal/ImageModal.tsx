@@ -35,7 +35,7 @@ const ImageModal = () => {
         ) : null}
       </div>
       <div className={styles.selectContainer}>
-        {isCameraOn && (
+        {isCameraOn && devices.length > 0 && (
           <select
             className={styles.select}
             onChange={(event) => {
