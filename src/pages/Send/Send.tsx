@@ -3,6 +3,8 @@ import { useState } from "react";
 import writing_icon from "../../assets/icon/writing.svg";
 import mic_icon from "../../assets/icon/mic.svg";
 import camera_icon from "../../assets/icon/camera.svg";
+import close_icon from "../../assets/icon/close.svg";
+
 import VoiceModal from "../../components/Send/VoiceModal/VoiceModal";
 import { LetterRequest } from "../../../types/letterTypes";
 import TextModal from "../../components/Send/Text/TextModal";
@@ -53,6 +55,14 @@ const Send = () => {
         >
           {inputModal === "writing" && <TextModal />}
           {inputModal === "voice" && <VoiceModal />}
+          <button
+            className={styles.closeModal}
+            onClick={() => {
+              setInputModal("none");
+            }}
+          >
+            <img className={styles.icon} src={close_icon} />
+          </button>
         </div>
       </div>
     </div>

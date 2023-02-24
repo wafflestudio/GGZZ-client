@@ -73,8 +73,23 @@
       bottom: -75%;
       transition: 1s ease;
       background: transparent;
+      .closeModal {
+        position:absolute;
+        display: flex;
+        background: transparent;
+        right:24px;
+        top:24px;
+        visibility: hidden;
+        border: none;
+        .icon{
+          width:30px;
+        }
+      }
       &.writing, &.voice {
         transform: translateY(-100%);
+        .closeModal{
+          visibility: visible;
+        }
       }
     }
   }
