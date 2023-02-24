@@ -26,7 +26,7 @@ const ImageModal = () => {
 
   return (
     <div className={styles.imageModal}>
-      이미지모달(Title)
+      이미지
       <div className={styles.imageContainer}>
         {imageToSend ? (
           <div className={styles.col}>
@@ -34,6 +34,23 @@ const ImageModal = () => {
             <img className={styles.image} src={imageToSend} />
           </div>
         ) : null}
+      </div>
+      <div className={styles.selectContainer}>
+        {isCameraOn && (
+          <select
+            className={styles.select}
+            onChange={(event) => {
+              setActiveDeviceId(event.target.value);
+            }}
+            placeholder="카메라를 선택해주세요"
+          >
+            {devices.map((d) => (
+              <option key={d.deviceId} value={d.deviceId}>
+                {d.label}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
       <div className={styles.description}>이미지를 촬영해주세요</div>
       {isCameraOn ? (
@@ -68,22 +85,6 @@ const ImageModal = () => {
         >
           {isCameraOn ? "촬영하기" : "카메라 켜기"}
         </button>
-      </div>
-      <div className={styles.selectContainer}>
-        {isCameraOn && (
-          <select
-            className={styles.select}
-            onChange={(event) => {
-              setActiveDeviceId(event.target.value);
-            }}
-          >
-            {devices.map((d) => (
-              <option key={d.deviceId} value={d.deviceId}>
-                {d.label}
-              </option>
-            ))}
-          </select>
-        )}
       </div>
     </div>
   );
