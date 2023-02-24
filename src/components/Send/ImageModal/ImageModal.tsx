@@ -13,7 +13,6 @@ const ImageModal = () => {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
   const [activeDeviceId, setActiveDeviceId] = useState<string | undefined>(undefined);
-  const [numberOfCameras, setNumberOfCameras] = useState(0);
 
   useEffect(() => {
     async function getDevices() {
@@ -59,7 +58,6 @@ const ImageModal = () => {
             ref={camera}
             aspectRatio={16 / 9}
             videoSourceDeviceId={activeDeviceId}
-            numberOfCamerasCallback={(i: number) => setNumberOfCameras(i)}
             errorMessages={{
               noCameraAccessible:
                 "접근 가능한 카메라가 없습니다. 카메라를 연결하거나 다른 브라우저를 사용해보세요.",
