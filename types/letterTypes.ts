@@ -4,4 +4,5 @@ export type Letter = {
 
 export type LetterRequest = {
   text: string | null;
+  audio: Blob | null;
 };

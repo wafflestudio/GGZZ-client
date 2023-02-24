@@ -1,5 +1,99 @@
-.voice{
-  width:100%;
-  height:100%;
-  background: gray;
+.voice {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  font-size:24px;
+
+  .description {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .record {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 55%;
+    margin-bottom: 10%;
+    border-radius: 12px;
+    background: gray;
+
+    .recordButton {
+      border: 0;
+      font: inherit;
+      background: none;
+    }
+
+    .play {
+
+    }
+
+    .recordAgainButton {
+      border: 0;
+      font: inherit;
+      background: none;
+      margin-top: 20px;
+    }
+  }
+  .save{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: inherit;
+    border: 0;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    width: 100%;
+    height: 15%;
+
+    &.cantSave{
+      color:lightgray;
+    }
+    &.canSave{
+      color:green;
+    }
+  }
+
+
+  .playBack{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 55%;
+    margin-bottom: 10%;
+    border-radius: 12px;
+    background: gray;
+    .savedVoice{
+      margin-bottom:20px;
+    }
+
+  }
+  .deleteVoice{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: inherit;
+    border: 0;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    width: 100%;
+    height: 15%;
+    color:red;
+  }
 }

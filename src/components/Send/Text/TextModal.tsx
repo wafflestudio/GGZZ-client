@@ -7,7 +7,7 @@ const TextModal = () => {
 
   return (
     <div className={styles.textModal}>
-      <div className={styles.description}>글쓰기</div>
+      <div className={styles.description}>남기고 싶은 글</div>
       <textarea
         className={styles.textArea}
         value={text ? text : ""}
