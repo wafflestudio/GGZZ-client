@@ -21,7 +21,7 @@ const ImageModal = () => {
       setDevices(videoDevices);
     }
     getDevices();
-  }, []);
+  }, [isCameraOn]);
 
   return (
     <div className={styles.imageModal}>
