@@ -7,18 +7,19 @@ import close_icon from "../../assets/icon/close.svg";
 import submit_icon from "../../assets/icon/corner.svg";
 
 import VoiceModal from "../../components/Send/VoiceModal/VoiceModal";
-import TextModal from "../../components/Send/Text/TextModal";
+import TextModal from "../../components/Send/TextModal/TextModal";
 import { useNavigate } from "react-router-dom";
+import SubmitModal from "../../components/Send/SubmitModal/SubmitModal";
 
 const Send = () => {
-  const [inputModal, setInputModal] = useState<"none" | "writing" | "voice">("none");
+  const [inputModal, setInputModal] = useState<"none" | "writing" | "voice" | "submit">("none");
   const navigate = useNavigate();
   return (
     <div className={styles.send}>
       <button
         className={styles.back}
         onClick={() => {
-          navigate("../");
+          if (confirm("작업 중인 쪽지가 사라집니다!")) navigate("../");
         }}
       >
         돌아가기
@@ -64,6 +65,7 @@ const Send = () => {
         >
           {inputModal === "writing" && <TextModal />}
           {inputModal === "voice" && <VoiceModal />}
+          {inputModal === "submit" && <SubmitModal />}
           <button
             className={styles.closeModal}
             onClick={() => {
@@ -75,13 +77,13 @@ const Send = () => {
         </div>
       </div>
       <button
-        className={styles.submit}
+        className={styles.submitButton}
         onClick={() => {
-          alert("쪽지를 남기겠습니까?");
+          setInputModal("submit");
         }}
       >
         <img src={submit_icon} />
-        <div>남기기</div>
+        <div>DONE</div>
       </button>
     </div>
   );

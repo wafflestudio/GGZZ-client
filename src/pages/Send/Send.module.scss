@@ -71,6 +71,7 @@
     visibility: hidden;
     opacity: 0;
     transition: 0.5s ease;
+    z-index: 100;
     &.on{
       visibility: visible;
       opacity: 1;
@@ -82,6 +83,7 @@
       bottom: -75%;
       transition: 1s ease;
       background: transparent;
+      z-index: 1;
       .closeModal {
         position:absolute;
         display: flex;
@@ -94,7 +96,7 @@
           width:30px;
         }
       }
-      &.writing, &.voice {
+      &.writing, &.voice, &.submit {
         transform: translateY(-100%);
         .closeModal{
           visibility: visible;
@@ -102,20 +104,21 @@
       }
     }
   }
-  .submit{
+  .submitButton{
     position:absolute;
-    background: red;
     border:none;
     font:inherit;
     bottom:0;
     right:0;
     width:40%;
+    z-index: 50;
     div{
       position:absolute;
       font:inherit;
-      bottom:6vw;
-      right:6vw;
+      bottom:5vw;
+      right:7vw;
       font-size:8vw;
+      color: #5e5e5e;
     }
     img{
       position: absolute;

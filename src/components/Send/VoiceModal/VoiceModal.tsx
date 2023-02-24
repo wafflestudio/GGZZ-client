@@ -1,7 +1,6 @@
 import styles from "./VoiceModal.module.scss";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useLetterFormStore } from "../../../../store/useLetterFormStore";
-import { useNavigate } from "react-router-dom";
 
 const VoiceModal = () => {
   const audio = useLetterFormStore((state) => state.audio);
