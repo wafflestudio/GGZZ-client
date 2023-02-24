@@ -5,7 +5,7 @@ import { Camera, CameraType } from "react-camera-pro";
 
 const ImageModal = () => {
   // justand store
-  // getter blob,
+  // getter blob
   const imageToSend = useLetterFormStore((state) => state.image);
   // setter blob
   const setImageToSend = useLetterFormStore((state) => state.setImage);
@@ -56,6 +56,16 @@ const ImageModal = () => {
         >
           {isCameraOn ? "촬영하기" : "카메라 켜기"}
         </button>
+        {isCameraOn && (
+          <button
+            className={styles.changeCameraButton}
+            onClick={() => {
+              camera.current?.switchCamera();
+            }}
+          >
+            전환
+          </button>
+        )}
       </div>
     </div>
   );
