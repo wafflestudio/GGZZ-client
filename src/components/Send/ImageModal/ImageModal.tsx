@@ -68,8 +68,11 @@ const ImageModal = () => {
         >
           {isCameraOn ? "촬영하기" : "카메라 켜기"}
         </button>
+      </div>
+      <div className={styles.selectContainer}>
         {isCameraOn && (
           <select
+            className={styles.select}
             onChange={(event) => {
               setActiveDeviceId(event.target.value);
             }}
