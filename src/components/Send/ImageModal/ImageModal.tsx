@@ -9,6 +9,7 @@ const ImageModal = () => {
   const imageToSend = useLetterFormStore((state) => state.image);
   // setter blob
   const setImageToSend = useLetterFormStore((state) => state.setImage);
+  const [previewImageURL, setPreviewImageURL] = useState<string | null>(null);
   const camera = useRef<CameraType | null>(null);
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
@@ -22,6 +23,11 @@ const ImageModal = () => {
   //   }
   //   getDevices();
   // }, [isCameraOn]);
+  useEffect(() => {
+    if (imageToSend && !previewImageURL) {
+      setPreviewImageURL(URL.createObjectURL(imageToSend));
+    }
+  }, []);
   useEffect(() => {
     (async () => {
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -37,7 +43,7 @@ const ImageModal = () => {
         {imageToSend ? (
           <div className={styles.col}>
             <div className={styles.description}>촬영하신 사진</div>
-            <img className={styles.image} src={imageToSend} />
+            <img className={styles.image} src={previewImageURL ? previewImageURL : ""} />
           </div>
         ) : null}
       </div>
@@ -79,10 +85,12 @@ const ImageModal = () => {
       <div className={styles.captureBtnContainer}>
         <button
           className={styles.captureButton}
-          onClick={() => {
+          onClick={async () => {
             if (camera.current !== null) {
-              const image = camera.current.takePhoto();
-              setImageToSend(image);
+              const imageURL = camera.current.takePhoto();
+              setPreviewImageURL(imageURL);
+              const imageBlob = await fetch(imageURL).then((r) => r.blob());
+              setImageToSend(imageBlob);
             } else {
               setIsCameraOn(true);
             }
