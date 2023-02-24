@@ -21,47 +21,48 @@ const geolocationOptions = {
 
 const Home = () => {
   // const { coordinates, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
-  const currentLLCoordinates = useGetCurrentLocation(geolocationOptions) || {
-    lat: 37.4,
-    lon: 126.95,
-  };
+  // const currentLLCoordinates = useGetCurrentLocation(geolocationOptions) || {
+  //   lat: 37.4,
+  //   lon: 126.95,
+  // };
+  const currentLLCoordinates = { lat: 37.479, lon: 126.9407 - 0.005 };
   const distPerLat = getDistPerLatOrLon(currentLLCoordinates, true);
   const distPerLon = getDistPerLatOrLon(currentLLCoordinates, false);
 
   const radius = 1000; // m
-  const dummyLetters = [{ LLCoordinates: { lat: 37.479, lon: 126.9507 } }];
+  const dummyLetters = [{ LLCoordinates: { lat: 37.479, lon: 126.9407 } }];
   const filteredLetters = dummyLetters.filter(
     (letter) => getDistanceFromLatLonInM(currentLLCoordinates, letter.LLCoordinates) <= radius
   );
   const LettersDataforDisplay = filteredLetters.map((letter) => ({
     ...letter,
     XYCoordinates: {
-      x: (letter.LLCoordinates.lat - currentLLCoordinates.lat) * distPerLat, // m
-      y: (letter.LLCoordinates.lon - currentLLCoordinates.lon) * distPerLon, // m
+      x: (letter.LLCoordinates.lon - currentLLCoordinates.lon) * distPerLon, // m
+      y: -(letter.LLCoordinates.lat - currentLLCoordinates.lat) * distPerLat, // m
       // 1500m : 600px => 3/5
     },
   }));
 
   return (
     <div className={styles["home"]}>
-      <div className={styles["map"]}>
-        <div className={styles["current-location"]}>현재위치</div>
-        <ul className={styles["letter-list"]}>
-          {LettersDataforDisplay.map((letter, index) => (
-            <li
-              className={styles["letter"]}
-              key={index}
-              style={{
-                transform: `translate(${(letter.XYCoordinates.x * 3) / 5}px, ${
-                  (letter.XYCoordinates.y * 3) / 5
-                }px)`,
-              }}
-            >
-              <button>편지</button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul className={styles["map"]}>
+        <li className={styles["current-location"]}>
+          {getDistanceFromLatLonInM(currentLLCoordinates, dummyLetters[0].LLCoordinates)}
+        </li>
+        {LettersDataforDisplay.map((letter, index) => (
+          <li
+            className={styles["letter"]}
+            key={index}
+            style={{
+              transform: `translate(${(letter.XYCoordinates.x / (1000 * 2)) * 100}vh, ${
+                (letter.XYCoordinates.y / (1000 * 2)) * 100
+              }vh)`,
+            }}
+          >
+            <button>편지</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
