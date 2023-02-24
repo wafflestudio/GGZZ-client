@@ -1,6 +1,6 @@
 import styles from "./ImageModal.module.scss";
 import { useLetterFormStore } from "../../../../store/useLetterFormStore";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Camera, CameraType } from "react-camera-pro";
 
 const ImageModal = () => {
@@ -10,8 +10,19 @@ const ImageModal = () => {
   // setter blob
   const setImageToSend = useLetterFormStore((state) => state.setImage);
   const camera = useRef<CameraType | null>(null);
-  const [image, setImage] = useState<string | null>(null);
   const [isCameraOn, setIsCameraOn] = useState(false);
+  const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
+  const [activeDeviceId, setActiveDeviceId] = useState<string | undefined>(undefined);
+  const [numberOfCameras, setNumberOfCameras] = useState(0);
+
+  useEffect(() => {
+    async function getDevices() {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter((i) => i.kind == "videoinput");
+      setDevices(videoDevices);
+    }
+    getDevices();
+  }, []);
 
   return (
     <div className={styles.imageModal}>
@@ -30,7 +41,8 @@ const ImageModal = () => {
           <Camera
             ref={camera}
             aspectRatio={16 / 9}
-            facingMode="environment"
+            videoSourceDeviceId={activeDeviceId}
+            numberOfCamerasCallback={(i: number) => setNumberOfCameras(i)}
             errorMessages={{
               noCameraAccessible:
                 "접근 가능한 카메라가 없습니다. 카메라를 연결하거나 다른 브라우저를 사용해보세요.",
@@ -57,14 +69,17 @@ const ImageModal = () => {
           {isCameraOn ? "촬영하기" : "카메라 켜기"}
         </button>
         {isCameraOn && (
-          <button
-            className={styles.changeCameraButton}
-            onClick={() => {
-              camera.current?.switchCamera();
+          <select
+            onChange={(event) => {
+              setActiveDeviceId(event.target.value);
             }}
           >
-            전환
-          </button>
+            {devices.map((d) => (
+              <option key={d.deviceId} value={d.deviceId}>
+                {d.label}
+              </option>
+            ))}
+          </select>
         )}
       </div>
     </div>
