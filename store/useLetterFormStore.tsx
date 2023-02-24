@@ -5,7 +5,7 @@ type LetterFormStore = LetterRequest & {
   setText: (value: string | null) => void;
   setAudio: (value: Blob | null) => void;
   // not blob but string
-  setImage: (value: string | null) => void;
+  setImage: (value: Blob | null) => void;
   setTitle: (value: string | null) => void;
 };
 

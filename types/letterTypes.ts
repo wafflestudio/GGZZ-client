@@ -9,5 +9,5 @@ export type LetterRequest = {
   title: string | null;
   text: string | null;
   audio: Blob | null;
-  image: string | null;
+  image: Blob | null;
 };
