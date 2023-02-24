@@ -1,17 +1,16 @@
 import styles from "./VoiceModal.module.scss";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useLetterFormStore } from "../../../../store/useLetterFormStore";
+import { useNavigate } from "react-router-dom";
 
 const VoiceModal = () => {
   const audio = useLetterFormStore((state) => state.audio);
   const setAudio = useLetterFormStore((state) => state.setAudio);
-
   const { status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
     useReactMediaRecorder({
       audio: true,
       video: false,
     });
-
   return (
     <div className={styles.voice}>
       <div className={styles.description}>남기고 싶은 소리</div>

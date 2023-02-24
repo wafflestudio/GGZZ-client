@@ -10,6 +10,11 @@
   background-size: cover;
   font-size: 32px;
   overflow-x: hidden;
+  .back{
+    position: absolute;
+    top:20px;
+    right:20px;
+  }
 
   .description {
     width: 100%;

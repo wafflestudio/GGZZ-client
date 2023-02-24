@@ -6,14 +6,22 @@ import camera_icon from "../../assets/icon/camera.svg";
 import close_icon from "../../assets/icon/close.svg";
 
 import VoiceModal from "../../components/Send/VoiceModal/VoiceModal";
-import { LetterRequest } from "../../../types/letterTypes";
 import TextModal from "../../components/Send/Text/TextModal";
+import { useNavigate } from "react-router-dom";
 
 const Send = () => {
   const [inputModal, setInputModal] = useState<"none" | "writing" | "voice">("none");
-
+  const navigate = useNavigate();
   return (
     <div className={styles.send}>
+      <button
+        className={styles.back}
+        onClick={() => {
+          navigate("../");
+        }}
+      >
+        돌아가기
+      </button>
       <div className={styles.description}>
         무엇이든 <br /> 남겨보세요
       </div>
