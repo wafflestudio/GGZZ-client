@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
-import useMapStore from "../../store/useMapStore";
 import { useGetCurrentLocation, useWatchLocation } from "../hooks/locationHooks";
 import styles from "./Home.module.scss";
 import { TLLCoordinates } from "../types/locationTypes";
 import { getDistanceFromLatLonInM } from "../lib";
+import Letter from "../components/Home/Letter";
+
+const geolocationOptions = {
+  enableHighAccuracy: true,
+  timeout: 1000 * 60, // 1 min (1000 ms * 60 sec * 1 minute = 60 000ms)
+  maximumAge: 0, // 24 hour
+};
 
 const getDistPerLatOrLon = (coordinates: TLLCoordinates, forLatNotLon: boolean) => {
   const coordinatesForDistanceRatio = forLatNotLon
@@ -13,13 +19,8 @@ const getDistPerLatOrLon = (coordinates: TLLCoordinates, forLatNotLon: boolean) 
   return getDistanceFromLatLonInM(coordinates, coordinatesForDistanceRatio) * 100;
 };
 
-const geolocationOptions = {
-  enableHighAccuracy: true,
-  timeout: 1000 * 60, // 1 min (1000 ms * 60 sec * 1 minute = 60 000ms)
-  maximumAge: 0, // 24 hour
-};
-
 const Home = () => {
+  const [radius, setRadius] = useState<number>(800);
   const {
     coordinates: currentLLCoordinates,
     cancelLocationWatch,
@@ -31,7 +32,6 @@ const Home = () => {
   const distPerLat = getDistPerLatOrLon(currentLLCoordinates, true);
   const distPerLon = getDistPerLatOrLon(currentLLCoordinates, false);
 
-  const radius = 500; // m
   const dummyLetters = [
     { LLCoordinates: { lat: 37.480803, lon: 126.950322 } },
     { LLCoordinates: { lat: 37.481276, lon: 126.950285 } },
@@ -57,21 +57,42 @@ const Home = () => {
       <ul className={styles["map"]}>
         <li
           className={styles["current-location"]}
-          style={{ width: `${(20 * 1000) / radius}px`, height: `${(20 * 1000) / radius}px` }}
+          style={{ width: `${(20 * 800) / radius}px`, height: `${(20 * 800) / radius}px` }}
         ></li>
         {LettersDataforDisplay.map((letter, index) => (
-          <li
-            className={styles["letter"]}
-            key={index}
-            style={{
-              transform: `translate(${(letter.XYCoordinates.x / (radius * 2)) * 100}vh, ${
-                (letter.XYCoordinates.y / (radius * 2)) * 100
-              }vh)`,
+          <Letter key={index} letter={letter} radius={radius} />
+          // <li
+          //   className={styles["letter"]}
+          //   key={index}
+          //   style={{
+          //     transform: `translate(${(letter.XYCoordinates.x / (radius * 2)) * 100}vh, ${
+          //       (letter.XYCoordinates.y / (radius * 2)) * 100
+          //     }vh)`,
+          //   }}
+          // >
+          //   <button>편지</button>
+          // </li>
+        ))}
+      </ul>
+      <ul className={styles["zoom-buttons"]}>
+        <li className={styles["zoom-button"]}>
+          <button
+            onClick={() => {
+              setRadius((prev) => (prev - 200 >= 200 ? prev - 200 : 200));
             }}
           >
-            <button>편지</button>
-          </li>
-        ))}
+            +
+          </button>
+        </li>
+        <li className={styles["zoom-button"]}>
+          <button
+            onClick={() => {
+              setRadius((prev) => (prev + 200 <= 1400 ? prev + 200 : 1400));
+            }}
+          >
+            -
+          </button>
+        </li>
       </ul>
     </div>
   );

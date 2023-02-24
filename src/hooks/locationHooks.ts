@@ -1,6 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { TLLCoordinates } from "../types/locationTypes";
-import useMapStore from "../../store/useMapStore";
 
 export const useGetCurrentLocation = (options: PositionOptions = {}) => {
   // if (!navigator.geolocation) {
