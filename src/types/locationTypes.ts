@@ -1,6 +1,6 @@
 export type TLLCoordinates = {
   lat: number;
-  long: number;
+  lon: number;
 };
 
 export type TXYCoordinates = {

@@ -1,3 +1,41 @@
-.test{
-  color:red;
+* {
+  list-style: none;
+  text-decoration: none;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  color: #000;
+  font-size: 12px;
+  letter-spacing: -0.5px;
+}
+
+.home {
+  width: 100%;
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > .map {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    margin: auto;
+    background-color: skyblue;
+    > .current-location {
+      border: #000 solid 1px;
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    > .letter-list {
+      > .letter {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+      }
+    }
+  }
 }

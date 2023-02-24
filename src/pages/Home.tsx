@@ -1,48 +1,69 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useMapStore from "../../store/useMapStore";
 import { useGetCurrentLocation, useWatchLocation } from "../hooks/locationHooks";
 import styles from "./Home.module.scss";
+import { TLLCoordinates } from "../types/locationTypes";
+import { getDistanceFromLatLonInM } from "../lib";
+
+const getDistPerLatOrLon = (coordinates: TLLCoordinates, forLatNotLon: boolean) => {
+  const coordinatesForDistanceRatio = forLatNotLon
+    ? { ...coordinates, lat: coordinates.lat + 0.01 }
+    : { ...coordinates, lon: coordinates.lon + 0.01 };
+
+  return getDistanceFromLatLonInM(coordinates, coordinatesForDistanceRatio) * 100;
+};
+
+const geolocationOptions = {
+  enableHighAccuracy: false,
+  timeout: 10000, // 1 min (1000 ms * 60 sec * 1 minute = 60 000ms)
+  maximumAge: 0, // 24 hour
+};
 
 const Home = () => {
-  // const { coordinates: currentCoordinates, errorMsg } = useGetCurrentLocation(); TODO: 추후 error handling 시 수정
-  const geolocationOptions = {
-    enableHighAccuracy: true,
-    timeout: 1000 * 60 * 1, // 1 min (1000 ms * 60 sec * 1 minute = 60 000ms)
-    maximumAge: 1000 * 3600 * 24, // 24 hour
+  // const { coordinates, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
+  const currentLLCoordinates = useGetCurrentLocation(geolocationOptions) || {
+    lat: 37.4,
+    lon: 126.95,
   };
-  const { coordinates, cancelLocationWatch, error } = useWatchLocation();
-  // const currentCoordinates = useGetCurrentLocation();
-  // const { mapInfo } = useMapStore((state) => state);
+  const distPerLat = getDistPerLatOrLon(currentLLCoordinates, true);
+  const distPerLon = getDistPerLatOrLon(currentLLCoordinates, false);
 
-  // const latLongToXY = (latitude: number, longitude: number) => {
-  //   const mapWidth = 1000;
-  //   const mapHeight = 1000;
+  const radius = 1000; // m
+  const dummyLetters = [{ LLCoordinates: { lat: 37.479, lon: 126.9507, } }];
+  const filteredLetters = dummyLetters.filter(
+    (letter) => getDistanceFromLatLonInM(currentLLCoordinates, letter.LLCoordinates) <= radius
+  );
+  const LettersDataforDisplay = filteredLetters.map((letter) => ({
+    ...letter,
+    XYCoordinates: {
+      x: (letter.LLCoordinates.lat - currentLLCoordinates.lat) * distPerLat, // m
+      y: (letter.LLCoordinates.lon - currentLLCoordinates.lon) * distPerLon, // m 
+      // 1500m : 600px => 3/5
+    },
+  }));
 
-  //   const maxLong = 127.269;
-  //   const minLong = 126.734;
-  //   const maxLat = 37.6;
-  //   const minLat = 37.4;
-
-  //   const x = (longitude - minLong) * (mapWidth / (maxLong - minLong));
-  //   const latRad = (latitude * Math.PI) / 180;
-  //   const mercN = Math.log(Math.tan(Math.PI / 4 + latRad / 2));
-  //   const y = mapHeight / 2 - (mapWidth * mercN) / (2 * Math.PI);
-
-  //   return { x, y };
-  // };
-  // const { lat, long } = currentCoordinates || {
-  //   lat: 0,
-  //   long: 0,
-  // };
-  // const { x, y } = latLongToXY(lat, long);
-  // const { x, y } = latLongToXY(currentCoordinates!.latitude, currentCoordinates!.longitude);
-
-  useEffect(() => {
-    console.log(1);
-    // console.log(useMapStore.getState().mapInfo);
-  });
-
-  return <div className={styles.test}>ddd</div>;
+  return (
+    <div className={styles["home"]}>
+      <div className={styles["map"]}>
+        <div className={styles["current-location"]}>현재위치</div>
+        <ul className={styles["letter-list"]}>
+          {LettersDataforDisplay.map((letter, index) => (
+            <li
+              className={styles["letter"]}
+              key={index}
+              style={{
+                transform: `translate(${(letter.XYCoordinates.x * 3) / 5}px, ${
+                  (letter.XYCoordinates.y * 3) / 5
+                }px)`,
+              }}
+            >
+              <button>편지</button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default Home;
