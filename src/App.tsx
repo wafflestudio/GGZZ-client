@@ -1,10 +1,17 @@
 import React from "react";
-import reactLogo from "./assets/react.svg";
-
-import "./App.scss";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Receive from "./pages/Receive/Receive";
+import Send from "./pages/Send/Send";
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <Routes>
+      <Route path="/send" element={<Send />} />
+      <Route path="/receive" element={<Receive />} />
+      <Route path="/" element={<Home />} index />
+    </Routes>
+  );
 }
 
 export default App;
