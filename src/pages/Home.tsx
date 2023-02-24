@@ -28,7 +28,7 @@ const Home = () => {
   } = useWatchLocation(geolocationOptions);
   // const currentLLCoordinates = useGetCurrentLocation(geolocationOptions);
 
-  if (!currentLLCoordinates) return;
+  if (!currentLLCoordinates) return <div />;
   const distPerLat = getDistPerLatOrLon(currentLLCoordinates, true);
   const distPerLon = getDistPerLatOrLon(currentLLCoordinates, false);
 
