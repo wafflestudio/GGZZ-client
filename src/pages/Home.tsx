@@ -21,16 +21,14 @@ const geolocationOptions = {
 
 const Home = () => {
   // const { coordinates, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
-  // const currentLLCoordinates = useGetCurrentLocation(geolocationOptions) || {
-  //   lat: 37.4,
-  //   lon: 126.95,
-  // };
-  const currentLLCoordinates = { lat: 37.479, lon: 126.9407 - 0.005 };
+  const currentLLCoordinates = useGetCurrentLocation(geolocationOptions);
+
+  if (!currentLLCoordinates) return;
   const distPerLat = getDistPerLatOrLon(currentLLCoordinates, true);
   const distPerLon = getDistPerLatOrLon(currentLLCoordinates, false);
 
   const radius = 1000; // m
-  const dummyLetters = [{ LLCoordinates: { lat: 37.479, lon: 126.9407 } }];
+  const dummyLetters = [{ LLCoordinates: { lat: 37.479, lon: 126.9507 } }];
   const filteredLetters = dummyLetters.filter(
     (letter) => getDistanceFromLatLonInM(currentLLCoordinates, letter.LLCoordinates) <= radius
   );
@@ -47,7 +45,10 @@ const Home = () => {
     <div className={styles["home"]}>
       <ul className={styles["map"]}>
         <li className={styles["current-location"]}>
-          {getDistanceFromLatLonInM(currentLLCoordinates, dummyLetters[0].LLCoordinates)}
+          {`${currentLLCoordinates.lat}, ${currentLLCoordinates.lon} ${getDistanceFromLatLonInM(
+            currentLLCoordinates,
+            dummyLetters[0].LLCoordinates
+          )}`}
         </li>
         {LettersDataforDisplay.map((letter, index) => (
           <li
