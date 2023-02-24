@@ -1,14 +1,4 @@
-* {
-  list-style: none;
-  text-decoration: none;
-  border-collapse: collapse;
-  margin: 0;
-  padding: 0;
-  color: #000;
-  font-size: 12px;
-  letter-spacing: -0.5px;
-  box-sizing: border-box;
-}
+
 
 .home {
   position: fixed;
@@ -17,6 +7,18 @@
   top: 0;
   left: 0;
   transform: translateX(calc(-50vh + 50vw));
+
+  * {
+    list-style: none;
+    text-decoration: none;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    color: #000;
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    box-sizing: border-box;
+  }
 
   > .map {
     position: absolute;
