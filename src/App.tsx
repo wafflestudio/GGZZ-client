@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate, useParams, useSearchParams } from "react-router-dom";
+import { apiLogin } from "./hooks/apiHooks";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Receive from "./pages/Receive/Receive";
@@ -30,8 +31,9 @@ function LoginAndRedirectPage({ redirectPath }: { redirectPath: string }) {
 
 const redirectLoginPageIfNotLoginned = async (page: JSX.Element, redirectPath: string) => {
   try {
-    // await apiLogin(dummyData); // TODO: api 연결 후 수정
-    checkLoginnedOrNot();
+    const dummyData = { username: "121213", password: "1331432" };
+    const res = await apiLogin(dummyData); // TODO: api 연결 후 수정
+    // checkLoginnedOrNot();
     return page;
   } catch (e) {
     return <LoginAndRedirectPage redirectPath={redirectPath} />;
