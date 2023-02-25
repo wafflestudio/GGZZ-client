@@ -26,7 +26,7 @@ export const useGetCurrentLocation = (options: PositionOptions = {}) => {
 
 export const useWatchLocation = (options = {}) => {
   const [coordinates, setCoordinates] = useState<TLLCoordinates>();
-  const [heading, setHeading] = useState<number | typeof NaN>();
+  const [heading, setHeading] = useState<number | null>();
   const [error, setError] = useState<string>();
   const locationWatchId = useRef<number | null>(null);
   // const { setCenter } = useMapStore((state) => state);
@@ -35,6 +35,7 @@ export const useWatchLocation = (options = {}) => {
     const { latitude: lat, longitude: lon, heading: direction } = coords;
     // setCenter({ lat, lon });
     setCoordinates({ lat, lon });
+    console.log(direction);
     setHeading(direction);
   };
 
