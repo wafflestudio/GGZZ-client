@@ -4,13 +4,16 @@ import { useMyPositionStore } from "../../../store/useMyPositionStore";
 import closed_icon from "../../assets/icon/close.svg";
 import opened_icon from "../../assets/icon/writing.svg";
 import { useHomeModalStore } from "../../../store/useHomeModalStore";
+import { LetterResponse } from "../../../types/letterTypes";
 
 const Letter = ({
   letter,
   radius,
   canOpen,
 }: {
-  letter: { LLCoordinates: TLLCoordinates; XYCoordinates: TXYCoordinates };
+  letter: LetterResponse & {
+    XYCoordinates: TXYCoordinates;
+  };
   radius: number;
   canOpen: boolean;
 }) => {
@@ -28,6 +31,7 @@ const Letter = ({
       }}
       onClick={() => {
         select(letter.LLCoordinates);
+        openModal({ id: letter.id, title: letter.title, coordinates: letter.LLCoordinates });
         //if(canOpen) {openModal(letter) } else {openDetailed(letter)}
       }}
     >

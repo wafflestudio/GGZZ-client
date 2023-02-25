@@ -39,7 +39,7 @@ const dummyLetters = [
   { id: 5, LLCoordinates: { lat: 37.479137, lon: 126.95141 } },
   { id: 6, LLCoordinates: { lat: 37.482334, lon: 126.953658 } },
 ];
-const dummyLetters2: LetterResponse[] = [
+export const dummyLetters2: LetterResponse[] = [
   {
     id: 7,
     LLCoordinates: { lat: 37.450401, lon: 126.952397 },
