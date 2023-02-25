@@ -20,7 +20,7 @@ const getDistPerLatOrLon = (coordinates: TLLCoordinates, forLatNotLon: boolean) 
 };
 
 const Home = () => {
-  const [radius, setRadius] = useState<number>(800);
+  const [radius, setRadius] = useState<number>(400);
   const {
     coordinates: currentLLCoordinates,
     cancelLocationWatch,
@@ -79,7 +79,7 @@ const Home = () => {
         <li className={styles["zoom-button"]}>
           <button
             onClick={() => {
-              setRadius((prev) => (prev - 200 >= 200 ? prev - 200 : 200));
+              setRadius((prev) => (prev - 200 >= 200 ? prev - 200 : 100));
             }}
           >
             +
