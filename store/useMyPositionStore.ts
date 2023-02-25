@@ -5,7 +5,7 @@ type MyPositionStore = {
   currentCoordinates: null | TLLCoordinates;
   viewCoordinates: null | TLLCoordinates;
   setCurrentCoordinates: (coords: TLLCoordinates) => void;
-  setViewCoordinates: (coords: TLLCoordinates) => void;
+  setViewCoordinates: (coords: TLLCoordinates | null) => void;
 };
 
 export const useMyPositionStore = create<MyPositionStore>()((set) => ({

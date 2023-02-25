@@ -1,9 +1,7 @@
 .letter {
   position: absolute;
-  &:last-child{
-    button{
-      background-color: red !important;
-
-    }
+  transition: 0.5s ease;
+  width:30px;
+  img{
   }
 }
