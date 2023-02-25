@@ -29,8 +29,7 @@ export function useApiData<T>(fetch: () => Promise<AxiosResponse<T>>) {
   return data;
 }
 
-export const useApiGetLetters = ({ lat: latitude, lon: longitude }: TLLCoordinates) =>
-  useCallback(() => axios.get(url("/letters", { latitude, longitude }), {}), [latitude, longitude]);
+export const useApiGetLetters = () => useCallback(() => axios.get(url("/letters"), {}), []);
 
 export const apiRegister = (registerData: {
   username: string;

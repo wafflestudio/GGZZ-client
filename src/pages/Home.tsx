@@ -16,6 +16,7 @@ import Receive from "./Receive/Receive";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
 import axios from "axios";
 import { LetterResponse } from "../../types/letterTypes";
+import { useApiData, useApiGetLetters } from "../hooks/apiHooks";
 
 const geolocationOptions = {
   enableHighAccuracy: true,
@@ -86,6 +87,10 @@ const Home = () => {
   const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
   const setViewPosition = useMyPositionStore((state) => state.setViewCoordinates);
   const navigate = useNavigate();
+
+  // 형석: Api 사용
+  // const letters = useApiData(useApiGetLetters());
+
   const currentLLCoordinates = () => {
     if (viewPosition) return viewPosition;
     return myPosition ? myPosition : { lat: -37.4780396, lon: -126.945793 };
