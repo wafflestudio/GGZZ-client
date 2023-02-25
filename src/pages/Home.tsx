@@ -135,7 +135,7 @@ const Home = () => {
         const res = await axios.get("https://iwe-server.shop/api/v1/letters");
         setLetters(
           res.data.data.map(
-            (dt): LetterResponse => ({
+            (dt: any): LetterResponse => ({
               id: dt.id,
               title: dt.title,
               LLCoordinates: { lat: dt.longitude, lon: dt.latitude },
