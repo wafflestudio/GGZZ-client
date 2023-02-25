@@ -11,9 +11,9 @@ export type Letter = {
 export type LetterResponse = {
   id: number;
   title: string;
-  text?: string;
-  audio?: string;
-  image?: string;
+  text?: string | null;
+  audio?: string | null;
+  image?: string | null;
   LLCoordinates: TLLCoordinates;
 };
 
@@ -26,6 +26,6 @@ export type LetterSummary = {
 export type LetterRequest = {
   title: string | null;
   text: string | null;
-  audio: string | null;
-  image: string | null;
+  audio: Blob | null;
+  image: Blob | null;
 };
