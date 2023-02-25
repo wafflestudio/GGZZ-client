@@ -26,6 +26,6 @@ export type LetterSummary = {
 export type LetterRequest = {
   title: string | null;
   text: string | null;
-  audio: Blob | null;
-  image: Blob | null;
+  audio: string | null;
+  image: string | null;
 };

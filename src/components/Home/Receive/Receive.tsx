@@ -39,7 +39,11 @@ export const ReceiveContainer = () => {
           <div>
             <div>타이틀: {letter.title}</div>
             {detailed ? (
-              <>{detailed.text && <div>텍스트: {detailed.text}</div>}</>
+              <>
+                {detailed.text && <div>텍스트: {detailed.text}</div>}
+                {detailed.image && <img style={{ width: "100%" }} src={detailed.image} />}
+                {detailed.audio && <audio src={detailed.audio} />}
+              </>
             ) : (
               <>
                 <div>
