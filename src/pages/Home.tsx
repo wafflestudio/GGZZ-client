@@ -64,6 +64,15 @@ export const dummyLetters2: LetterResponse[] = [
     title: "테스트4",
     text: "자운암",
   },
+  {
+    id: 11,
+    LLCoordinates: {
+      lat: 37.449714,
+      lon: 126.95248,
+    },
+    title: "와카톤 행사장",
+    text: "infp팀 모두 수고많았다!!",
+  },
 ];
 
 const canOpenRadius = 30;

@@ -39,15 +39,19 @@ export const ReceiveContainer = () => {
           <div>
             <div>타이틀: {letter.title}</div>
             {detailed ? (
-              <div>정보</div>
+              <>{detailed.text && <div>텍스트: {detailed.text}</div>}</>
             ) : (
-              <div>
-                거리:
-                {myCoordination
-                  ? `${Math.round(getDistanceFromLatLonInM(myCoordination, letter.coordinates))}` +
-                    "m"
-                  : "확인 안 됨"}
-              </div>
+              <>
+                <div>
+                  거리:
+                  {myCoordination
+                    ? `${Math.round(
+                        getDistanceFromLatLonInM(myCoordination, letter.coordinates)
+                      )}` + "m"
+                    : "확인 안 됨"}
+                </div>
+                <div className={styles.small}>메시지를 확인하려면 30m 안쪽으로 들어가세요!</div>
+              </>
             )}
           </div>
         )}
