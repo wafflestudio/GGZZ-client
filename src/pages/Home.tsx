@@ -15,6 +15,7 @@ import { useHomeModalStore } from "../../store/useHomeModalStore";
 import Receive from "./Receive/Receive";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
 import axios from "axios";
+import { LetterResponse } from "../../types/letterTypes";
 
 const geolocationOptions = {
   enableHighAccuracy: true,
@@ -38,11 +39,31 @@ const dummyLetters = [
   { id: 5, LLCoordinates: { lat: 37.479137, lon: 126.95141 } },
   { id: 6, LLCoordinates: { lat: 37.482334, lon: 126.953658 } },
 ];
-const dummyLetters2 = [
-  { id: 7, LLCoordinates: { lat: 37.450401, lon: 126.952397 } },
-  { id: 8, LLCoordinates: { lat: 37.451949, lon: 126.952402 } },
-  { id: 9, LLCoordinates: { lat: 37.447465, lon: 126.950207 } },
-  { id: 10, LLCoordinates: { lat: 37.448959, lon: 126.953786 } },
+const dummyLetters2: LetterResponse[] = [
+  {
+    id: 7,
+    LLCoordinates: { lat: 37.450401, lon: 126.952397 },
+    title: "테스트1",
+    text: "퀴즈노스입니다",
+  },
+  {
+    id: 8,
+    LLCoordinates: { lat: 37.451949, lon: 126.952402 },
+    title: "테스트2",
+    text: "현대 엔지비",
+  },
+  {
+    id: 9,
+    LLCoordinates: { lat: 37.447465, lon: 126.950207 },
+    title: "테스트3",
+    text: "건환공",
+  },
+  {
+    id: 10,
+    LLCoordinates: { lat: 37.448959, lon: 126.953786 },
+    title: "테스트4",
+    text: "자운암",
+  },
 ];
 
 const canOpenRadius = 30;

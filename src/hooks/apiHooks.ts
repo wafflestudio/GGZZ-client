@@ -39,4 +39,4 @@ export const apiRegister = (registerData: {
 }) => axios.post(url("signup"), registerData, {});
 
 export const apiLogin = (loginData: { username: string; password: string }) =>
-  axios.post(url("login"), loginData, {});
+  axios.post(url("/login"), loginData, {});

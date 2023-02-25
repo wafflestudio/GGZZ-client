@@ -8,6 +8,14 @@ export type Letter = {
   image: string;
   coordinates: TLLCoordinates;
 };
+export type LetterResponse = {
+  id: number;
+  title: string;
+  text?: string;
+  audio?: string;
+  image?: string;
+  LLCoordinates: TLLCoordinates;
+};
 
 export type LetterSummary = {
   id: number;
