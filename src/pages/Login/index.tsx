@@ -2,6 +2,7 @@ import styles from "./index.module.scss";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { useState } from "react";
+import { apiLogin } from "../../hooks/apiHooks";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,23 +13,18 @@ export default function Login() {
   const [PW, setPW] = useState("");
 
   // TODO: 로그인 유지 추가
-  // const handleLogin = async () => {
-  //   const data = {
-  //     id: ID,
-  //     password: PW,
-  //   };
-  //   try {
-  //     await dispatch(login(data));
-  //     if (redirect) navigate(redirect);
-  //     else navigate("/");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-  const handleLogin = () => {
-    if (redirect) navigate(redirect);
-    else navigate("/");
-    console.log();
+  const handleLogin = async () => {
+    try {
+      const loginData = {
+        username: ID,
+        password: PW,
+      };
+      const res = await apiLogin(loginData);
+      if (redirect) navigate(redirect);
+      else navigate("/");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
