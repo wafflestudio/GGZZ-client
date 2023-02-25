@@ -1,5 +1,5 @@
 import styles from "./index.module.scss";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { useState } from "react";
 
@@ -26,6 +26,8 @@ export default function Login() {
   //   }
   // }
   const handleLogin = () => {
+    if (redirect) navigate(redirect);
+    else navigate("/");
     console.log();
   };
 
