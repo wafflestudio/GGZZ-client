@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { TLLCoordinates } from "../types/locationTypes";
+import { useMyPositionStore } from "../../store/useMyPositionStore";
 
 export const useGetCurrentLocation = (options: PositionOptions = {}) => {
   // if (!navigator.geolocation) {
@@ -29,7 +30,6 @@ export const useWatchLocation = (options = {}) => {
   const [heading, setHeading] = useState<number | null>();
   const [error, setError] = useState<string>();
   const locationWatchId = useRef<number | null>(null);
-  // const { setCenter } = useMapStore((state) => state);
 
   const handleSuccess = ({ coords }: { coords: GeolocationCoordinates }) => {
     const { latitude: lat, longitude: lon, heading: direction } = coords;
@@ -61,4 +61,18 @@ export const useWatchLocation = (options = {}) => {
   }, [options]);
 
   return { coordinates, heading, cancelLocationWatch, error };
+};
+
+export const useIntervalToGetLocation = (options = {}) => {
+  const handleSuccess = ({ coords }: { coords: GeolocationCoordinates }) => {
+    const { latitude: lat, longitude: lon } = coords;
+    useMyPositionStore.setState({ currentCoordinates: { lat, lon } });
+  };
+  const handleError = () => {};
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
+    setInterval(() => {
+      navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
+    }, 5000);
+  }, []);
 };
