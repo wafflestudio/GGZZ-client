@@ -43,9 +43,9 @@ const dummyLetters = [
 export const dummyLetters2: LetterResponse[] = [
   {
     id: 7,
-    LLCoordinates: { lat: 37.450401, lon: 126.952397 },
+    LLCoordinates: { lat: 37.447465, lon: 126.952402 },
     title: "테스트1",
-    text: "퀴즈노스입니다",
+    text: "어디지??",
   },
   {
     id: 8,
@@ -81,7 +81,7 @@ const canOpenRadius = 30;
 const Home = () => {
   useIntervalToGetLocation();
   const [radius, setRadius] = useState<number>(400);
-  const [letters, setLetters] = useState<any>([]);
+  const [letters, setLetters] = useState<LetterResponse[]>([]);
   const heading = useMyPositionStore((state) => state.heading); // useWatchLocation(geolocationOptions);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
   const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
@@ -100,7 +100,7 @@ const Home = () => {
   const distPerLat = getDistPerLatOrLon(currentLLCoordinates(), true);
   const distPerLon = getDistPerLatOrLon(currentLLCoordinates(), false);
 
-  const filteredFarLetters = [...dummyLetters2].filter(
+  const filteredFarLetters = [...dummyLetters2, ...letters].filter(
     (letter) =>
       getDistanceFromLatLonInM(currentLLCoordinates(), letter.LLCoordinates) <= radius &&
       getDistanceFromLatLonInM(
@@ -108,7 +108,7 @@ const Home = () => {
         letter.LLCoordinates
       ) > canOpenRadius
   );
-  const filteredCloseLetters = [...dummyLetters2].filter(
+  const filteredCloseLetters = [...dummyLetters2, ...letters].filter(
     (letter) =>
       getDistanceFromLatLonInM(
         myPosition ? myPosition : { lat: -1, lon: -1 },
@@ -133,15 +133,23 @@ const Home = () => {
     (async () => {
       try {
         const res = await axios.get("https://iwe-server.shop/api/v1/letters");
-        setLetters(res.data);
+        setLetters(
+          res.data.data.map(
+            (dt): LetterResponse => ({
+              id: dt.id,
+              title: dt.title,
+              LLCoordinates: { lat: dt.longitude, lon: dt.latitude },
+              text: dt.text ? dt.text : dt.summary,
+              image: dt.image ? dt.image : null,
+              audio: dt.audio ? dt.image : null,
+            })
+          )
+        );
       } catch (e) {
         console.log(e);
       }
     })();
   }, []);
-  useEffect(() => {
-    console.log(currentLLCoordinates());
-  }, [myPosition]);
 
   return (
     <div className={styles["home"]}>

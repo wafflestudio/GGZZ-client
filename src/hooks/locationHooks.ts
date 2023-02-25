@@ -35,7 +35,6 @@ export const useWatchLocation = (options = {}) => {
     const { latitude: lat, longitude: lon, heading: direction } = coords;
     // setCenter({ lat, lon });
     setCoordinates({ lat, lon });
-    console.log(direction);
     setHeading(direction);
   };
 
