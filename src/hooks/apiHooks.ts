@@ -11,7 +11,7 @@ const url = (path: string, param?: Record<string, any>): string => {
         .map(([key, value]) => [key, String(value)])
     );
   return (
-    "http://aaaa/api/v1" + // TODO: 배포 후 수정
+    "https://iwe-server.shop" + // TODO: 배포 후 수정
     path +
     (param ? "?" + new URLSearchParams(validParamData).toString() : "")
   );
@@ -31,3 +31,12 @@ export function useApiData<T>(fetch: () => Promise<AxiosResponse<T>>) {
 
 export const useApiGetLetters = ({ lat: latitude, lon: longitude }: TLLCoordinates) =>
   useCallback(() => axios.get(url("/letters", { latitude, longitude }), {}), [latitude, longitude]);
+
+export const apiRegister = (registerData: {
+  username: string;
+  password: string;
+  nickname: string;
+}) => axios.post(url("signup"), registerData, {});
+
+export const apiLogin = (loginData: { username: string; password: string }) =>
+  axios.post(url("login"), loginData, {});
