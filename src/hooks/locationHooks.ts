@@ -65,8 +65,9 @@ export const useWatchLocation = (options = {}) => {
 
 export const useIntervalToGetLocation = (options = {}) => {
   const handleSuccess = ({ coords }: { coords: GeolocationCoordinates }) => {
-    const { latitude: lat, longitude: lon } = coords;
+    const { latitude: lat, longitude: lon, heading } = coords;
     useMyPositionStore.setState({ currentCoordinates: { lat, lon } });
+    useMyPositionStore.setState({ heading });
   };
   const handleError = () => {
     console.log("error");

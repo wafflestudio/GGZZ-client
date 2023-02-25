@@ -72,7 +72,7 @@ const Home = () => {
   useIntervalToGetLocation();
   const [radius, setRadius] = useState<number>(400);
   const [letters, setLetters] = useState<any>([]);
-  const { heading } = { heading: null }; // useWatchLocation(geolocationOptions);
+  const heading = useMyPositionStore((state) => state.heading); // useWatchLocation(geolocationOptions);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
   const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
   const setViewPosition = useMyPositionStore((state) => state.setViewCoordinates);
