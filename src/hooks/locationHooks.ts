@@ -68,7 +68,9 @@ export const useIntervalToGetLocation = (options = {}) => {
     const { latitude: lat, longitude: lon } = coords;
     useMyPositionStore.setState({ currentCoordinates: { lat, lon } });
   };
-  const handleError = () => {};
+  const handleError = () => {
+    console.log("error");
+  };
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
     setInterval(() => {

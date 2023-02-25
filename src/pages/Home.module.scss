@@ -1,12 +1,21 @@
+@use "./styles/font";
 
 
 .home {
+  @include font.handwriting1;
+
   position: fixed;
   width: 100vh;
   height: 100vh;
   top: 0;
   left: 0;
   transform: translateX(calc(-50vh + 50vw));
+  background: url("./paper_texture.jpg");
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
 
   * {
     list-style: none;
@@ -27,7 +36,6 @@
     top: 0;
     left: 0;
     margin: auto;
-    background-color: skyblue;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,26 +47,61 @@
       font-size: 15px;
       width: 20px;
       height: 20px;
+      transition: 0.5s ease;
+
+      img {
+        transition: 0.5s ease;
+      }
+
+      .invisible {
+        opacity: 0;
+      }
     }
+
     > .letter {
       position: absolute;
     }
   }
+
   > .zoom-buttons {
+    position: absolute;
+    top: 10vh;
+    left: calc(50vh - 40vw);
     display: flex;
-    flex-direction: column;
-    gap: 5px;
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    transform: translate(calc(-50vh + 40vw), -3vh);
+    flex-direction: row;
+    gap: 12px;
 
     > .zoom-button {
-      background-color: red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       > button {
-        width: 30px;
+        background: none;
+        border: none;
         height: 30px;
+        font: inherit;
+        font-size: 24px;
+        text-decoration: underline;
       }
     }
+
+    > .rad {
+      font-size: 24px;
+      color: #e79f5b;
+    }
+  }
+
+  .new {
+    position: absolute;
+    bottom: 15vh;
+    opacity: 0.5;
+    background: none;
+    font: inherit;
+    border: none;
+    font-size: 32px;
+    font-weight: bold;
+    text-decoration: underline;
+
   }
 }
