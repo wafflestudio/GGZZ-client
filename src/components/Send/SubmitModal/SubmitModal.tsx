@@ -33,6 +33,7 @@ const SubmitModal = () => {
               if (!title) {
                 alert("한 줄 소개를 입력하세요");
               } else {
+                /*
                 (async () => {
                   axios.post(
                     "https://iwe-server.shop/api/v1/letters",
@@ -55,7 +56,8 @@ const SubmitModal = () => {
                         },
                     {}
                   );
-                })();
+                })();*/
+                alert("아직 준비중입니다");
               }
             }}
           >
