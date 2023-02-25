@@ -1,3 +1,4 @@
+import axios, { AxiosResponse } from "axios";
 import { useCallback, useLayoutEffect, useState } from "react";
 import { TLLCoordinates } from "../types/locationTypes";
 
@@ -10,7 +11,7 @@ const url = (path: string, param?: Record<string, any>): string => {
         .map(([key, value]) => [key, String(value)])
     );
   return (
-    "http://aaaa/api/v1" +
+    "http://aaaa/api/v1" + // TODO: 배포 후 수정
     path +
     (param ? "?" + new URLSearchParams(validParamData).toString() : "")
   );
@@ -29,4 +30,4 @@ export function useApiData<T>(fetch: () => Promise<AxiosResponse<T>>) {
 }
 
 export const useApiGetLetters = ({ lat: latitude, lon: longitude }: TLLCoordinates) =>
-  useCallback(() => axios.get(url("/letters"), { latitude, longitude }), [latitude, longitude]);
+  useCallback(() => axios.get(url("/letters", { latitude, longitude }), {}), [latitude, longitude]);
