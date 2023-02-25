@@ -26,14 +26,17 @@ export const useGetCurrentLocation = (options: PositionOptions = {}) => {
 
 export const useWatchLocation = (options = {}) => {
   const [coordinates, setCoordinates] = useState<TLLCoordinates>();
+  const [heading, setHeading] = useState<number | null>();
   const [error, setError] = useState<string>();
   const locationWatchId = useRef<number | null>(null);
   // const { setCenter } = useMapStore((state) => state);
 
   const handleSuccess = ({ coords }: { coords: GeolocationCoordinates }) => {
-    const { latitude: lat, longitude: lon } = coords;
+    const { latitude: lat, longitude: lon, heading: direction } = coords;
     // setCenter({ lat, lon });
     setCoordinates({ lat, lon });
+    console.log(direction);
+    setHeading(direction);
   };
 
   const handleError = (error: GeolocationPositionError) => {
@@ -57,5 +60,5 @@ export const useWatchLocation = (options = {}) => {
     return cancelLocationWatch;
   }, [options]);
 
-  return { coordinates, cancelLocationWatch, error };
+  return { coordinates, heading, cancelLocationWatch, error };
 };

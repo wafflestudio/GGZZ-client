@@ -32,12 +32,11 @@
     align-items: center;
     justify-content: center;
 
-
-
-
     > .current-location {
       position: absolute;
-      border: #000 solid 1px;
+      text-align: center;
+      line-height: 20px;
+      font-size: 15px;
       width: 20px;
       height: 20px;
     }
