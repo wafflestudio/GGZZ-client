@@ -1,6 +1,8 @@
 import styles from "./Receive.module.scss";
 import { useHomeModalStore } from "../../../../store/useHomeModalStore";
 
+//type;
+
 export const ReceiveContainer = () => {
   const data = useHomeModalStore((state) => state.letter);
   const isDetailed = useHomeModalStore((state) => state.isDetailed);

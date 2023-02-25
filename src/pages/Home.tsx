@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useHomeModalStore } from "../../store/useHomeModalStore";
 import Receive from "./Receive/Receive";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
+import axios from "axios";
 
 const geolocationOptions = {
   enableHighAccuracy: true,
@@ -46,6 +47,7 @@ const canOpenRadius = 30;
 
 const Home = () => {
   const [radius, setRadius] = useState<number>(400);
+  const [letters, setLetters] = useState<any>([]);
   const { heading } = { heading: null }; // useWatchLocation(geolocationOptions);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
   const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
@@ -60,7 +62,7 @@ const Home = () => {
   const distPerLat = getDistPerLatOrLon(currentLLCoordinates(), true);
   const distPerLon = getDistPerLatOrLon(currentLLCoordinates(), false);
 
-  const filteredFarLetters = dummyLetters2.filter(
+  const filteredFarLetters = [...dummyLetters2].filter(
     (letter) =>
       getDistanceFromLatLonInM(currentLLCoordinates(), letter.LLCoordinates) <= radius &&
       getDistanceFromLatLonInM(
@@ -68,7 +70,7 @@ const Home = () => {
         letter.LLCoordinates
       ) > canOpenRadius
   );
-  const filteredCloseLetters = dummyLetters2.filter(
+  const filteredCloseLetters = [...dummyLetters2].filter(
     (letter) =>
       getDistanceFromLatLonInM(
         myPosition ? myPosition : { lat: -1, lon: -1 },
@@ -90,9 +92,15 @@ const Home = () => {
     },
   }));
   useEffect(() => {
-    console.log(currentLLCoordinates());
-    console.log(myPosition);
-  }, [myPosition]);
+    (async () => {
+      try {
+        const res = await axios.get("https://iwe-server.shop/api/v1/letters");
+        setLetters(res.data);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
 
   return (
     <div className={styles["home"]}>
