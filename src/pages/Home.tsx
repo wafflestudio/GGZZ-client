@@ -39,13 +39,16 @@ const dummyLetters = [
   { id: 6, LLCoordinates: { lat: 37.482334, lon: 126.953658 } },
 ];
 const dummyLetters2 = [
-  { id: 7, LLCoordinates: { lat: 37.4789582, lon: 126.944854 } },
-  { id: 8, LLCoordinates: { lat: 37.479733, lon: 126.944718 } },
+  { id: 7, LLCoordinates: { lat: 37.450401, lon: 126.952397 } },
+  { id: 8, LLCoordinates: { lat: 37.451949, lon: 126.952402 } },
+  { id: 9, LLCoordinates: { lat: 37.447465, lon: 126.950207 } },
+  { id: 10, LLCoordinates: { lat: 37.448959, lon: 126.953786 } },
 ];
 
 const canOpenRadius = 30;
 
 const Home = () => {
+  useIntervalToGetLocation();
   const [radius, setRadius] = useState<number>(400);
   const [letters, setLetters] = useState<any>([]);
   const { heading } = { heading: null }; // useWatchLocation(geolocationOptions);
@@ -101,6 +104,9 @@ const Home = () => {
       }
     })();
   }, []);
+  useEffect(() => {
+    console.log(currentLLCoordinates());
+  }, [myPosition]);
 
   return (
     <div className={styles["home"]}>

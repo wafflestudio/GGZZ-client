@@ -1,8 +1,11 @@
 import styles from "./SubmitModal.module.scss";
 import { useLetterFormStore } from "../../../../store/useLetterFormStore";
+import axios from "axios";
+import { useMyPositionStore } from "../../../../store/useMyPositionStore";
 
 const SubmitModal = () => {
   const { text, audio, image, title, setTitle } = useLetterFormStore((state) => state);
+  const me = useMyPositionStore((state) => state.currentCoordinates);
   return (
     <div className={styles.submit}>
       <div className={styles.description}>쪽지 남기기</div>
@@ -30,7 +33,29 @@ const SubmitModal = () => {
               if (!title) {
                 alert("한 줄 소개를 입력하세요");
               } else {
-                alert("쪽지를 남겼습니다");
+                (async () => {
+                  axios.post(
+                    "https://iwe-server.shop/api/v1/letters",
+                    text
+                      ? {
+                          title: title,
+                          summary: "summary",
+                          icon_type: "DEFAULT",
+                          longitude: me?.lon ? me.lon : 0,
+                          latitude: me?.lat ? me.lat : 0,
+                          text: text,
+                        }
+                      : {
+                          title: title,
+                          summary: "summary",
+                          icon_type: "DEFAULT",
+                          longitude: me?.lon ? me.lon : 0,
+                          latitude: me?.lat ? me.lat : 0,
+                          text: "",
+                        },
+                    {}
+                  );
+                })();
               }
             }}
           >
