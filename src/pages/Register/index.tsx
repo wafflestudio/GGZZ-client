@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.scss";
 import axios from "axios";
+import { apiRegister } from "../../hooks/apiHooks";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -13,26 +14,22 @@ export default function Register() {
 
   async function handleRegister() {
     if (!ID) {
-      // toast.error("아이디를 입력하세요");
+      alert("아이디를 입력하세요");
       return;
     }
     if (!PW || !PWCheck) {
-      // toast.error("비밀번호와 비밀번호 확인을 입력하세요");
+      alert("비밀번호와 비밀번호 확인을 입력하세요");
       return;
     }
     if (PW !== PWCheck) {
-      // toast.error("비밀번호가 일치하지 않습니다");
+      alert("비밀번호가 일치하지 않습니다");
       return;
     }
 
     try {
-      const registerData = { id: ID, password: PW, nickname };
-      const res = await axios.post("https://iwe-server.shop/signup", {
-        username: ID,
-        nickname: nickname,
-        password: PW,
-      });
-      navigate("/");
+      const registerData = { username: ID, password: PW, nickname };
+      const res = await apiRegister(registerData);
+      navigate("/login");
     } catch (e) {
       console.log(e);
     }
