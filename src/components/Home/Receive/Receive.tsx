@@ -5,6 +5,7 @@ import { LetterResponse } from "../../../../types/letterTypes";
 import { useMyPositionStore } from "../../../../store/useMyPositionStore";
 import { getDistanceFromLatLonInM } from "../../../lib";
 import { dummyLetters2 } from "../../../pages/Home";
+import axios from "axios";
 
 //type;
 
@@ -21,6 +22,24 @@ export const ReceiveContainer = () => {
         const index = dummyLetters2.findIndex((item) => item.id === letter.id);
         if (index >= 0) {
           setDetailed(dummyLetters2[index]);
+        } else {
+          (async () => {
+            const res = await axios.get("https://iwe-server.shop/api/v1/letters");
+            const result: LetterResponse[] = res.data.data.map(
+              (dt): LetterResponse => ({
+                id: dt.id,
+                title: dt.title,
+                LLCoordinates: { lat: dt.longitude, lon: dt.latitude },
+                text: dt.text ? dt.text : dt.summary,
+                image: dt.image ? dt.image : null,
+                audio: dt.audio ? dt.image : null,
+              })
+            );
+            const index2 = result.findIndex((item) => item.id === letter.id);
+            if (index2 >= 0) {
+              setDetailed(result[index2]);
+            }
+          })();
         }
       }
     }
