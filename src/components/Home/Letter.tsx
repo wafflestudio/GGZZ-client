@@ -3,6 +3,7 @@ import styles from "./Letter.module.scss";
 import { useMyPositionStore } from "../../../store/useMyPositionStore";
 import closed_icon from "../../assets/icon/close.svg";
 import opened_icon from "../../assets/icon/writing.svg";
+import { useHomeModalStore } from "../../../store/useHomeModalStore";
 
 const Letter = ({
   letter,
@@ -14,6 +15,8 @@ const Letter = ({
   canOpen: boolean;
 }) => {
   const select = useMyPositionStore((state) => state.setViewCoordinates);
+  const openModal = useHomeModalStore((state) => state.selectLetter);
+  const openDetailed = useHomeModalStore((state) => state.selectDetailedLetter);
   return (
     <li
       className={styles["letter"]}
@@ -25,6 +28,7 @@ const Letter = ({
       }}
       onClick={() => {
         select(letter.LLCoordinates);
+        //if(canOpen) {openModal(letter) } else {openDetailed(letter)}
       }}
     >
       {canOpen ? <img src={opened_icon} /> : <img src={closed_icon} />}

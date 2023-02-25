@@ -11,6 +11,9 @@ import Letter from "../components/Home/Letter";
 import { useMyPositionStore } from "../../store/useMyPositionStore";
 import me_icon from "../assets/icon/me.svg";
 import { useNavigate } from "react-router-dom";
+import { useHomeModalStore } from "../../store/useHomeModalStore";
+import Receive from "./Receive/Receive";
+import { ReceiveContainer } from "../components/Home/Receive/Receive";
 
 const geolocationOptions = {
   enableHighAccuracy: true,
@@ -52,7 +55,7 @@ const Home = () => {
     if (viewPosition) return viewPosition;
     return myPosition ? myPosition : { lat: -37.4780396, lon: -126.945793 };
   };
-  useIntervalToGetLocation(geolocationOptions);
+  const modalLetter = useHomeModalStore((state) => state.letter);
 
   const distPerLat = getDistPerLatOrLon(currentLLCoordinates(), true);
   const distPerLon = getDistPerLatOrLon(currentLLCoordinates(), false);
@@ -163,6 +166,7 @@ const Home = () => {
           </button>
         </>
       )}
+      {modalLetter && <ReceiveContainer />}
     </div>
   );
 };
