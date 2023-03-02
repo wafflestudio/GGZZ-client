@@ -3,10 +3,10 @@ import {
   useGetCurrentLocation,
   useIntervalToGetLocation,
   useWatchLocation,
-} from "../hooks/locationHooks";
+} from "../lib/hooks/locationHooks";
 import styles from "./Home.module.scss";
 import { TLLCoordinates } from "../types/locationTypes";
-import { getDistanceFromLatLonInM } from "../lib";
+import { getDistanceFromLatLonInM } from "../lib/lib";
 import Letter from "../components/Home/Letter";
 import { useMyPositionStore } from "../../store/useMyPositionStore";
 import me_icon from "../assets/icon/me.svg";
@@ -16,7 +16,7 @@ import Receive from "./Receive/Receive";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
 import axios from "axios";
 import { LetterResponse } from "../../types/letterTypes";
-import { useApiData, useApiGetLetters } from "../hooks/apiHooks";
+import { useApiData, useApiGetLetters } from "../lib/hooks/apiHooks";
 
 const geolocationOptions = {
   enableHighAccuracy: true,

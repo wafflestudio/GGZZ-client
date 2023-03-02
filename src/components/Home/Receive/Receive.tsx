@@ -3,7 +3,7 @@ import { useHomeModalStore } from "../../../../store/useHomeModalStore";
 import { useEffect, useState } from "react";
 import { LetterResponse } from "../../../../types/letterTypes";
 import { useMyPositionStore } from "../../../../store/useMyPositionStore";
-import { getDistanceFromLatLonInM } from "../../../lib";
+import { getDistanceFromLatLonInM } from "../../../lib/lib";
 import { dummyLetters2 } from "../../../pages/Home";
 import axios from "axios";
 

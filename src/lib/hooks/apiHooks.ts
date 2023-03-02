@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { useCallback, useLayoutEffect, useState } from "react";
-import { TLLCoordinates } from "../types/locationTypes";
+import { TLLCoordinates } from "../../types/locationTypes";
 
 const url = (path: string, param?: Record<string, any>): string => {
   const validParamData =

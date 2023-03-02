@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.scss";
 import axios from "axios";
-import { apiRegister } from "../../hooks/apiHooks";
+import { apiRegister } from "../../lib/hooks/apiHooks";
 
 export default function Register() {
   const navigate = useNavigate();

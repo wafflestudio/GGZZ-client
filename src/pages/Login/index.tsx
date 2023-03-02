@@ -2,7 +2,7 @@ import styles from "./index.module.scss";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { useState } from "react";
-import { apiLogin } from "../../hooks/apiHooks";
+import { apiLogin } from "../../lib/hooks/apiHooks";
 
 export default function Login() {
   const navigate = useNavigate();
