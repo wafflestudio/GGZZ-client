@@ -4,7 +4,7 @@ import { useMyPositionStore } from "../../../store/useMyPositionStore";
 import closed_icon from "../../assets/icon/close.svg";
 import opened_icon from "../../assets/icon/writing.svg";
 import { useHomeModalStore } from "../../../store/useHomeModalStore";
-import { LetterResponse } from "../../../types/letterTypes";
+import { LetterResponse } from "../../types/letterTypes";
 import { getDistanceFromLatLonInM } from "../../lib/lib";
 
 const getDistPerLatOrLon = (coordinates: TLLCoordinates, forLatNotLon: boolean) => {

@@ -1,9 +1,4 @@
 import { useEffect, useState } from "react";
-import {
-  useGetCurrentLocation,
-  useIntervalToGetLocation,
-  useWatchLocation,
-} from "../lib/hooks/locationHooks";
 import styles from "./Home.module.scss";
 import { TLLCoordinates } from "../types/locationTypes";
 import { getDistanceFromLatLonInM } from "../lib/lib";
@@ -12,11 +7,9 @@ import { useMyPositionStore } from "../../store/useMyPositionStore";
 import me_icon from "../assets/icon/me.svg";
 import { useNavigate } from "react-router-dom";
 import { useHomeModalStore } from "../../store/useHomeModalStore";
-import Receive from "./Receive/Receive";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
-import axios from "axios";
-import { LetterResponse } from "../../types/letterTypes";
-import { apiCheckLogin, apiGetLetters, useApiData, useApiGetLetters } from "../lib/hooks/apiHooks";
+import { LetterResponse } from "../types/letterTypes";
+import { apiGetLetters, useApiData, useApiGetLetters } from "../lib/hooks/apiHooks";
 
 const geolocationOptions = {
   enableHighAccuracy: true,
@@ -40,49 +33,14 @@ const dummyLetters = [
   { id: 5, LLCoordinates: { lat: 37.479137, lon: 126.95141 } },
   { id: 6, LLCoordinates: { lat: 37.482334, lon: 126.953658 } },
 ];
-export const dummyLetters2: LetterResponse[] = [
-  {
-    id: 7,
-    LLCoordinates: { lat: 37.447465, lon: 126.952402 },
-    title: "테스트1",
-    text: "어디지??",
-  },
-  {
-    id: 8,
-    LLCoordinates: { lat: 37.451949, lon: 126.952402 },
-    title: "테스트2",
-    text: "현대 엔지비",
-  },
-  {
-    id: 9,
-    LLCoordinates: { lat: 37.447465, lon: 126.950207 },
-    title: "테스트3",
-    text: "건환공",
-  },
-  {
-    id: 10,
-    LLCoordinates: { lat: 37.448959, lon: 126.953786 },
-    title: "테스트4",
-    text: "자운암",
-  },
-  {
-    id: 11,
-    LLCoordinates: {
-      lat: 37.449714,
-      lon: 126.95248,
-    },
-    title: "와카톤 행사장",
-    text: "infp팀 모두 수고많았다!!",
-  },
-];
-
 const canOpenRadius = 30;
 
 const Home = () => {
   const [radius, setRadius] = useState<number>(400);
-  const [letters, setLetters] = useState<
+  /*  const [letters, setLetters] = useState<
     { id: number; title: string; summary: string; longitude: number; latitude: number }[]
   >([]);
+ */
   const heading = useMyPositionStore((state) => state.heading); // useWatchLocation(geolocationOptions);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
   const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
@@ -90,67 +48,24 @@ const Home = () => {
   const navigate = useNavigate();
 
   // 형석: Api 사용
-  // const letters = useApiData(useApiGetLetters());
 
   const currentLLCoordinates = () => {
     if (viewPosition) return viewPosition;
     return myPosition ? myPosition : { lat: -37.4780396, lon: -126.945793 };
   };
+
+  const letters = useApiData<
+    { id: number; title: string; summary: string; longitude: number; latitude: number }[]
+  >(
+    () => apiGetLetters(currentLLCoordinates().lon ?? 0, currentLLCoordinates().lat ?? 0),
+    [],
+    [myPosition]
+  );
+
   const modalLetter = useHomeModalStore((state) => state.letter);
 
   const distPerLat = getDistPerLatOrLon(currentLLCoordinates(), true);
   const distPerLon = getDistPerLatOrLon(currentLLCoordinates(), false);
-
-  /*
-  const filteredFarLetters = [...dummyLetters2, ...letters].filter(
-    (letter) =>
-      getDistanceFromLatLonInM(currentLLCoordinates(), letter.LLCoordinates) <= radius &&
-      getDistanceFromLatLonInM(
-        myPosition ? myPosition : { lat: -1, lon: -1 },
-        letter.LLCoordinates
-      ) > canOpenRadius
-  );
-  const filteredCloseLetters = [...dummyLetters2, ...letters].filter(
-    (letter) =>
-      getDistanceFromLatLonInM(
-        myPosition ? myPosition : { lat: -1, lon: -1 },
-        letter.LLCoordinates
-      ) <= canOpenRadius
-  );
-  const farLettersDataforDisplay = filteredFarLetters.map((letter) => ({
-    ...letter,
-    XYCoordinates: {
-      x: (letter.LLCoordinates.lon - currentLLCoordinates().lon) * distPerLon, // m
-      y: -(letter.LLCoordinates.lat - currentLLCoordinates().lat) * distPerLat, // m
-    },
-  }));
-  const closeLettersDataforDisplay = filteredCloseLetters.map((letter) => ({
-    ...letter,
-    XYCoordinates: {
-      x: (letter.LLCoordinates.lon - currentLLCoordinates().lon) * distPerLon,
-      y: -(letter.LLCoordinates.lat - currentLLCoordinates().lat) * distPerLat,
-    },
-  }));
- */
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       apiCheckLogin().then((res) => {
-  //         console.log(res);
-  //       });
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   })();
-  // }, []);
-
-  useEffect(() => {
-    if (myPosition) {
-      apiGetLetters(myPosition.lon, myPosition.lat).then((res) => {
-        setLetters(res.data.data);
-      });
-    }
-  }, [myPosition]);
 
   return (
     <div className={styles["home"]}>

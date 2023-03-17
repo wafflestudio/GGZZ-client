@@ -1,7 +1,7 @@
 import styles from "./Receive.module.scss";
 import { useHomeModalStore } from "../../../../store/useHomeModalStore";
 import { useEffect, useState } from "react";
-import { LetterResponse } from "../../../../types/letterTypes";
+import { LetterResponse } from "../../../types/letterTypes";
 import { useMyPositionStore } from "../../../../store/useMyPositionStore";
 import { getDistanceFromLatLonInM } from "../../../lib/lib";
 import { dummyLetters2 } from "../../../pages/Home";

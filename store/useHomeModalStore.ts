@@ -1,4 +1,4 @@
-import { Letter, LetterSummary } from "../types/letterTypes";
+import { Letter, LetterSummary } from "../src/types/letterTypes";
 import { create } from "zustand";
 
 type HomeModalStore = {
