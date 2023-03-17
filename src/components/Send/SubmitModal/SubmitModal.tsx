@@ -5,14 +5,12 @@ import { useMyPositionStore } from "../../../../store/useMyPositionStore";
 import { useIntervalToGetLocation } from "../../../lib/hooks/locationHooks";
 import { useEffect } from "react";
 import { apiCheckLogin, apiPostLetter, apiPutLetter } from "../../../lib/hooks/apiHooks";
+import { useNavigate } from "react-router-dom";
 
 const SubmitModal = () => {
   const { text, audio, image, title, setTitle } = useLetterFormStore((state) => state);
   const me = useMyPositionStore((state) => state.currentCoordinates);
-  useEffect(() => {
-    console.log(image);
-    console.log(audio);
-  }, []);
+  const navigate = useNavigate();
 
   return (
     <div className={styles.submit}>
@@ -51,6 +49,7 @@ const SubmitModal = () => {
                   }).then(
                     (res) => {
                       if (!image && !audio) {
+                        navigate("/");
                         return Promise.resolve(null);
                       }
                       const putBody = new FormData();
@@ -61,7 +60,7 @@ const SubmitModal = () => {
                         putBody.append("voice", audio);
                       }
                       apiPutLetter(res.data.id, putBody).then((res) => {
-                        console.log(res);
+                        navigate("/");
                       });
                     },
                     (e) => {
