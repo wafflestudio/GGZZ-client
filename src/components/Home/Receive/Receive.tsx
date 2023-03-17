@@ -1,20 +1,21 @@
 import styles from "./Receive.module.scss";
 import { useHomeModalStore } from "../../../../store/useHomeModalStore";
 import { useEffect, useState } from "react";
-import { LetterResponse } from "../../../../types/letterTypes";
 import { useMyPositionStore } from "../../../../store/useMyPositionStore";
 import { getDistanceFromLatLonInM } from "../../../lib/lib";
-import { dummyLetters2 } from "../../../pages/Home";
-import axios from "axios";
+
+import { apiGetLetter } from "../../../lib/hooks/apiHooks";
 
 //type;
 
 export const ReceiveContainer = () => {
-  const [detailed, setDetailed] = useState<LetterResponse | false>(false);
+  const [detailed, setDetailed] = useState<{ text: string; image: string; voice: string } | false>(
+    false
+  );
   const letter = useHomeModalStore((state) => state.letter);
   const close = useHomeModalStore((state) => state.deselectLetter);
   const myCoordination = useMyPositionStore((state) => state.currentCoordinates);
-
+  /*
   useEffect(() => {
     if (myCoordination && letter) {
       const dist = getDistanceFromLatLonInM(myCoordination, letter.coordinates);
@@ -44,6 +45,14 @@ export const ReceiveContainer = () => {
       }
     }
   }, []);
+*/
+  useEffect(() => {
+    if (letter && myCoordination) {
+      apiGetLetter(letter.id, myCoordination.lon, myCoordination.lat).then((res) =>
+        setDetailed(res.data)
+      );
+    }
+  }, [letter, myCoordination]);
 
   return (
     <div
@@ -61,7 +70,7 @@ export const ReceiveContainer = () => {
               <>
                 {detailed.text && <div>텍스트: {detailed.text}</div>}
                 {detailed.image && <img style={{ width: "100%" }} src={detailed.image} />}
-                {detailed.audio && <audio src={detailed.audio} />}
+                {detailed.voice && <audio controls src={detailed.voice} />}
               </>
             ) : (
               <>

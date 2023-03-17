@@ -1,4 +1,4 @@
-import { TLLCoordinates } from "../src/types/locationTypes";
+import { TLLCoordinates } from "./locationTypes";
 
 export type Letter = {
   id: number;
