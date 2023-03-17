@@ -1,10 +1,8 @@
 import styles from "./SubmitModal.module.scss";
 import { useLetterFormStore } from "../../../../store/useLetterFormStore";
-import axios from "axios";
 import { useMyPositionStore } from "../../../../store/useMyPositionStore";
-import { useIntervalToGetLocation } from "../../../lib/hooks/locationHooks";
-import { useEffect } from "react";
-import { apiCheckLogin, apiPostLetter, apiPutLetter } from "../../../lib/hooks/apiHooks";
+
+import { apiPostLetter, apiPutLetter } from "../../../lib/hooks/apiHooks";
 import { useNavigate } from "react-router-dom";
 
 const SubmitModal = () => {
