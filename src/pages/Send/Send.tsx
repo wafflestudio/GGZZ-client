@@ -11,12 +11,14 @@ import TextModal from "../../components/Send/TextModal/TextModal";
 import { useNavigate } from "react-router-dom";
 import SubmitModal from "../../components/Send/SubmitModal/SubmitModal";
 import ImageModal from "../../components/Send/ImageModal/ImageModal";
+import { useIntervalToGetLocation } from "../../lib/hooks/locationHooks";
 
 const Send = () => {
   const [inputModal, setInputModal] = useState<"none" | "writing" | "voice" | "image" | "submit">(
     "none"
   );
   const navigate = useNavigate();
+
   return (
     <div className={styles.send}>
       <button

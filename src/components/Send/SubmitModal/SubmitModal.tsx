@@ -2,10 +2,18 @@ import styles from "./SubmitModal.module.scss";
 import { useLetterFormStore } from "../../../../store/useLetterFormStore";
 import axios from "axios";
 import { useMyPositionStore } from "../../../../store/useMyPositionStore";
+import { useIntervalToGetLocation } from "../../../lib/hooks/locationHooks";
+import { useEffect } from "react";
+import { apiCheckLogin, apiPostLetter, apiPutLetter } from "../../../lib/hooks/apiHooks";
 
 const SubmitModal = () => {
   const { text, audio, image, title, setTitle } = useLetterFormStore((state) => state);
   const me = useMyPositionStore((state) => state.currentCoordinates);
+  useEffect(() => {
+    console.log(image);
+    console.log(audio);
+  }, []);
+
   return (
     <div className={styles.submit}>
       <div className={styles.description}>쪽지 남기기</div>
@@ -33,31 +41,34 @@ const SubmitModal = () => {
               if (!title) {
                 alert("한 줄 소개를 입력하세요");
               } else {
-                /*
-                (async () => {
-                  axios.post(
-                    "https://iwe-server.shop/api/v1/letters",
-                    text
-                      ? {
-                          title: title,
-                          summary: "summary",
-                          icon_type: "DEFAULT",
-                          longitude: me?.lon ? me.lon : 0,
-                          latitude: me?.lat ? me.lat : 0,
-                          text: text,
-                        }
-                      : {
-                          title: title,
-                          summary: "summary",
-                          icon_type: "DEFAULT",
-                          longitude: me?.lon ? me.lon : 0,
-                          latitude: me?.lat ? me.lat : 0,
-                          text: "",
-                        },
-                    {}
+                if (me) {
+                  apiPostLetter({
+                    title: "테스트",
+                    summary: "과연 될 것인가",
+                    longitude: me.lon,
+                    latitude: me.lat,
+                    text: text ?? "",
+                  }).then(
+                    (res) => {
+                      if (!image && !audio) {
+                        return Promise.resolve(null);
+                      }
+                      const putBody = new FormData();
+                      if (image) {
+                        putBody.append("image", image);
+                      }
+                      if (audio) {
+                        putBody.append("voice", audio);
+                      }
+                      apiPutLetter(res.data.id, putBody).then((res) => {
+                        console.log(res);
+                      });
+                    },
+                    (e) => {
+                      console.log(e);
+                    }
                   );
-                })();*/
-                alert("아직 준비중입니다");
+                }
               }
             }}
           >

@@ -16,7 +16,7 @@ import Receive from "./Receive/Receive";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
 import axios from "axios";
 import { LetterResponse } from "../../types/letterTypes";
-import { useApiData, useApiGetLetters } from "../lib/hooks/apiHooks";
+import { apiCheckLogin, apiGetLetters, useApiData, useApiGetLetters } from "../lib/hooks/apiHooks";
 
 const geolocationOptions = {
   enableHighAccuracy: true,
@@ -79,9 +79,10 @@ export const dummyLetters2: LetterResponse[] = [
 const canOpenRadius = 30;
 
 const Home = () => {
-  useIntervalToGetLocation();
   const [radius, setRadius] = useState<number>(400);
-  const [letters, setLetters] = useState<LetterResponse[]>([]);
+  const [letters, setLetters] = useState<
+    { id: number; title: string; summary: string; longitude: number; latitude: number }[]
+  >([]);
   const heading = useMyPositionStore((state) => state.heading); // useWatchLocation(geolocationOptions);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
   const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
@@ -100,6 +101,7 @@ const Home = () => {
   const distPerLat = getDistPerLatOrLon(currentLLCoordinates(), true);
   const distPerLon = getDistPerLatOrLon(currentLLCoordinates(), false);
 
+  /*
   const filteredFarLetters = [...dummyLetters2, ...letters].filter(
     (letter) =>
       getDistanceFromLatLonInM(currentLLCoordinates(), letter.LLCoordinates) <= radius &&
@@ -125,31 +127,30 @@ const Home = () => {
   const closeLettersDataforDisplay = filteredCloseLetters.map((letter) => ({
     ...letter,
     XYCoordinates: {
-      x: (letter.LLCoordinates.lon - currentLLCoordinates().lon) * distPerLon, // m
-      y: -(letter.LLCoordinates.lat - currentLLCoordinates().lat) * distPerLat, // m
+      x: (letter.LLCoordinates.lon - currentLLCoordinates().lon) * distPerLon,
+      y: -(letter.LLCoordinates.lat - currentLLCoordinates().lat) * distPerLat,
     },
   }));
+ */
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       apiCheckLogin().then((res) => {
+  //         console.log(res);
+  //       });
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   })();
+  // }, []);
+
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await axios.get("https://iwe-server.shop/api/v1/letters");
-        setLetters(
-          res.data.data.map(
-            (dt: any): LetterResponse => ({
-              id: dt.id,
-              title: dt.title,
-              LLCoordinates: { lat: dt.longitude, lon: dt.latitude },
-              text: dt.text ? dt.text : dt.summary,
-              image: dt.image ? dt.image : null,
-              audio: dt.audio ? dt.image : null,
-            })
-          )
-        );
-      } catch (e) {
-        console.log(e);
-      }
-    })();
-  }, []);
+    if (myPosition) {
+      apiGetLetters(myPosition.lon, myPosition.lat).then((res) => {
+        setLetters(res.data.data);
+      });
+    }
+  }, [myPosition]);
 
   return (
     <div className={styles["home"]}>
@@ -173,11 +174,8 @@ const Home = () => {
                 src={me_icon}
               />
             </li>
-            {farLettersDataforDisplay.map((letter, index) => (
-              <Letter key={letter.id} letter={letter} radius={radius} canOpen={false} />
-            ))}
-            {closeLettersDataforDisplay.map((letter, index) => (
-              <Letter key={letter.id} letter={letter} radius={radius} canOpen={true} />
+            {letters.map((letter) => (
+              <Letter key={letter.id} letter={letter} radius={radius} />
             ))}
           </ul>
           <ul className={styles["zoom-buttons"]}>

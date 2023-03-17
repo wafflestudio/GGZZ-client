@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Receive from "./pages/Receive/Receive";
 import Register from "./pages/Register";
 import Send from "./pages/Send/Send";
+import { useIntervalToGetLocation } from "./lib/hooks/locationHooks";
 
 function InValidateURL() {
   return <Navigate to="/" />;
@@ -42,6 +43,8 @@ const redirectLoginPageIfNotLoginned = async (page: JSX.Element, redirectPath: s
 // 사용 예시: <Route path="/send" element={redirectLoginPageIfNotLoginned(<Send />, '/send')} />
 
 function App() {
+  useIntervalToGetLocation();
+
   return (
     <Routes>
       <Route path="/" index element={<Home />} />

@@ -1,7 +1,7 @@
 import styles from "./index.module.scss";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { apiLogin } from "../../lib/hooks/apiHooks";
 
 export default function Login() {
@@ -20,6 +20,7 @@ export default function Login() {
         password: PW,
       };
       const res = await apiLogin(loginData);
+      console.log(res);
       if (redirect) navigate(redirect);
       else navigate("/");
     } catch (e) {
