@@ -16,7 +16,7 @@ yarn dev
 
 # 커밋 메세지 컨벤션
 
-- 커밋 유형: Feat, Fix, Refactor, Comment(주석), Remove, Style, Test, Docs 등
+- 커밋 유형: Feat, Fix, Refactor, Comment(주석), Remove, Style, Test, Docs, Chore 등
 - 메시지 형식: `[커밋 유형]: 한글로 한줄설명`
 `ex) Comment: 함수 인자 설명 주석 추가`
 - 커밋과 PR 단위는 최대한 작을수록 좋음. => *리뷰 편의성*
