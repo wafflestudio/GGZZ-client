@@ -10,8 +10,8 @@ export const useGetCurrentLocation = (options: PositionOptions = {}) => {
   const [errorMsg, setErrorMsg] = useState<string>();
 
   const handleSuccess = ({ coords }: { coords: GeolocationCoordinates }) => {
-    const { latitude: lat, longitude: lon } = coords;
-    setCoordinates({ lat, lon });
+    const { latitude: lat, longitude: lng } = coords;
+    setCoordinates({ lat, lng });
   };
   const handleError = (error: GeolocationPositionError) => {
     setErrorMsg(error.message);
@@ -32,9 +32,9 @@ export const useWatchLocation = (options = {}) => {
   const locationWatchId = useRef<number | null>(null);
 
   const handleSuccess = ({ coords }: { coords: GeolocationCoordinates }) => {
-    const { latitude: lat, longitude: lon, heading: direction } = coords;
+    const { latitude: lat, longitude: lng, heading: direction } = coords;
     // setCenter({ lat, lon });
-    setCoordinates({ lat, lon });
+    setCoordinates({ lat, lng });
     setHeading(direction);
   };
 
@@ -64,14 +64,17 @@ export const useWatchLocation = (options = {}) => {
 
 export const useIntervalToGetLocation = (options = {}) => {
   const handleSuccess = ({ coords }: { coords: GeolocationCoordinates }) => {
-    const { latitude: lat, longitude: lon, heading } = coords;
-    useMyPositionStore.setState({ currentCoordinates: { lat, lon } });
+    const { latitude: lat, longitude: lng, heading } = coords;
+    useMyPositionStore.setState({ currentCoordinates: { lat, lng } });
     useMyPositionStore.setState({ heading });
+
+    console.log("lat: ", lat, "lon: ", lng);
+    console.log("heading: ", heading);
   };
   const handleError = () => {
     console.log("error");
   };
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
     setInterval(() => {
       navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
