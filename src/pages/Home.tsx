@@ -17,39 +17,41 @@ const Home = () => {
   const setViewPosition = useMyPositionStore((state) => state.setViewCoordinates);
   const navigate = useNavigate();
 
-  // 형석: Api 사용
-
-  const currentLLCoordinates = () => {
+  const currentLLCoordinates = useCallback(() => {
     if (viewPosition) return viewPosition;
-    return myPosition ? myPosition : { lat: -37.4780396, lon: -126.945793 };
-  };
+    if (myPosition) {
+      setCenter(myPosition);
+      return myPosition;
+    }
+    return null;
+  }, [myPosition, viewPosition]);
 
   const letters = useApiData<
     { id: number; title: string; summary: string; longitude: number; latitude: number }[]
   >(
-    // TODO: initial value를 서울대 혹은 서울대 정문으로 설정?
-    () =>
-      apiGetLetters(
-        currentLLCoordinates().lon ?? 37.459109,
-        currentLLCoordinates().lat ?? 126.9529286
-      ),
+    () => {
+      const currentLL = currentLLCoordinates();
+      if (!currentLL) return Promise.resolve([]);
+      const { lat, lng } = currentLL;
+      return apiGetLetters(lat, lng);
+    },
     [],
-    [myPosition]
+    [myPosition, viewPosition]
   );
-  const render = useCallback((status: Status): ReactElement => {
-    if (status === Status.LOADING) return <h3>{status} ..</h3>;
-    if (status === Status.FAILURE) return <h3>{status} ...</h3>;
-    else {
-      return <></>;
-    }
-  }, []);
   const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([]);
   const [zoom, setZoom] = React.useState(15); // initial zoom
-  const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
-    lat: 37.459109,
-    lng: 126.9529286,
-  });
+  const [center, setCenter] = React.useState<google.maps.LatLngLiteral | null>(null);
 
+  const render = useCallback(
+    (status: Status): ReactElement => {
+      if (status === Status.LOADING || center === null) return <h3>{status} ..</h3>;
+      if (status === Status.FAILURE) return <h3>{status} ...</h3>;
+      else {
+        return renderMap();
+      }
+    },
+    [center]
+  );
   const onClick = useCallback((e: google.maps.MapMouseEvent) => {
     // avoid directly mutating state
     if (!e.latLng) return;
@@ -63,58 +65,59 @@ const Home = () => {
     if (!newCenter) return;
     setZoom(m.getZoom() ?? 10);
     setCenter(newCenter);
+    setViewPosition(newCenter);
   }, []);
+
+  const renderMap = useCallback((): ReactElement => {
+    return (
+      <Map center={center} onClick={onClick} onIdle={onIdle} zoom={zoom} className={styles["map"]}>
+        {/* TODO: 서버가 내려가 있어서 자세한 테스트는 진행 못함. */}
+        {letters.map((letter) => (
+          <Marker key={letter.id} position={{ lat: letter.latitude, lng: letter.longitude }} />
+        ))}
+        {/* 현재는 클릭하면 마커 생성되게 해둠. */}
+        {clicks.map((latLng, i) => (
+          <Marker key={i} position={latLng} />
+        ))}
+      </Map>
+    );
+  }, [center, onClick, onIdle, zoom, letters, clicks]);
 
   return (
     <div className={styles["home"]}>
-      {!currentLLCoordinates() ? (
-        <div />
-      ) : (
-        <>
-          <Wrapper apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY} render={render}>
-            <Map
-              center={center}
-              onClick={onClick}
-              onIdle={onIdle}
-              zoom={zoom}
-              style={{ flexGrow: "1", height: "100%" }}
-            >
-              {/* TODO: 서버가 내려가 있어서 자세한 테스트는 진행 못함. */}
-              {letters.map((letter) => (
-                <Marker
-                  key={letter.id}
-                  position={{ lat: letter.latitude, lng: letter.longitude }}
-                />
-              ))}
-              {/* 현재는 클릭하면 마커 생성되게 해둠. */}
-              {clicks.map((latLng, i) => (
-                <Marker key={i} position={latLng} />
-              ))}
-            </Map>
-          </Wrapper>
-          <button
-            className={styles["new"]}
-            onClick={() => {
-              setViewPosition(null);
-              navigate("./send");
-            }}
-          >
-            새 편지 남기기
-          </button>
-        </>
-      )}
+      <>
+        <Wrapper apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY} render={render} />
+        <button
+          className={styles["new"]}
+          onClick={() => {
+            setViewPosition(null);
+            navigate("./send");
+          }}
+        >
+          새 편지 쓰기
+        </button>
+        <button
+          className={styles["my-position-btn"]}
+          onClick={() => {
+            setViewPosition(null);
+            setCenter(myPosition);
+          }}
+        >
+          현재 위치
+        </button>
+      </>
       {modalLetter && <ReceiveContainer />}
     </div>
   );
 };
 
 interface MapProps extends PropsWithChildren<google.maps.MapOptions> {
-  style: { [key: string]: string };
+  className: string;
   onClick?: (e: google.maps.MapMouseEvent) => void;
   onIdle?: (map: google.maps.Map) => void;
 }
 
-const Map: React.FC<MapProps> = ({ onClick, onIdle, children, style, ...options }) => {
+const Map: React.FC<MapProps> = ({ onClick, onIdle, children, className, ...options }) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const [map, setMap] = React.useState<google.maps.Map>();
 
@@ -148,7 +151,7 @@ const Map: React.FC<MapProps> = ({ onClick, onIdle, children, style, ...options 
 
   return (
     <>
-      <div ref={ref} style={style} />
+      <div ref={ref} className={className} />
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
