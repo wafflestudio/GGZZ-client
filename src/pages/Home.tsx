@@ -1,6 +1,5 @@
-import { PropsWithChildren, ReactElement, useEffect, useRef, useState } from "react";
+import { PropsWithChildren, ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Home.module.scss";
-import Letter from "../components/Home/Letter";
 import { useMyPositionStore } from "../../store/useMyPositionStore";
 import { useNavigate } from "react-router-dom";
 import { useHomeModalStore } from "../../store/useHomeModalStore";
@@ -37,13 +36,13 @@ const Home = () => {
     [],
     [myPosition]
   );
-  const render = (status: Status): ReactElement => {
+  const render = useCallback((status: Status): ReactElement => {
     if (status === Status.LOADING) return <h3>{status} ..</h3>;
     if (status === Status.FAILURE) return <h3>{status} ...</h3>;
     else {
       return <></>;
     }
-  };
+  }, []);
   const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([]);
   const [zoom, setZoom] = React.useState(15); // initial zoom
   const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
@@ -51,19 +50,20 @@ const Home = () => {
     lng: 126.9529286,
   });
 
-  const onClick = (e: google.maps.MapMouseEvent) => {
+  const onClick = useCallback((e: google.maps.MapMouseEvent) => {
     // avoid directly mutating state
-    setClicks([...clicks, e.latLng!]);
-  };
+    if (!e.latLng) return;
+    setClicks([...clicks, e.latLng]);
+  }, []);
 
-  const onIdle = (m: google.maps.Map) => {
+  const onIdle = useCallback((m: google.maps.Map) => {
     const bounds = m.getBounds();
     if (!bounds) return;
     const newCenter = m.getCenter()?.toJSON();
     if (!newCenter) return;
     setZoom(m.getZoom() ?? 10);
     setCenter(newCenter);
-  };
+  }, []);
 
   return (
     <div className={styles["home"]}>
