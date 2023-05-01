@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { LetterRequest } from "../src/types/letterTypes";
+import { LetterRequest } from "../lib/types/letterTypes";
 
 type LetterFormStore = LetterRequest & {
   setText: (value: string | null) => void;

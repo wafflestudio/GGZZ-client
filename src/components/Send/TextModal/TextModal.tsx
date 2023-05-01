@@ -1,5 +1,5 @@
 import styles from "./TextModal.module.scss";
-import { useLetterFormStore } from "../../../../store/useLetterFormStore";
+import { useLetterFormStore } from "../../../store/useLetterFormStore";
 
 const TextModal = () => {
   const text = useLetterFormStore((state) => state.text);

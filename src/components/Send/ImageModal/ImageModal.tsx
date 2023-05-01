@@ -1,5 +1,5 @@
 import styles from "./ImageModal.module.scss";
-import { useLetterFormStore } from "../../../../store/useLetterFormStore";
+import { useLetterFormStore } from "../../../store/useLetterFormStore";
 import { useEffect, useRef, useState } from "react";
 import { Camera, CameraType } from "react-camera-pro";
 

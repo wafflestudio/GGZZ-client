@@ -1,10 +1,10 @@
-import { TLLCoordinates, TXYCoordinates } from "../../types/locationTypes";
+import { TLLCoordinates, TXYCoordinates } from "../../lib/types/locationTypes";
 import styles from "./Letter.module.scss";
-import { useMyPositionStore } from "../../../store/useMyPositionStore";
+import { useMyPositionStore } from "../../store/useMyPositionStore";
 import closed_icon from "../../assets/icon/close.svg";
 import opened_icon from "../../assets/icon/writing.svg";
-import { useHomeModalStore } from "../../../store/useHomeModalStore";
-import { LetterResponse } from "../../types/letterTypes";
+import { useHomeModalStore } from "../../store/useHomeModalStore";
+import { LetterResponse } from "../../lib/types/letterTypes";
 import { getDistanceFromLatLonInM } from "../../lib/lib";
 
 const getDistPerLatOrLon = (coordinates: TLLCoordinates, forLatNotLon: boolean) => {

@@ -1,4 +1,4 @@
-import { TLLCoordinates } from "../src/types/locationTypes";
+import { TLLCoordinates } from "../lib/types/locationTypes";
 import { create } from "zustand";
 
 type MyPositionStore = {
