@@ -8,9 +8,9 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   padding: 30px;
   font-size: 24px;
-  .noContent{
-    width:100%;
-    height:80%;
+  .noContent {
+    width: 100%;
+    height: 80%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,7 +40,6 @@
     background-color: rgba(#b69160, 0.5);
     padding: 8px;
     border-radius: 15px;
-
   }
 
   .status {
@@ -59,14 +58,13 @@
   }
 
   .confirmButton {
-    width:100%;
-    font:inherit;
-    font-size:32px;
-    padding:20px;
+    width: 100%;
+    font: inherit;
+    font-size: 32px;
+    padding: 20px;
     border: none;
     background-color: #d5eea0;
     border-radius: 15px;
-    bottom:20px;
+    bottom: 20px;
   }
-
 }
