@@ -1,8 +1,12 @@
 import { PropsWithChildren, ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Home.module.scss";
-import { useMyPositionStore } from "../../store/useMyPositionStore";
+import { TLLCoordinates } from "../lib/types/locationTypes";
+import { getDistanceFromLatLonInM } from "../lib/lib";
+import Letter from "../components/Home/Letter";
+import { useMyPositionStore } from "../store/useMyPositionStore";
+import me_icon from "../assets/icon/me.svg";
 import { useNavigate } from "react-router-dom";
-import { useHomeModalStore } from "../../store/useHomeModalStore";
+import { useHomeModalStore } from "../store/useHomeModalStore";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
 import { apiGetLetters, useApiData } from "../lib/hooks/apiHooks";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";

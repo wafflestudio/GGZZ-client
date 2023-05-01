@@ -49,13 +49,13 @@ export const apiPostLetter = (postLetterData: {
   text: string;
 }) =>
   axios.post(url("/api/v1/letters"), postLetterData, {
-    withCredentials: true
+    withCredentials: true,
   });
 
 export const apiPutLetter = (id: number, postLetterData: FormData) =>
   axios.put(url(`/api/v1/letters/${id}/source`), postLetterData, {
     withCredentials: true,
-    headers: { "Content-Type": "multipart/form-data" }
+    headers: { "Content-Type": "multipart/form-data" },
   });
 
 export const apiGetLetters = (longitude: number, latitude: number) =>
