@@ -1,17 +1,16 @@
-# 와카톤 2023 - 봄 인프피팀 클라이언트
+# 끄적(GGZZ) 클라이언트
 
 ### 사용 스펙
+
 - package manager: yarn
-- builder: vite
 - typscript + react
 - 상태 관리: zustand
 
-
-
 ### 개발 빌드
-```
+
+```bash
 yarn
-yarn dev
+yarn start
 ```
 
 # 커밋 메세지 컨벤션
