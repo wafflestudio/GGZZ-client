@@ -22,9 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-<<<<<<< HEAD
 .env
-=======
 
 # dependencies
 /node_modules
@@ -43,4 +41,3 @@ dist-ssr
 .env.development.local
 .env.test.local
 .env.production.local
->>>>>>> 1332e42 (Refactor: .gitignore 파일)

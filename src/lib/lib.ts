@@ -1,4 +1,4 @@
-import { TLLCoordinates, TMapInfo, TXYCoordinates } from "../types/locationTypes";
+import { TLLCoordinates, TMapInfo, TXYCoordinates } from "../lib/types/locationTypes";
 
 export const deg2rad = (deg: number) => deg * (Math.PI / 180);
 

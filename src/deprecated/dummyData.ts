@@ -1,4 +1,4 @@
-import { LetterResponse } from "../types/letterTypes";
+import { LetterResponse } from "../lib/types/letterTypes";
 
 export const dummyLetters2: LetterResponse[] = [
   {
