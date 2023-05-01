@@ -1,7 +1,5 @@
 @use "../styles/font";
 
-
-
 .home {
   @include font.handwriting1;
   @media screen and (max-width: 768px) {
@@ -37,19 +35,18 @@
     align-items: center;
     justify-content: center;
   }
-.new {
-  position: absolute;
-  bottom: 5vh;
-  opacity: 0.5;
-  background: none;
-  font: inherit;
-  border: none;
-  font-size: 32px;
-  font-weight: bold;
-  text-decoration: underline;
-
-}
-.my-position-btn {
+  .new {
+    position: absolute;
+    bottom: 5vh;
+    opacity: 0.5;
+    background: none;
+    font: inherit;
+    border: none;
+    font-size: 32px;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  .my-position-btn {
     position: absolute;
     bottom: 5vh;
     left: 1vw;
