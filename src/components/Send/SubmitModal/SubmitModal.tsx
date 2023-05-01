@@ -1,6 +1,6 @@
 import styles from "./SubmitModal.module.scss";
-import { useLetterFormStore } from "../../../../store/useLetterFormStore";
-import { useMyPositionStore } from "../../../../store/useMyPositionStore";
+import { useLetterFormStore } from "../../../store/useLetterFormStore";
+import { useMyPositionStore } from "../../../store/useMyPositionStore";
 
 import { apiPostLetter, apiPutLetter } from "../../../lib/hooks/apiHooks";
 import { useNavigate } from "react-router-dom";

@@ -1,7 +1,7 @@
 import styles from "./Receive.module.scss";
-import { useHomeModalStore } from "../../../../store/useHomeModalStore";
+import { useHomeModalStore } from "../../../store/useHomeModalStore";
 import { useEffect, useState } from "react";
-import { useMyPositionStore } from "../../../../store/useMyPositionStore";
+import { useMyPositionStore } from "../../../store/useMyPositionStore";
 import { getDistanceFromLatLonInM } from "../../../lib/lib";
 
 import { apiGetLetter } from "../../../lib/hooks/apiHooks";
