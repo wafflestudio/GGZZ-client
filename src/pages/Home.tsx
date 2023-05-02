@@ -1,7 +1,7 @@
 import { PropsWithChildren, ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Home.module.scss";
 import { TLLCoordinates } from "../lib/types/locationTypes";
-import { getDistanceFromLatLonInM } from "../lib/lib";
+import { getDistanceFromLatLngInM } from "../lib/lib";
 import Letter from "../components/Home/Letter";
 import { useMyPositionStore } from "../store/useMyPositionStore";
 import me_icon from "../assets/icon/me.svg";
@@ -90,7 +90,7 @@ const Home = () => {
   return (
     <div className={styles["home"]}>
       <>
-        <Wrapper apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY} render={render} />
+        <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""} render={render} />
         <button
           className={styles["new"]}
           onClick={() => {
