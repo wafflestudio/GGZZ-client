@@ -2,7 +2,7 @@ import styles from "./Receive.module.scss";
 import { useHomeModalStore } from "../../../store/useHomeModalStore";
 import { useEffect, useState } from "react";
 import { useMyPositionStore } from "../../../store/useMyPositionStore";
-import { getDistanceFromLatLonInM } from "../../../lib/lib";
+import { getDistanceFromLatLngInM } from "../../../lib/lib";
 
 import { apiGetLetter } from "../../../lib/hooks/apiHooks";
 
@@ -18,7 +18,7 @@ export const ReceiveContainer = () => {
   /*
   useEffect(() => {
     if (myCoordination && letter) {
-      const dist = getDistanceFromLatLonInM(myCoordination, letter.coordinates);
+      const dist = getDistanceFromLatLngInM(myCoordination, letter.coordinates);
       if (dist < 30) {
         const index = dummyLetters2.findIndex((item) => item.id === letter.id);
         if (index >= 0) {
@@ -30,7 +30,7 @@ export const ReceiveContainer = () => {
               (dt: any): LetterResponse => ({
                 id: dt.id,
                 title: dt.title,
-                LLCoordinates: { lat: dt.longitude, lon: dt.latitude },
+                LLCoordinates: { lat: dt.longitude, lng: dt.latitude },
                 text: dt.text ? dt.text : dt.summary,
                 image: dt.image ? dt.image : null,
                 audio: dt.audio ? dt.image : null,
@@ -48,7 +48,7 @@ export const ReceiveContainer = () => {
 */
   useEffect(() => {
     if (letter && myCoordination) {
-      apiGetLetter(letter.id, myCoordination.lon, myCoordination.lat).then((res) =>
+      apiGetLetter(letter.id, myCoordination.lng, myCoordination.lat).then((res) =>
         setDetailed(res.data)
       );
     }
@@ -78,7 +78,7 @@ export const ReceiveContainer = () => {
                   거리:
                   {myCoordination
                     ? `${Math.round(
-                        getDistanceFromLatLonInM(myCoordination, letter.coordinates)
+                        getDistanceFromLatLngInM(myCoordination, letter.coordinates)
                       )}` + "m"
                     : "확인 안 됨"}
                 </div>

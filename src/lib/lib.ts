@@ -3,15 +3,15 @@ import { TLLCoordinates, TMapInfo, TXYCoordinates } from "../lib/types/locationT
 export const deg2rad = (deg: number) => deg * (Math.PI / 180);
 
 export const LLToXY = (
-  { lon, lat }: TLLCoordinates,
+  { lng, lat }: TLLCoordinates,
   { width, height, centerLLCoordinates }: TMapInfo
 ): TXYCoordinates => {
-  const { lon: cLon } = centerLLCoordinates;
+  const { lng: cLng } = centerLLCoordinates;
   const LLRadius = 0.1;
-  const minLon = cLon - LLRadius;
-  const maxLon = cLon + LLRadius;
+  const minLng = cLng - LLRadius;
+  const maxLng = cLng + LLRadius;
 
-  const x = (lon - minLon) * (width / (maxLon - minLon));
+  const x = (lng - minLng) * (width / (maxLng - minLng));
 
   const latRad = deg2rad(lat);
   const mercN = Math.log(Math.tan(Math.PI / 4 + latRad / 2));
@@ -20,16 +20,16 @@ export const LLToXY = (
   return { x, y };
 };
 
-export const getDistanceFromLatLonInM = (
-  { lat: lat1, lon: lon1 }: TLLCoordinates,
-  { lat: lat2, lon: lon2 }: TLLCoordinates
+export const getDistanceFromLatLngInM = (
+  { lat: lat1, lng: lng1 }: TLLCoordinates,
+  { lat: lat2, lng: lng2 }: TLLCoordinates
 ) => {
   const earthRadius = 6371; // Radius of the earth in km
   const dLat = deg2rad(lat2 - lat1); // deg2rad below
-  const dLon = deg2rad(lon2 - lon1);
+  const dLng = deg2rad(lng2 - lng1);
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const d = earthRadius * c * 1000; // Distance in m
   return d;

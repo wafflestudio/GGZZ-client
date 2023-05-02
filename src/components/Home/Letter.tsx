@@ -5,20 +5,20 @@ import closed_icon from "../../assets/icon/close.svg";
 import opened_icon from "../../assets/icon/writing.svg";
 import { useHomeModalStore } from "../../store/useHomeModalStore";
 import { LetterResponse } from "../../lib/types/letterTypes";
-import { getDistanceFromLatLonInM } from "../../lib/lib";
+import { getDistanceFromLatLngInM } from "../../lib/lib";
 
-const getDistPerLatOrLon = (coordinates: TLLCoordinates, forLatNotLon: boolean) => {
-  const coordinatesForDistanceRatio = forLatNotLon
+const getDistPerLatOrLng = (coordinates: TLLCoordinates, forLatNotLng: boolean) => {
+  const coordinatesForDistanceRatio = forLatNotLng
     ? { ...coordinates, lat: coordinates.lat + 0.01 }
-    : { ...coordinates, lon: coordinates.lon + 0.01 };
-  return getDistanceFromLatLonInM(coordinates, coordinatesForDistanceRatio) * 100;
+    : { ...coordinates, lng: coordinates.lng + 0.01 };
+  return getDistanceFromLatLngInM(coordinates, coordinatesForDistanceRatio) * 100;
 };
 
 const Letter = ({
   letter,
   radius,
 }: {
-  letter: { id: number; title: string; summary: string; longitude: number; latitude: number };
+  letter: { id: number; title: string; summary: string; lnggitude: number; latitude: number };
   radius: number;
   //canOpen: boolean;
 }) => {
@@ -27,12 +27,12 @@ const Letter = ({
   const openDetailed = useHomeModalStore((state) => state.selectDetailedLetter);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
   const currentLLCoordinates = () => {
-    return myPosition ? myPosition : { lat: -37.4780396, lon: -126.945793 };
+    return myPosition ? myPosition : { lat: -37.4780396, lng: -126.945793 };
   };
-  const distPerLat = getDistPerLatOrLon(currentLLCoordinates(), true);
-  const distPerLon = getDistPerLatOrLon(currentLLCoordinates(), false);
+  const distPerLat = getDistPerLatOrLng(currentLLCoordinates(), true);
+  const distPerLng = getDistPerLatOrLng(currentLLCoordinates(), false);
   const XYCoordinates = {
-    x: (letter.longitude - currentLLCoordinates().lon) * distPerLon,
+    x: (letter.lnggitude - currentLLCoordinates().lng) * distPerLng,
     y: -(letter.latitude - currentLLCoordinates().lat) * distPerLat,
   };
   return (
@@ -45,11 +45,11 @@ const Letter = ({
         }vh)`,
       }}
       onClick={() => {
-        select({ lat: letter.latitude, lon: letter.longitude });
+        select({ lat: letter.latitude, lng: letter.lnggitude });
         openModal({
           id: letter.id,
           title: letter.title,
-          coordinates: { lat: letter.latitude, lon: letter.longitude },
+          coordinates: { lat: letter.latitude, lng: letter.lnggitude },
         });
         //if(canOpen) {openModal(letter) } else {openDetailed(letter)}
       }}
