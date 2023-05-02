@@ -1,6 +1,5 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { useCallback, useLayoutEffect, useState } from "react";
-import { TLLCoordinates } from "../../types/locationTypes";
 
 const url = (path: string, param?: Record<string, any>): string => {
   const validParamData =
@@ -11,7 +10,7 @@ const url = (path: string, param?: Record<string, any>): string => {
         .map(([key, value]) => [key, String(value)])
     );
   return (
-    "https://52.79.248.196.nip.io" + // TODO: 배포 후 수정
+    "https://nostalgia-api-dev.wafflestudio.com" + // TODO: 배포 후 수정
     path +
     (param ? "?" + new URLSearchParams(validParamData).toString() : "")
   );
@@ -50,13 +49,13 @@ export const apiPostLetter = (postLetterData: {
   text: string;
 }) =>
   axios.post(url("/api/v1/letters"), postLetterData, {
-    withCredentials: true,
+    withCredentials: true
   });
 
 export const apiPutLetter = (id: number, postLetterData: FormData) =>
   axios.put(url(`/api/v1/letters/${id}/source`), postLetterData, {
     withCredentials: true,
-    headers: { "Content-Type": "multipart/form-data" },
+    headers: { "Content-Type": "multipart/form-data" }
   });
 
 export const apiGetLetters = (longitude: number, latitude: number) =>

@@ -1,99 +1,58 @@
 @use "../styles/font";
 
 
+
 .home {
   @include font.handwriting1;
-
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+    width: auto;
+  }
+  @media screen and (min-width: 768px) {
+    font-size: 24px;
+  }
   position: fixed;
-  width: 100vh;
-  height: 100vh;
   top: 0;
   left: 0;
-  transform: translateX(calc(-50vh + 50vw));
-  background: url("/paper_texture.jpg");
-  background-size: cover;
+  right: 0;
+  bottom: 0;
+  width: 100vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow-x: hidden;
-
-  * {
-    list-style: none;
-    text-decoration: none;
-    border-collapse: collapse;
-    margin: 0;
-    padding: 0;
-    color: #000;
-    letter-spacing: -0.5px;
-    box-sizing: border-box;
-  }
+  flex: 1;
+  flex-direction: column;
 
   > .map {
     position: absolute;
     width: 100%;
     height: 100%;
+    max-width: 100%;
     top: 0;
     left: 0;
     margin: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    > .current-location {
-      position: absolute;
-      text-align: center;
-      line-height: 20px;
-      font-size: 15px;
-      width: 20px;
-      height: 20px;
-      transition: 0.5s ease;
-
-      img {
-        transition: 0.5s ease;
-      }
-
-      .invisible {
-        opacity: 0;
-      }
-    }
-
-    > .letter {
-      position: absolute;
-    }
   }
+.new {
+  position: absolute;
+  bottom: 5vh;
+  opacity: 0.5;
+  background: none;
+  font: inherit;
+  border: none;
+  font-size: 32px;
+  font-weight: bold;
+  text-decoration: underline;
 
-  > .zoom-buttons {
+}
+.my-position-btn {
     position: absolute;
-    top: 10vh;
-    left: calc(50vh - 40vw);
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-
-    > .zoom-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      > button {
-        background: none;
-        border: none;
-        height: 30px;
-        font: inherit;
-        font-size: 24px;
-        text-decoration: underline;
-      }
-    }
-
-    > .rad {
-      font-size: 24px;
-      color: #e79f5b;
-    }
-  }
-
-  .new {
-    position: absolute;
-    bottom: 15vh;
+    bottom: 5vh;
+    left: 1vw;
     opacity: 0.5;
     background: none;
     font: inherit;
@@ -101,6 +60,5 @@
     font-size: 32px;
     font-weight: bold;
     text-decoration: underline;
-
   }
 }
