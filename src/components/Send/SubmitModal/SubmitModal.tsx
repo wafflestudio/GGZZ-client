@@ -41,7 +41,7 @@ const SubmitModal = () => {
                   apiPostLetter({
                     title: "테스트",
                     summary: "과연 될 것인가",
-                    longitude: me.lon,
+                    longitude: me.lng,
                     latitude: me.lat,
                     text: text ?? "",
                   }).then(
