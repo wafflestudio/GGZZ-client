@@ -59,3 +59,9 @@
     text-decoration: underline;
   }
 }
+
+.marker {
+  @include font.handwriting1;
+  background: skyblue;
+  padding: 5px;
+}

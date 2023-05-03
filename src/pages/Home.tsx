@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactElement, useCallback, useEffect, useRef, useState } from "react";
+import { Dispatch, PropsWithChildren, ReactElement, SetStateAction, useCallback } from "react";
 import styles from "./Home.module.scss";
 import { TLLCoordinates } from "../lib/types/locationTypes";
 import { getDistanceFromLatLngInM } from "../lib/lib";
@@ -10,11 +10,17 @@ import { useHomeModalStore } from "../store/useHomeModalStore";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
 import { apiGetLetters, useApiData } from "../lib/hooks/apiHooks";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import { MarkerWithLabel } from "@googlemaps/markerwithlabel";
 import React from "react";
 import { TypeEqualityComparator, createCustomEqual, deepEqual } from "fast-equals";
 import { isLatLngLiteral } from "@googlemaps/typescript-guards";
 
 const Home = () => {
+  const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([]);
+  const [zoom, setZoom] = React.useState(15); // initial zoom
+  const [center, setCenter] = React.useState<google.maps.LatLngLiteral | null>(null);
+  const [map, setMap] = React.useState<google.maps.Map>();
+
   const modalLetter = useHomeModalStore((state) => state.letter);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
   const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
@@ -42,9 +48,6 @@ const Home = () => {
     [],
     [myPosition, viewPosition]
   );
-  const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([]);
-  const [zoom, setZoom] = React.useState(15); // initial zoom
-  const [center, setCenter] = React.useState<google.maps.LatLngLiteral | null>(null);
 
   const render = useCallback(
     (status: Status): ReactElement => {
@@ -56,6 +59,7 @@ const Home = () => {
     },
     [center]
   );
+
   const onClick = useCallback((e: google.maps.MapMouseEvent) => {
     // avoid directly mutating state
     if (!e.latLng) return;
@@ -74,18 +78,43 @@ const Home = () => {
 
   const renderMap = useCallback((): ReactElement => {
     return (
-      <Map center={center} onClick={onClick} onIdle={onIdle} zoom={zoom} className={styles["map"]}>
+      <Map
+        center={center}
+        onClick={onClick}
+        onIdle={onIdle}
+        zoom={zoom}
+        className={styles["map"]}
+        map={map}
+        setMap={setMap}
+      >
         {/* TODO: 서버가 내려가 있어서 자세한 테스트는 진행 못함. */}
-        {letters.map((letter) => (
-          <Marker key={letter.id} position={{ lat: letter.latitude, lng: letter.longitude }} />
-        ))}
+        {/* {letters.map((letter) => (
+          <Marker
+            key={letter.id}
+            position={new google.maps.LatLng(letter.latitude, letter.longitude)}
+            labelContent={letterElement}
+            map={map}
+          />
+        ))} */}
         {/* 현재는 클릭하면 마커 생성되게 해둠. */}
-        {clicks.map((latLng, i) => (
-          <Marker key={i} position={latLng} />
-        ))}
+        {clicks.map((latLng, i) => {
+          const letterElement = document.createElement("div");
+          const content = document.createTextNode("new letter!");
+          letterElement.appendChild(content);
+
+          return (
+            <Marker
+              key={i}
+              map={map}
+              position={latLng}
+              labelContent={letterElement}
+              labelClass={styles["marker"]}
+            />
+          );
+        })}
       </Map>
     );
-  }, [center, onClick, onIdle, zoom, letters, clicks]);
+  }, [center, onClick, onIdle, zoom, letters, clicks, map]);
 
   return (
     <div className={styles["home"]}>
@@ -119,11 +148,20 @@ interface MapProps extends PropsWithChildren<google.maps.MapOptions> {
   className: string;
   onClick?: (e: google.maps.MapMouseEvent) => void;
   onIdle?: (map: google.maps.Map) => void;
+  map: google.maps.Map | undefined;
+  setMap: Dispatch<SetStateAction<google.maps.Map | undefined>>;
 }
 
-const Map: React.FC<MapProps> = ({ onClick, onIdle, children, className, ...options }) => {
+const Map: React.FC<MapProps> = ({
+  onClick,
+  onIdle,
+  map,
+  setMap,
+  children,
+  className,
+  ...options
+}) => {
   const ref = React.useRef<HTMLDivElement>(null);
-  const [map, setMap] = React.useState<google.maps.Map>();
 
   React.useEffect(() => {
     if (ref.current && !map) {
@@ -167,12 +205,19 @@ const Map: React.FC<MapProps> = ({ onClick, onIdle, children, className, ...opti
   );
 };
 
-const Marker: React.FC<google.maps.MarkerOptions> = (options) => {
-  const [marker, setMarker] = React.useState<google.maps.Marker>();
+export interface MarkerWithLabelOptions extends google.maps.MarkerOptions {
+  labelContent: string | HTMLElement;
+  labelAnchor?: google.maps.Point;
+  labelZIndexOffset?: number;
+  labelClass?: string;
+}
+
+const Marker = (options: MarkerWithLabelOptions) => {
+  const [marker, setMarker] = React.useState<MarkerWithLabel>();
 
   React.useEffect(() => {
     if (!marker) {
-      setMarker(new google.maps.Marker());
+      setMarker(new MarkerWithLabel(options));
     }
 
     // remove marker from map on unmount
