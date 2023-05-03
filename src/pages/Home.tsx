@@ -1,61 +1,56 @@
-import { Dispatch, PropsWithChildren, ReactElement, SetStateAction, useCallback } from "react";
+import { PropsWithChildren, useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Home.module.scss";
-import { TLLCoordinates } from "../lib/types/locationTypes";
-import { getDistanceFromLatLngInM } from "../lib/lib";
-import Letter from "../components/Home/Letter";
-import { useMyPositionStore } from "../store/useMyPositionStore";
-import me_icon from "../assets/icon/me.svg";
 import { useNavigate } from "react-router-dom";
-import { useHomeModalStore } from "../store/useHomeModalStore";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
-import { apiGetLetters, useApiData } from "../lib/hooks/apiHooks";
+// import { apiGetLetters, useApiData } from "../lib/hooks/apiHooks";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { MarkerWithLabel } from "@googlemaps/markerwithlabel";
 import React from "react";
 import { TypeEqualityComparator, createCustomEqual, deepEqual } from "fast-equals";
 import { isLatLngLiteral } from "@googlemaps/typescript-guards";
+import { Root, createRoot } from "react-dom/client";
+import { useHomeModalStore } from "../store/useHomeModalStore";
+import { useMyPositionStore } from "../store/useMyPositionStore";
 
 const Home = () => {
   const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([]);
   const [zoom, setZoom] = React.useState(15); // initial zoom
-  const [center, setCenter] = React.useState<google.maps.LatLngLiteral | null>(null);
-  const [map, setMap] = React.useState<google.maps.Map>();
+  const [center, setCenter] = React.useState<google.maps.LatLngLiteral | null>({
+    lat: 37.46474,
+    lng: 126.954547,
+  });
 
   const modalLetter = useHomeModalStore((state) => state.letter);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
-  const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
+  //   const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
   const setViewPosition = useMyPositionStore((state) => state.setViewCoordinates);
   const navigate = useNavigate();
 
-  const currentLLCoordinates = useCallback(() => {
-    if (viewPosition) return viewPosition;
-    if (myPosition) {
-      setCenter(myPosition);
-      return myPosition;
-    }
-    return null;
-  }, [myPosition, viewPosition]);
+  //   const currentLLCoordinates = useCallback(() => {
+  //     if (viewPosition) return viewPosition;
+  //     if (myPosition) {
+  //       setCenter(myPosition);
+  //       return myPosition;
+  //     }
+  //     return null;
+  //   }, [myPosition, viewPosition]);
 
-  const letters = useApiData<
-    { id: number; title: string; summary: string; longitude: number; latitude: number }[]
-  >(
-    () => {
-      const currentLL = currentLLCoordinates();
-      if (!currentLL) return Promise.resolve([]);
-      const { lat, lng } = currentLL;
-      return apiGetLetters(lat, lng);
-    },
-    [],
-    [myPosition, viewPosition]
-  );
+  //   const letters = useApiData<
+  //     { id: number; title: string; summary: string; longitude: number; latitude: number }[]
+  //   >(
+  //     () => {
+  //       const currentLL = currentLLCoordinates();
+  //       if (!currentLL) return Promise.resolve([]);
+  //       const { lat, lng } = currentLL;
+  //       return apiGetLetters(lat, lng);
+  //     },
+  //     [],
+  //     [myPosition, viewPosition]
+  //   );
 
   const render = useCallback(
-    (status: Status): ReactElement => {
-      if (status === Status.LOADING || center === null) return <h3>{status} ..</h3>;
+    (status: Status) => {
       if (status === Status.FAILURE) return <h3>{status} ...</h3>;
-      else {
-        return renderMap();
-      }
+      return <h3>{status} ..</h3>;
     },
     [center]
   );
@@ -65,6 +60,7 @@ const Home = () => {
     if (!e.latLng) return;
     setClicks([...clicks, e.latLng]);
   }, []);
+  console.log(clicks.length);
 
   const onIdle = useCallback((m: google.maps.Map) => {
     const bounds = m.getBounds();
@@ -76,50 +72,33 @@ const Home = () => {
     setViewPosition(newCenter);
   }, []);
 
-  const renderMap = useCallback((): ReactElement => {
-    return (
-      <Map
-        center={center}
-        onClick={onClick}
-        onIdle={onIdle}
-        zoom={zoom}
-        className={styles["map"]}
-        map={map}
-        setMap={setMap}
-      >
-        {/* TODO: 서버가 내려가 있어서 자세한 테스트는 진행 못함. */}
-        {/* {letters.map((letter) => (
-          <Marker
-            key={letter.id}
-            position={new google.maps.LatLng(letter.latitude, letter.longitude)}
-            labelContent={letterElement}
-            map={map}
-          />
-        ))} */}
-        {/* 현재는 클릭하면 마커 생성되게 해둠. */}
-        {clicks.map((latLng, i) => {
-          const letterElement = document.createElement("div");
-          const content = document.createTextNode("new letter!");
-          letterElement.appendChild(content);
-
-          return (
-            <Marker
-              key={i}
-              map={map}
-              position={latLng}
-              labelContent={letterElement}
-              labelClass={styles["marker"]}
-            />
-          );
-        })}
-      </Map>
-    );
-  }, [center, onClick, onIdle, zoom, letters, clicks, map]);
-
   return (
     <div className={styles["home"]}>
       <>
-        <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""} render={render} />
+        <Wrapper
+          apiKey={process.env.VITE_GOOGLE_MAP_API_KEY || ""}
+          version="beta"
+          libraries={["marker"]}
+          render={render}
+        >
+          <Map
+            center={center}
+            onClick={onClick}
+            onIdle={onIdle}
+            zoom={zoom}
+            clicks={clicks}
+            className={styles["map"]}
+          />
+          {/* TODO: 서버가 내려가 있어서 자세한 테스트는 진행 못함. */}
+          {/* {letters.map((letter) => (
+            <Marker
+              key={letter.id}
+              position={new google.maps.LatLng(letter.latitude, letter.longitude)}
+              labelContent={letterElement}
+              map={map}
+            />
+          ))} */}
+        </Wrapper>
         <button
           className={styles["new"]}
           onClick={() => {
@@ -148,32 +127,26 @@ interface MapProps extends PropsWithChildren<google.maps.MapOptions> {
   className: string;
   onClick?: (e: google.maps.MapMouseEvent) => void;
   onIdle?: (map: google.maps.Map) => void;
-  map: google.maps.Map | undefined;
-  setMap: Dispatch<SetStateAction<google.maps.Map | undefined>>;
+  clicks: google.maps.LatLng[];
 }
 
-const Map: React.FC<MapProps> = ({
-  onClick,
-  onIdle,
-  map,
-  setMap,
-  children,
-  className,
-  ...options
-}) => {
+const Map: React.FC<MapProps> = ({ onClick, onIdle, clicks, className, ...options }) => {
+  const [map, setMap] = React.useState<google.maps.Map>();
+  const [highLight, setHighlight] = useState<number>();
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, {}));
+      setMap(new window.google.maps.Map(ref.current, { ...options, disableDefaultUI: true }));
     }
-  }, [ref, map]);
+  }, []);
 
   // because React does not do deep comparisons, a custom hook is used
   // see discussion in https://github.com/googlemaps/js-samples/issues/946
   useDeepCompareEffectForMaps(() => {
     if (map) {
-      map.setOptions(options);
+      // TODO: mapId 추가하여 마커 로딩 확인
+      map.setOptions({ ...options, mapId: "DEMO_MAP_ID" });
     }
   }, [map, options]);
 
@@ -191,48 +164,77 @@ const Map: React.FC<MapProps> = ({
     }
   }, [map, onClick, onIdle]);
 
+  const onMarkerClick = (index: number) => {
+    if (index === highLight) setHighlight(undefined);
+    else setHighlight(index);
+  };
+
   return (
     <>
       <div ref={ref} className={className} />
-      {React.Children.map(children, (child) => {
-        if (React.isValidElement(child)) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          return React.cloneElement(child, { map });
-        }
-      })}
+      {map &&
+        clicks.map((click, i) => {
+          return (
+            <Marker
+              key={i}
+              map={map}
+              position={{ lat: click.lat(), lng: click.lng() }}
+              onClick={() => onMarkerClick(i)}
+            >
+              {highLight !== i ? (
+                <div className={styles.marker} />
+              ) : (
+                <div className={styles.highlight}>
+                  <div className={styles.letterHeader}>
+                    <div className={styles.nickname}>닉네임</div>
+                    <div className={styles.createTime}>1분 전</div>
+                  </div>
+                  <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1774&q=80" />
+                  <p className={styles.content}>
+                    내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지
+                    내용 뭐
+                  </p>
+                  <button className={styles.more}>더보기</button>
+                </div>
+              )}
+            </Marker>
+          );
+        })}
     </>
   );
 };
 
-export interface MarkerWithLabelOptions extends google.maps.MarkerOptions {
-  labelContent: string | HTMLElement;
-  labelAnchor?: google.maps.Point;
-  labelZIndexOffset?: number;
-  labelClass?: string;
+interface MarkerProps {
+  map: google.maps.Map;
+  position: { lat: number; lng: number };
+  children: React.ReactNode;
+  onClick: () => void;
 }
 
-const Marker = (options: MarkerWithLabelOptions) => {
-  const [marker, setMarker] = React.useState<MarkerWithLabel>();
+const Marker = ({ map, children, position, onClick }: MarkerProps) => {
+  const markerRef = useRef<google.maps.marker.AdvancedMarkerView>();
+  const rootRef = useRef<Root>();
 
-  React.useEffect(() => {
-    if (!marker) {
-      setMarker(new MarkerWithLabel(options));
+  useEffect(() => {
+    if (!rootRef.current) {
+      const container = document.createElement("div");
+      rootRef.current = createRoot(container);
+      markerRef.current = new google.maps.marker.AdvancedMarkerView({
+        position,
+        content: container,
+      });
     }
+  }, []);
 
-    // remove marker from map on unmount
-    return () => {
-      if (marker) {
-        marker.setMap(null);
-      }
-    };
-  }, [marker]);
-
-  React.useEffect(() => {
-    if (marker) {
-      marker.setOptions(options);
+  useEffect(() => {
+    if (rootRef.current) rootRef.current?.render(children);
+    if (markerRef.current) {
+      markerRef.current.position = position;
+      markerRef.current.map = map;
     }
-  }, [marker, options]);
+    const listener = markerRef.current?.addListener("click", onClick);
+    return () => listener?.remove();
+  }, [map, position, children]);
 
   return null;
 };

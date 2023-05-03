@@ -61,7 +61,11 @@
 }
 
 .marker {
-  @include font.handwriting1;
   background: skyblue;
   padding: 5px;
+  width: 100px;
+
+  &.highlight {
+    background: orange;
+  }
 }
