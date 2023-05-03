@@ -76,7 +76,7 @@ const Home = () => {
     <div className={styles["home"]}>
       <>
         <Wrapper
-          apiKey={process.env.VITE_GOOGLE_MAP_API_KEY || ""}
+          apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""}
           version="beta"
           libraries={["marker"]}
           render={render}
@@ -212,14 +212,14 @@ interface MarkerProps {
 }
 
 const Marker = ({ map, children, position, onClick }: MarkerProps) => {
-  const markerRef = useRef<google.maps.marker.AdvancedMarkerView>();
+  const markerRef = useRef<google.maps.marker.AdvancedMarkerElement>();
   const rootRef = useRef<Root>();
 
   useEffect(() => {
     if (!rootRef.current) {
       const container = document.createElement("div");
       rootRef.current = createRoot(container);
-      markerRef.current = new google.maps.marker.AdvancedMarkerView({
+      markerRef.current = new google.maps.marker.AdvancedMarkerElement({
         position,
         content: container,
       });

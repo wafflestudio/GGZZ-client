@@ -3,3 +3,30 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@mixin letter-nickname {
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 15px;
+  color: #ffffff;
+}
+
+@mixin letter-small {
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 7px;
+  line-height: 7px;
+  color: #ffffff;
+}
+
+@mixin letter-content {
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 15px;
+  color: #ffffff;
+}

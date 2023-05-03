@@ -61,11 +61,48 @@
 }
 
 .marker {
-  background: skyblue;
-  padding: 5px;
-  width: 100px;
+  background: #19c97f;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
 
-  &.highlight {
-    background: orange;
+.highlight {
+  width: 138px;
+  height: min-content;
+  background: linear-gradient(-45deg, transparent 10%, #19c97f 10%);
+  padding: 16px;
+  border-radius: 5px;
+  margin-left: -100px;
+
+  .letterHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+
+  .nickname {
+    @include font.letter-nickname;
+  }
+
+  .createTime {
+    @include font.letter-small;
+  }
+
+  img {
+    width: 108px;
+    margin-bottom: 9px;
+  }
+
+  .content {
+    @include font.letter-content;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .more {
+    @include font.letter-small;
   }
 }
