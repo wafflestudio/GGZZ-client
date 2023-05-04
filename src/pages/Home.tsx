@@ -1,4 +1,12 @@
-import { PropsWithChildren, ReactElement, useCallback, useEffect, useRef, useState } from "react";
+import {
+  PropsWithChildren,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useLayoutEffect,
+} from "react";
 import styles from "./Home.module.scss";
 import { TLLCoordinates } from "../lib/types/locationTypes";
 import { getDistanceFromLatLngInM } from "../lib/lib";
@@ -8,6 +16,7 @@ import me_icon from "../assets/icon/me.svg";
 import { useNavigate } from "react-router-dom";
 import { useHomeModalStore } from "../store/useHomeModalStore";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
+import SplashScreen from "../components/Home/SplashScreen";
 import { apiGetLetters, useApiData } from "../lib/hooks/apiHooks";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import React from "react";
@@ -87,6 +96,17 @@ const Home = () => {
     );
   }, [center, onClick, onIdle, zoom, letters, clicks]);
 
+  // show splash screen for first 4 seconds
+  // isLoading === true: splash screen
+  // isLoading === false: Home page
+  const [isLoading, setIsLoading] = useState(true);
+  useLayoutEffect(() => {
+    // Wait for 3 seconds
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
+  }, []);
+  if (isLoading) return <SplashScreen />;
   return (
     <div className={styles["home"]}>
       <>
