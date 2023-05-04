@@ -5,28 +5,28 @@
 }
 
 @mixin letter-nickname {
-  font-family: "Inter", sans-serif;
-  font-style: normal;
-  font-weight: 400;
+  font-family: Inter, "sans-serif";
   font-size: 15px;
-  line-height: 15px;
-  color: #ffffff;
-}
-
-@mixin letter-small {
-  font-family: "Inter", sans-serif;
-  font-style: normal;
   font-weight: 400;
-  font-size: 7px;
-  line-height: 7px;
-  color: #ffffff;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
 }
 
 @mixin letter-content {
-  font-family: "Inter", sans-serif;
-  font-style: normal;
-  font-weight: 400;
+  font-family: Inter, "sans-serif";
   font-size: 11px;
+  font-weight: 400;
   line-height: 15px;
-  color: #ffffff;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+@mixin letter-create-time {
+  font-family: Inter, "sans-serif";
+  font-size: 7px;
+  font-weight: 400;
+  line-height: 7px;
+  letter-spacing: 0em;
+  text-align: right;
 }

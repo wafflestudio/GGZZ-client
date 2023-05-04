@@ -60,7 +60,6 @@ const Home = () => {
     if (!e.latLng) return;
     setClicks([...clicks, e.latLng]);
   }, []);
-  console.log(clicks.length);
 
   const onIdle = useCallback((m: google.maps.Map) => {
     const bounds = m.getBounds();
