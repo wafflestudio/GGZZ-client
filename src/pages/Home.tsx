@@ -22,6 +22,7 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import React from "react";
 import { TypeEqualityComparator, createCustomEqual, deepEqual } from "fast-equals";
 import { isLatLngLiteral } from "@googlemaps/typescript-guards";
+import useEtcStore from "../store/useEtcStore";
 
 const Home = () => {
   const modalLetter = useHomeModalStore((state) => state.letter);
@@ -98,13 +99,14 @@ const Home = () => {
 
   // show splash screen for first 4 seconds
   // isLoading === true: splash screen
-  const [isLoading, setIsLoading] = useState(true);
+  const isLoading = useEtcStore((state) => state.isLoading);
+  const check = useEtcStore((state) => state.check);
   useLayoutEffect(() => {
-    // Wait for 4 seconds
-    setTimeout(() => {
-      // setIsLoading(false);
-    }, 4000);
-  }, []);
+    if (isLoading)
+      setTimeout(() => {
+        check();
+      }, 4000);
+  }, [check]);
   return (
     <>
       {isLoading && (
