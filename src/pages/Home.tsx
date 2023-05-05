@@ -98,40 +98,45 @@ const Home = () => {
 
   // show splash screen for first 4 seconds
   // isLoading === true: splash screen
-  // isLoading === false: Home page
   const [isLoading, setIsLoading] = useState(true);
   useLayoutEffect(() => {
-    // Wait for 3 seconds
+    // Wait for 4 seconds
     setTimeout(() => {
-      setIsLoading(false);
+      // setIsLoading(false);
     }, 4000);
   }, []);
-  if (isLoading) return <SplashScreen />;
   return (
-    <div className={styles["home"]}>
-      <>
-        <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""} render={render} />
-        <button
-          className={styles["new"]}
-          onClick={() => {
-            setViewPosition(null);
-            navigate("./send");
-          }}
-        >
-          새 편지 쓰기
-        </button>
-        <button
-          className={styles["my-position-btn"]}
-          onClick={() => {
-            setViewPosition(null);
-            setCenter(myPosition);
-          }}
-        >
-          현재 위치
-        </button>
-      </>
-      {modalLetter && <ReceiveContainer />}
-    </div>
+    <>
+      {isLoading && (
+        <div className={styles["splash-screen-container"]}>
+          <SplashScreen />
+        </div>
+      )}
+      <div className={styles["home"]}>
+        <>
+          <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""} render={render} />
+          <button
+            className={styles["new"]}
+            onClick={() => {
+              setViewPosition(null);
+              navigate("./send");
+            }}
+          >
+            새 편지 쓰기
+          </button>
+          <button
+            className={styles["my-position-btn"]}
+            onClick={() => {
+              setViewPosition(null);
+              setCenter(myPosition);
+            }}
+          >
+            현재 위치
+          </button>
+        </>
+        {modalLetter && <ReceiveContainer />}
+      </div>
+    </>
   );
 };
 
