@@ -1,4 +1,12 @@
-import { PropsWithChildren, ReactElement, useCallback, useEffect, useRef, useState } from "react";
+import {
+  PropsWithChildren,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useLayoutEffect,
+} from "react";
 import styles from "./Home.module.scss";
 import { TLLCoordinates } from "../lib/types/locationTypes";
 import { getDistanceFromLatLngInM } from "../lib/lib";
@@ -8,11 +16,13 @@ import me_icon from "../assets/icon/me.svg";
 import { useNavigate } from "react-router-dom";
 import { useHomeModalStore } from "../store/useHomeModalStore";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
+import SplashScreen from "../components/Home/SplashScreen";
 import { apiGetLetters, useApiData } from "../lib/hooks/apiHooks";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import React from "react";
 import { TypeEqualityComparator, createCustomEqual, deepEqual } from "fast-equals";
 import { isLatLngLiteral } from "@googlemaps/typescript-guards";
+import useEtcStore from "../store/useEtcStore";
 
 const Home = () => {
   const modalLetter = useHomeModalStore((state) => state.letter);
@@ -87,31 +97,49 @@ const Home = () => {
     );
   }, [center, onClick, onIdle, zoom, letters, clicks]);
 
+  // show splash screen for first 4 seconds
+  // isLoading === true: splash screen
+  const isLoading = useEtcStore((state) => state.isLoading);
+  const check = useEtcStore((state) => state.check);
+  useLayoutEffect(() => {
+    if (isLoading)
+      setTimeout(() => {
+        check();
+      }, 4000);
+  }, [check]);
+
   return (
-    <div className={styles["home"]}>
-      <>
-        <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""} render={render} />
-        <button
-          className={styles["new"]}
-          onClick={() => {
-            setViewPosition(null);
-            navigate("./send");
-          }}
-        >
-          새 편지 쓰기
-        </button>
-        <button
-          className={styles["my-position-btn"]}
-          onClick={() => {
-            setViewPosition(null);
-            setCenter(myPosition);
-          }}
-        >
-          현재 위치
-        </button>
-      </>
-      {modalLetter && <ReceiveContainer />}
-    </div>
+    <>
+      {isLoading && (
+        <div className={styles["splash-screen-container"]}>
+          <SplashScreen />
+        </div>
+      )}
+      <div className={styles["home"]}>
+        <>
+          <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""} render={render} />
+          <button
+            className={styles["new"]}
+            onClick={() => {
+              setViewPosition(null);
+              navigate("./send");
+            }}
+          >
+            새 편지 쓰기
+          </button>
+          <button
+            className={styles["my-position-btn"]}
+            onClick={() => {
+              setViewPosition(null);
+              setCenter(myPosition);
+            }}
+          >
+            현재 위치
+          </button>
+        </>
+        {modalLetter && <ReceiveContainer />}
+      </div>
+    </>
   );
 };
 
