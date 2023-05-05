@@ -1,0 +1,12 @@
+$figma-display-height: 852px;
+$figma-display-width: 393px;
+
+// figma px => vh
+@function px2vh($pxval) {
+  @return calc($pxval * (100vh / $figma-display-height));
+}
+
+// figma px => vw
+@function px2vw($pxval) {
+  @return calc($pxval * (100vw / $figma-display-width));
+}
