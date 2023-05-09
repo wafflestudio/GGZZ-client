@@ -133,13 +133,22 @@
     background-color: #D9D9D9;
     border: none;
 
-    &.recording{}
+    &.recording{
+      background-color: #369ed9;
+    }
   }
   > .playerWrapper{
     width: calc(100% - 59px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > audio{
+      height:42px;
+    }
   }
 }
-.submit{
+
+.submitSection{
   width:100%;
   display: flex;
   align-items: center;justify-content: center;
@@ -156,6 +165,8 @@
     color:white;
     border: none;
     background-color: #D9D9D9;
-
+    &.active{
+      background-color: #369ed9;
+    }
   }
 }
