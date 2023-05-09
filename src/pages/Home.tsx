@@ -38,7 +38,7 @@ const Home = () => {
       const currentLL = currentLLCoordinates();
       if (!currentLL) return Promise.resolve([]);
       const { lat, lng } = currentLL;
-      return apiGetLetters(lat, lng);
+      return apiGetLetters(lng, lat);
     },
     [],
     [myPosition, viewPosition]
