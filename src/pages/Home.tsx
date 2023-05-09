@@ -95,24 +95,6 @@ const Home = () => {
             />
           ))} */}
         </Wrapper>
-        <button
-          className={styles["new"]}
-          onClick={() => {
-            setViewPosition(null);
-            navigate("./send");
-          }}
-        >
-          새 편지 쓰기
-        </button>
-        <button
-          className={styles["my-position-btn"]}
-          onClick={() => {
-            setViewPosition(null);
-            setCenter(myPosition);
-          }}
-        >
-          현재 위치
-        </button>
       </>
       {modalLetter && <ReceiveContainer />}
     </div>
