@@ -29,7 +29,7 @@ const Marker = ({ map, children, position, onClick }: MarkerProps) => {
       markerRef.current.position = position;
       markerRef.current.map = map;
     }
-    const listener = markerRef.current?.addListener("click", onClick);
+    const listener = markerRef.current?.addListener("gmp-click", onClick);
     return () => listener?.remove();
   }, [map, position, children]);
 
