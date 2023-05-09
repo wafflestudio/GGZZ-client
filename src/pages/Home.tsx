@@ -7,6 +7,7 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useHomeModalStore } from "../store/useHomeModalStore";
 import { useMyPositionStore } from "../store/useMyPositionStore";
 import Map from "../components/Home/Map/Map";
+import sendIcon from "../assets/icon/Home/SendButton/send.svg";
 
 const Home = () => {
   const [clicks, setClicks] = useState<google.maps.LatLng[]>([]);
@@ -96,6 +97,14 @@ const Home = () => {
           ))} */}
         </Wrapper>
       </>
+      <button
+        className={styles["send"]}
+        onClick={() => {
+          navigate("send");
+        }}
+      >
+        <img src={sendIcon} />
+      </button>
       {modalLetter && <ReceiveContainer />}
     </div>
   );

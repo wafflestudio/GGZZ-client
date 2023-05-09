@@ -40,4 +40,19 @@
     align-items: center;
     justify-content: center;
   }
+  > .send {
+    position: absolute;
+    width: 55px;
+    height: 55px;
+    right:13px;
+    bottom: 189px; // ASK: vh 사용해야하나?
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #369ed9; // TODO: _color.scss 이용
+    border-radius: 50%;
+    border: none;
+    z-index: 500; // ASK: z-index 규칙 필요
+  }
+
 }
