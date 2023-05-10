@@ -2,119 +2,22 @@ import styles from "./Send.module.scss";
 import mic_icon from "../../assets/icon/Send/VoiceSection/mic.svg";
 import { useLetterFormStore } from "../../store/useLetterFormStore";
 import { useReactMediaRecorder } from "react-media-recorder";
-import React, { PropsWithChildren, ReactElement, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { createCustomEqual, deepEqual, TypeEqualityComparator } from "fast-equals";
-import { isLatLngLiteral } from "@googlemaps/typescript-guards";
 import { useMyPositionStore } from "../../store/useMyPositionStore";
-
-/* TODO: Home과 동일. 맵 코드 분리되면 임포트해서 사용할 것 */
-
-type LatLngObject = google.maps.LatLng | google.maps.LatLngLiteral;
-
-const customCompare: TypeEqualityComparator<LatLngObject, undefined> = (a: any, b: any) => {
-  if (
-    isLatLngLiteral(a) ||
-    isLatLngLiteral(b) ||
-    a instanceof google.maps.LatLng ||
-    b instanceof google.maps.LatLng
-  ) {
-    if (isLatLngLiteral(a)) {
-      a = new google.maps.LatLng(a);
-    }
-    if (isLatLngLiteral(b)) {
-      b = new google.maps.LatLng(b);
-    }
-    return a.equals(b);
-  }
-
-  // TODO extend to other types
-
-  // use fast-equals for other objects
-  return deepEqual(a, b);
-};
-
-const deepCompareEqualsForMaps = createCustomEqual({
-  createCustomConfig: () => ({
-    areObjectsEqual: customCompare,
-  }),
-});
-function useDeepCompareMemoize(value: any) {
-  const ref = React.useRef();
-
-  if (!deepCompareEqualsForMaps(value, ref.current)) {
-    ref.current = value;
-  }
-
-  return ref.current;
-}
-
-function useDeepCompareEffectForMaps(callback: React.EffectCallback, dependencies: unknown[]) {
-  React.useEffect(callback, dependencies.map(useDeepCompareMemoize));
-}
-
-interface MapProps extends PropsWithChildren<google.maps.MapOptions> {
-  className: string;
-  onClick?: (e: google.maps.MapMouseEvent) => void;
-  onIdle?: (map: google.maps.Map) => void;
-}
-
-const Map: React.FC<MapProps> = ({ children, onClick, onIdle, className, ...options }) => {
-  const ref = React.useRef<HTMLDivElement>(null);
-  const [map, setMap] = React.useState<google.maps.Map>();
-
-  React.useEffect(() => {
-    if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, {}));
-    }
-  }, [ref, map]);
-
-  // because React does not do deep comparisons, a custom hook is used
-  // see discussion in https://github.com/googlemaps/js-samples/issues/946
-  useDeepCompareEffectForMaps(() => {
-    if (map) {
-      map.setOptions(options);
-    }
-  }, [map, options]);
-
-  React.useEffect(() => {
-    if (map) {
-      ["idle"].forEach((eventName) => google.maps.event.clearListeners(map, eventName));
-
-      if (onIdle) {
-        map.addListener("idle", () => onIdle(map));
-      }
-    }
-  }, [map, onIdle]);
-
-  return (
-    <>
-      <div ref={ref} className={className} />
-      {React.Children.map(children, (child) => {
-        if (React.isValidElement(child)) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          return React.cloneElement(child, { map });
-        }
-      })}
-    </>
-  );
-};
-
-/* 여기까지 Home과 동일.*/
+import Map from "../../components/Home/Map/Map";
 
 const LocationSection = () => {
+  const [clicks, setClicks] = useState<google.maps.LatLng[]>([]);
+  const [zoom, setZoom] = useState(15); // initial zoom
   const [center, setCenter] = useState<google.maps.LatLngLiteral | null>(null);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
-  /* TODO: Home과 동일. 맵 코드 분리되면 임포트해서 사용할 것 */
+  const setViewPosition = useMyPositionStore((state) => state.setViewCoordinates);
 
   const render = useCallback(
-    (status: Status): ReactElement => {
-      if (status === Status.LOADING || center === null) return <h3>{status} ..</h3>;
+    (status: Status) => {
       if (status === Status.FAILURE) return <h3>{status} ...</h3>;
-      else {
-        return renderMap();
-      }
+      return <h3>{status} ..</h3>;
     },
     [center]
   );
@@ -124,13 +27,10 @@ const LocationSection = () => {
     if (!bounds) return;
     const newCenter = m.getCenter()?.toJSON();
     if (!newCenter) return;
+    setZoom(m.getZoom() ?? 10);
     setCenter(newCenter);
+    setViewPosition(newCenter);
   }, []);
-
-  const renderMap = useCallback((): ReactElement => {
-    return <Map center={center} onIdle={onIdle} className={styles["map"]} />;
-  }, [center]);
-  /* TODO: 여기까지 동일 */
 
   useEffect(() => {
     setCenter(myPosition);
@@ -142,8 +42,21 @@ const LocationSection = () => {
       <div className={styles["chips"]}>
         <div className={styles["locationChip"]}>Hyundai Department Store</div>
       </div>
-      <div className={styles["map"]}>
-        <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""} render={render} />
+      <div className={styles["mapContainer"]}>
+        <Wrapper
+          apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""}
+          version="beta"
+          libraries={["marker"]}
+          render={render}
+        >
+          <Map
+            center={center}
+            onIdle={onIdle}
+            zoom={zoom}
+            clicks={clicks}
+            className={styles["map"]}
+          />
+        </Wrapper>
       </div>
     </div>
   );
