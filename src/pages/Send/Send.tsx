@@ -1,5 +1,6 @@
 import styles from "./Send.module.scss";
 import mic_icon from "../../assets/icon/Send/VoiceSection/mic.svg";
+import plus_icon from "../../assets/icon/Send/ImageSection/plus.svg";
 import { useLetterFormStore } from "../../store/useLetterFormStore";
 import { useReactMediaRecorder } from "react-media-recorder";
 import React, { useCallback, useEffect, useState } from "react";
@@ -78,15 +79,35 @@ const TextSection = () => {
 };
 
 const ImageSection = () => {
+  const image = useLetterFormStore((state) => state.image);
+  const setImage = useLetterFormStore((state) => state.setImage);
+  const [imagePreviewURL, setImagePreviewURL] = useState("");
+
+  useEffect(() => {
+    if (image) {
+      const url = URL.createObjectURL(image);
+      setImagePreviewURL(url);
+    }
+  }, [image]);
+
   return (
     <div className={styles["imageSection"]}>
-      <div className={styles["imageSlide"]}>
-        <div className={styles["fakeImage"]} />
-        <div className={styles["fakeImage"]} />
-        <div className={styles["fakeImage"]} />
-        <div className={styles["fakeImage"]} />
-        <div className={styles["fakeImage"]} />
+      <div className={styles["inputImage"]}>
+        <label htmlFor="image">
+          <img src={plus_icon} />
+        </label>
+        <input
+          id="image"
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            if (e.target.files) {
+              setImage(e.target.files[0]);
+            }
+          }}
+        />
       </div>
+      {imagePreviewURL && <img className={styles["imagePreview"]} src={imagePreviewURL} />}
     </div>
   );
 };

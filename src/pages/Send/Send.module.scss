@@ -93,18 +93,31 @@
 .imageSection {
   width: 100%;
   display: flex;
+  gap: 5px;
   padding: 16px 17.5px;
   overflow-x: auto;
   border-bottom: 1px solid #8f8f8f;
 
-  > .imageSlide {
-    display: flex;
-    gap: 5px;
-    > .fakeImage {
-      height: 113px;
+  > .inputImage {
+    > label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 101px;
-      background-color: #369ed9;
+      height: 113px;
+      background-color: gray;
     }
+    > input {
+      position: absolute;
+      width: 0;
+      height: 0;
+      padding: 0;
+    }
+  }
+  > .imagePreview {
+    height: 113px;
+    width: 101px;
+    object-fit: contain;
   }
 }
 
