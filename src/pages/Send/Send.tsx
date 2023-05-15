@@ -42,6 +42,9 @@ const LocationSection = () => {
       <div className={styles["label"]}>위치 등록</div>
       <div className={styles["chips"]}>
         <div className={styles["locationChip"]}>Hyundai Department Store</div>
+        <div className={styles["locationChip"]}>Hyundai Department Store</div>
+        <div className={styles["locationChip"]}>Hyundai Department Store</div>
+        <div className={styles["locationChip"]}>Hyundai Department Store</div>
       </div>
       <div className={styles["mapContainer"]}>
         <Wrapper

@@ -35,7 +35,6 @@
 .locationSection {
   display: flex;
   flex-direction: column;
-  position: relative;
   padding: 15.5px 0;
   border-bottom: 1px solid #8f8f8f;
 
@@ -49,21 +48,25 @@
     display: flex;
     padding: 0 16px;
     margin-bottom: 16px;
+    overflow-x: scroll;
+    flex-wrap: nowrap;
+    gap: 5px;
 
     > .locationChip {
       display: flex;
       align-items: center;
       justify-content: center;
+      flex: 0 0 auto;
       padding: 0 8px;
       font-size: 14px;
       color: #5e5e5e;
       background: #d9d9d9;
       height: 29px;
       border-radius: 8px;
+      white-space: nowrap;
     }
   }
   > .mapContainer {
-    position: relative;
     padding: 0 16px;
     margin-bottom: 28px;
 
@@ -75,7 +78,6 @@
 }
 
 .textSection {
-  position: relative;
   width: 100%;
   border-bottom: 1px solid #8f8f8f;
 
@@ -99,6 +101,7 @@
   border-bottom: 1px solid #8f8f8f;
 
   > .inputImage {
+    position: relative;
     > label {
       display: flex;
       align-items: center;
