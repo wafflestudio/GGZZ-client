@@ -16,7 +16,7 @@
   bottom: 0;
   width: 100vh;
   height: 100vh;
-  // For iOS 
+  // For iOS
   @supports (-webkit-touch-callout: none) {
     height: -webkit-fill-available;
   }
@@ -44,8 +44,8 @@
     position: absolute;
     width: 55px;
     height: 55px;
-    right:13px;
-    bottom: 189px; // ASK: vh 사용해야하나?
+    right: 13px;
+    bottom: 189px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,5 +54,4 @@
     border: none;
     z-index: 500; // ASK: z-index 규칙 필요
   }
-
 }
