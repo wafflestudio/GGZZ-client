@@ -26,6 +26,9 @@ const ImageSection = () => {
           type="file"
           accept="image/*"
           onChange={(e) => {
+            {
+              /*TODO: API가 복수 파일 업로드 지원하면 코드 구현 고치기*/
+            }
             if (e.target.files) {
               setImage(e.target.files[0]);
             }
