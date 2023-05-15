@@ -1,5 +1,5 @@
 import { useLetterFormStore } from "../../../store/useLetterFormStore";
-import { useReactMediaRecorder } from "react-media-recorder";
+import { useReactMediaRecorder } from "react-media-recorder-2";
 import React, { useEffect } from "react";
 import styles from "./VoiceSection.module.scss";
 import mic_icon from "../../../assets/icon/Send/VoiceSection/mic.svg";
