@@ -38,7 +38,7 @@ const LocationSection = () => {
   }, [myPosition]);
 
   return (
-    <div className={styles["locationSection"]}>
+    <section className={styles["locationSection"]}>
       <div className={styles["label"]}>위치 등록</div>
       <div className={styles["chips"]}>
         <div className={styles["locationChip"]}>Hyundai Department Store</div>
@@ -62,7 +62,7 @@ const LocationSection = () => {
           />
         </Wrapper>
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -71,13 +71,13 @@ const TextSection = () => {
   const setText = useLetterFormStore((state) => state.setText);
 
   return (
-    <div className={styles["textSection"]}>
+    <section className={styles["textSection"]}>
       <textarea
         placeholder="끄적끄적..."
         value={text ? text : ""}
         onChange={(e) => setText(e.target.value)}
       />
-    </div>
+    </section>
   );
 };
 
@@ -94,7 +94,7 @@ const ImageSection = () => {
   }, [image]);
 
   return (
-    <div className={styles["imageSection"]}>
+    <section className={styles["imageSection"]}>
       <div className={styles["inputImage"]}>
         <label htmlFor="image">
           <img src={plus_icon} />
@@ -111,7 +111,7 @@ const ImageSection = () => {
         />
       </div>
       {imagePreviewURL && <img className={styles["imagePreview"]} src={imagePreviewURL} />}
-    </div>
+    </section>
   );
 };
 
@@ -137,7 +137,7 @@ const VoiceSection = () => {
   }, [status]);
 
   return (
-    <div className={styles["voiceSection"]}>
+    <section className={styles["voiceSection"]}>
       <button
         className={`${styles["recordButton"]} ${
           (status === "recording" || audio) && styles["recording"]
@@ -163,7 +163,7 @@ const VoiceSection = () => {
       <div className={styles["playerWrapper"]}>
         {<audio src={audio ? URL.createObjectURL(audio) : ""} controls />}
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -171,13 +171,13 @@ const SubmitSection = () => {
   const { text, audio, image } = useLetterFormStore((state) => state);
 
   return (
-    <div className={styles["submitSection"]}>
+    <section className={styles["submitSection"]}>
       <button
         className={`${styles["mainPasteButton"]} ${(text || audio || image) && styles["active"]}`}
       >
         붙이기
       </button>
-    </div>
+    </section>
   );
 };
 
