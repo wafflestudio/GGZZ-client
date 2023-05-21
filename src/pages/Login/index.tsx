@@ -28,7 +28,7 @@ export default function Login() {
   };
 
   return (
-    <div id="container" className={styles["login"]}>
+    <div className={styles["container"]}>
       <h1 className={styles["title"]}>
         <Link className={styles["logo"]} to="/">
           <img src={titleImage} />
@@ -38,7 +38,7 @@ export default function Login() {
       </h1>
 
       <form
-        className={styles["form-login"]}
+        className={styles["login-form"]}
         onSubmit={(e) => {
           e.preventDefault();
         }}
