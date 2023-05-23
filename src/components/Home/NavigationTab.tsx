@@ -41,6 +41,7 @@ export default function NavigationTab() {
             to="/mypage"
             onClick={(e) => {
               e.preventDefault();
+              alert("준비중인 기능입니다.");
             }}
           >
             <img src={mypageIcon} />
