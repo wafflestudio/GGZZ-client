@@ -32,7 +32,7 @@ export default function Register() {
       alert("비밀번호와 비밀번호 확인을 올바르게 입력하세요");
       return;
     }
-    if (!email || !email.includes("@")) {
+    if (!email || !email.includes("@") || !email.includes(".")) {
       alert("이메일을 올바르게 입력하세요");
       return;
     }
