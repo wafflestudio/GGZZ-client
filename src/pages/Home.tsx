@@ -11,6 +11,7 @@ import styles from "./Home.module.scss";
 import { TLLCoordinates } from "../lib/types/locationTypes";
 import { getDistanceFromLatLngInM } from "../lib/lib";
 import Letter from "../components/Home/Letter";
+import NavigationTab from "../components/Home/NavigationTab";
 import { useMyPositionStore } from "../store/useMyPositionStore";
 import me_icon from "../assets/icon/me.svg";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +48,7 @@ const Home = () => {
       const currentLL = currentLLCoordinates();
       if (!currentLL) return Promise.resolve([]);
       const { lat, lng } = currentLL;
-      return apiGetLetters(lat, lng);
+      return apiGetLetters(lng, lat);
     },
     [],
     [myPosition, viewPosition]
@@ -116,6 +117,7 @@ const Home = () => {
         </div>
       )}
       <div className={styles["home"]}>
+        <NavigationTab />
         <>
           <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""} render={render} />
           <button
