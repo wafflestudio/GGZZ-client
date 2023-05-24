@@ -20,7 +20,7 @@ jobs:
 
       - name: Build
         run: yarn build
-                env:
+        env:
           CI: false
 
       - name: Upload to S3
