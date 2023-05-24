@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main
+      - feat/github-actions-cicd-and-env
 jobs:
   build:
     runs-on: ubuntu-latest
