@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { apiRegister } from "../../lib/hooks/apiHooks";
 import titleImage from "../../assets/icon/ggzz_title.svg";
+import GoogleButton from "../../components/Firebase/GoogleButton";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -189,6 +190,9 @@ export default function Register() {
           />
         </div>
       </form>
+      <div>
+        <GoogleButton isLogin={false} />
+      </div>
     </div>
   );
 }
