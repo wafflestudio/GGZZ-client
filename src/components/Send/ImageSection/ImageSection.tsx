@@ -1,19 +1,16 @@
 import { useLetterFormStore } from "../../../store/useLetterFormStore";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "./ImageSection.module.scss";
 import plus_icon from "../../../assets/icon/Send/ImageSection/plus.svg";
 
 const ImageSection = () => {
   const image = useLetterFormStore((state) => state.image);
   const setImage = useLetterFormStore((state) => state.setImage);
-  const [imagePreviewURL, setImagePreviewURL] = useState("");
+  const imagePreviewURL = useMemo(() => (image ? URL.createObjectURL(image) : ""), [image]);
 
   useEffect(() => {
-    if (image) {
-      const url = URL.createObjectURL(image);
-      setImagePreviewURL(url);
-    }
-  }, [image]);
+    return URL.revokeObjectURL(imagePreviewURL);
+  }, []);
 
   return (
     <section className={styles["imageSection"]}>
@@ -28,6 +25,9 @@ const ImageSection = () => {
           onChange={(e) => {
             {
               /*TODO: API가 복수 파일 업로드 지원하면 코드 구현 고치기*/
+            }
+            if (imagePreviewURL.length > 0) {
+              URL.revokeObjectURL(imagePreviewURL);
             }
             if (e.target.files) {
               setImage(e.target.files[0]);
