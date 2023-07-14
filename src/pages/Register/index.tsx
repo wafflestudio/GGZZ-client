@@ -4,21 +4,20 @@ import { useNavigate, Link } from "react-router-dom";
 import { apiRegister } from "../../lib/hooks/apiHooks";
 import titleImage from "../../assets/icon/ggzz_title.svg";
 import GoogleButton from "../../components/Firebase/GoogleButton";
+import { useRegisterInfoStore } from "../../store/useMyInfoStore";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [ID, setID] = useState<string>("");
   const [PW, setPW] = useState<string>("");
   const [PWCheck, setPWCheck] = useState<string>("");
-  const [nickname, setNickname] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const { username, setUsername, nickname, setNickname } = useRegisterInfoStore((state) => state);
 
   async function handleRegister() {
     if (!nickname || nickname.length < 2 || nickname.length > 10) {
       alert("닉네임을 올바르게 입력하세요");
       return;
     }
-    if (!ID || ID.length < 4 || ID.length > 16) {
+    if (!username || username.length < 4 || username.length > 16) {
       alert("아이디를 올바르게 입력하세요");
       return;
     }
@@ -33,17 +32,17 @@ export default function Register() {
       alert("비밀번호와 비밀번호 확인을 올바르게 입력하세요");
       return;
     }
-    if (!email || !email.includes("@") || !email.includes(".")) {
-      alert("이메일을 올바르게 입력하세요");
-      return;
-    }
+    // if (!email || !email.includes("@") || !email.includes(".")) {
+    //   alert("이메일을 올바르게 입력하세요");
+    //   return;
+    // }
     if (PW !== PWCheck) {
       alert("비밀번호와 비밀번호 확인이 일치하지 않습니다");
       return;
     }
 
     try {
-      const registerData = { username: ID, password: PW, nickname };
+      const registerData = { username, password: PW, nickname };
       const res = await apiRegister(registerData);
       navigate("/login");
     } catch (e) {
@@ -68,7 +67,7 @@ export default function Register() {
         }}
       >
         {/* 이메일 */}
-        <div className={styles["input-box"]}>
+        {/* <div className={styles["input-box"]}>
           <div className={styles["label-container"]}>
             <label>이메일</label>
           </div>
@@ -85,7 +84,7 @@ export default function Register() {
               }}
             />
           </div>
-        </div>
+        </div> */}
 
         {/* 아이디 */}
         <div className={styles["input-box"]}>
@@ -96,18 +95,20 @@ export default function Register() {
           <div className={styles["input-container"]}>
             <input
               className={`${styles["text"]} ${
-                ID && (ID.length < 4 ? styles["caution"] : styles["pass"])
+                username && (username.length < 4 ? styles["caution"] : styles["pass"])
               }`}
               type="text"
               placeholder="아이디"
-              value={ID}
+              value={username}
               maxLength={16}
               onChange={(e) => {
-                setID(e.target.value);
+                setUsername(e.target.value);
               }}
             />
           </div>
-          {ID && ID.length < 4 && <p className={styles["caution"]}>4자 이상 입력하세요</p>}
+          {username && username.length < 4 && (
+            <p className={styles["caution"]}>4자 이상 입력하세요</p>
+          )}
         </div>
 
         {/* 비밀번호 */}
