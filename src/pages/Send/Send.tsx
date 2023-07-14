@@ -11,9 +11,6 @@ import TextModal from "../../components/Send/TextModal/TextModal";
 import { useNavigate } from "react-router-dom";
 import SubmitModal from "../../components/Send/SubmitModal/SubmitModal";
 import ImageModal from "../../components/Send/ImageModal/ImageModal";
-import { useIntervalToGetLocation } from "../../lib/hooks/locationHooks";
-import axios from "axios";
-import { apiCheckLogin } from "../../lib/hooks/apiHooks";
 
 const Send = () => {
   const [inputModal, setInputModal] = useState<"none" | "writing" | "voice" | "image" | "submit">(
@@ -22,15 +19,10 @@ const Send = () => {
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
-    apiCheckLogin().then(
-      (res) => {
-        console.log(res);
-      },
-      (err) => {
-        console.log(err);
-        navigate("/login");
-      }
-    );
+    const token = sessionStorage.getItem("accessToken");
+    if (!token) {
+      navigate("/login");
+    }
   });
 
   return (
