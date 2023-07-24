@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useCallback, useLayoutEffect, useState } from "react";
-
+import { apiClient as axios } from "../client";
 const url = (path: string, param?: Record<string, any>): string => {
   const validParamData =
     param &&
@@ -34,12 +33,12 @@ export const apiRegister = (registerData: {
   username: string;
   password: string;
   nickname: string;
-}) => axios.post(url("/signup"), registerData, { withCredentials: true });
+}) => axios.post(url("/signup"), registerData);
 
 export const apiLogin = (loginData: { username: string; password: string }) =>
-  axios.post(url("/login"), loginData, { withCredentials: true });
+  axios.post(url("/login"), loginData);
 
-export const apiCheckLogin = () => axios.get(url("/login"), { withCredentials: true });
+// export const apiCheckLogin = () => axios.get(url("/login"), { withCredentials: true });
 
 export const apiPostLetter = (postLetterData: {
   title: string;
@@ -47,15 +46,11 @@ export const apiPostLetter = (postLetterData: {
   longitude: number;
   latitude: number;
   text: string;
-}) =>
-  axios.post(url("/api/v1/letters"), postLetterData, {
-    withCredentials: true,
-  });
+}) => axios.post(url("/api/v1/letters"), postLetterData, {});
 
 export const apiPutLetter = (id: number, postLetterData: FormData) =>
   axios.put(url(`/api/v1/letters/${id}/source`), postLetterData, {
-    withCredentials: true,
-    headers: { "Content-Type": "multipart/form-data" },
+    headers: { "Content-Type": "multipart/form-data" }
   });
 
 export const apiGetLetters = (longitude: number, latitude: number) =>
@@ -66,4 +61,4 @@ export const apiGetLetters = (longitude: number, latitude: number) =>
     });
 
 export const apiGetLetter = (id: number, longitude: number, latitude: number) =>
-  axios.get(url(`/api/v1/letters/${id}`, { longitude, latitude }), { withCredentials: true });
+  axios.get(url(`/api/v1/letters/${id}`, { longitude, latitude }));

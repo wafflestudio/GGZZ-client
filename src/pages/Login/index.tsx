@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import { apiLogin } from "../../lib/hooks/apiHooks";
 import titleImage from "../../assets/icon/ggzz_title.svg";
+import GoogleButton from "../../components/Firebase/GoogleButton";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function Login() {
   };
 
   return (
-    <div id="container" className={styles["login"]}>
+    <div className={styles["container"]}>
       <h1 className={styles["title"]}>
         <Link className={styles["logo"]} to="/">
           <img src={titleImage} />
@@ -38,7 +39,7 @@ export default function Login() {
       </h1>
 
       <form
-        className={styles["form-login"]}
+        className={styles["login-form"]}
         onSubmit={(e) => {
           e.preventDefault();
         }}
@@ -70,6 +71,9 @@ export default function Login() {
         </div>
       </form>
 
+      <div>
+        <GoogleButton isLogin />
+      </div>
       <div className={styles["register-link"]}>
         <Link to="/register">회원가입</Link>
       </div>

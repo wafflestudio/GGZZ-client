@@ -9,7 +9,7 @@
   animation-delay: 0.5s;
 }
 
-.login {
+.container {
   width: 100%;
   height: 100vh;
   padding: px2vh(40px) px2vw(15px);
@@ -87,7 +87,7 @@
       }
     }
   }
-  > .form-login {
+  > .login-form {
     margin-top: 30px;
     .text {
       @include font.handwriting1();
@@ -99,7 +99,7 @@
     }
     > .input-container {
       margin-bottom: 5px;
-      padding: 3px 10px 8px 10px;
+      padding: 9px 10px 8px 10px;
       border: 1px solid #d6d6d6;
       border-radius: 4px;
       background-color: #fff;
