@@ -28,6 +28,10 @@ function GoogleButton({ isLogin }: GoogleButtonProps) {
     }
     if (isLogin === true) {
       alert("구글 로그인에 성공했습니다.");
+      // TODO: 소셜 로그인 엔드포인트에 토큰 전달
+      // 자체 JWT 토큰 발급
+      // 1. 성공시 홈화면
+      // 2. 실패시 회원가입 화면으로 이동
       navigate("/");
     }
     // 세션 스토리지에 토큰 저장
