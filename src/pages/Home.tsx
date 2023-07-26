@@ -7,6 +7,7 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useHomeModalStore } from "../store/useHomeModalStore";
 import { useMyPositionStore } from "../store/useMyPositionStore";
 import Map from "../components/Home/Map/Map";
+import sendIcon from "../assets/icon/Home/SendButton/send.svg";
 
 const Home = () => {
   const [clicks, setClicks] = useState<google.maps.LatLng[]>([]);
@@ -95,25 +96,15 @@ const Home = () => {
             />
           ))} */}
         </Wrapper>
-        <button
-          className={styles["new"]}
-          onClick={() => {
-            setViewPosition(null);
-            navigate("./send");
-          }}
-        >
-          새 편지 쓰기
-        </button>
-        <button
-          className={styles["my-position-btn"]}
-          onClick={() => {
-            setViewPosition(null);
-            setCenter(myPosition);
-          }}
-        >
-          현재 위치
-        </button>
       </>
+      <button
+        className={styles["send"]}
+        onClick={() => {
+          navigate("send");
+        }}
+      >
+        <img src={sendIcon} />
+      </button>
       {modalLetter && <ReceiveContainer />}
     </div>
   );

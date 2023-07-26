@@ -1,0 +1,32 @@
+.voiceSection {
+  position: relative;
+  width: 100%;
+  display: flex;
+  padding: 20px 0;
+  border-bottom: 1px solid #8f8f8f;
+
+  > .recordButton {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 17px;
+    border-radius: 17px;
+    background-color: #d9d9d9;
+    border: none;
+
+    &.recording {
+      background-color: #369ed9;
+    }
+  }
+  > .playerWrapper {
+    width: calc(100% - 59px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > audio {
+      height: 42px;
+    }
+  }
+}
