@@ -5,6 +5,7 @@ import styles from "./LocationSection.module.scss";
 import Map from "../../Home/Map/Map";
 
 const LocationSection = () => {
+  // TODO: clicks 고치기
   const [clicks, setClicks] = useState([]);
   const [zoom, setZoom] = useState(15); // initial zoom
   const [center, setCenter] = useState<google.maps.LatLngLiteral | null>(null);
@@ -53,6 +54,7 @@ const LocationSection = () => {
             center={center}
             onIdle={onIdle}
             zoom={zoom}
+            // TODO
             letters={clicks}
             className={styles["map"]}
           />
