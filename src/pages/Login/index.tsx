@@ -1,7 +1,7 @@
 import styles from "./index.module.scss";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { apiLogin } from "../../lib/hooks/apiHooks";
 
 export default function Login() {

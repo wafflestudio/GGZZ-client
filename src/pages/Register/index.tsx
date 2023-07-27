@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.scss";
-import axios from "axios";
 import { apiRegister } from "../../lib/hooks/apiHooks";
 
 export default function Register() {
@@ -28,7 +27,7 @@ export default function Register() {
 
     try {
       const registerData = { username: ID, password: PW, nickname };
-      const res = await apiRegister(registerData);
+      await apiRegister(registerData);
       navigate("/login");
     } catch (e) {
       console.log(e);

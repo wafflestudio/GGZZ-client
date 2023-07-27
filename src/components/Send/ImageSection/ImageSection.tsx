@@ -1,5 +1,5 @@
 import { useLetterFormStore } from "../../../store/useLetterFormStore";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import styles from "./ImageSection.module.scss";
 import plus_icon from "../../../assets/icon/Send/ImageSection/plus.svg";
 

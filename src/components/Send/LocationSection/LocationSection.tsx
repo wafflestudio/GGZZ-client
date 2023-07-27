@@ -6,7 +6,6 @@ import Map from "../../Home/Map/Map";
 
 const LocationSection = () => {
   // TODO: clicks 고치기
-  const [clicks, setClicks] = useState([]);
   const [zoom, setZoom] = useState(15); // initial zoom
   const [center, setCenter] = useState<google.maps.LatLngLiteral | null>(null);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
@@ -55,7 +54,7 @@ const LocationSection = () => {
             onIdle={onIdle}
             zoom={zoom}
             // TODO
-            letters={clicks}
+            letters={[]}
             className={styles["map"]}
           />
         </Wrapper>
