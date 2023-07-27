@@ -5,7 +5,7 @@ import styles from "./LocationSection.module.scss";
 import Map from "../../Home/Map/Map";
 
 const LocationSection = () => {
-  const [clicks, setClicks] = useState<google.maps.LatLng[]>([]);
+  const [clicks, setClicks] = useState([]);
   const [zoom, setZoom] = useState(15); // initial zoom
   const [center, setCenter] = useState<google.maps.LatLngLiteral | null>(null);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
@@ -53,7 +53,7 @@ const LocationSection = () => {
             center={center}
             onIdle={onIdle}
             zoom={zoom}
-            clicks={clicks}
+            letters={clicks}
             className={styles["map"]}
           />
         </Wrapper>
