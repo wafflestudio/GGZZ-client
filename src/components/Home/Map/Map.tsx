@@ -41,9 +41,11 @@ const Map = ({ onIdle, onClick, className, letters, ...options }: MapProps) => {
   useEffect(() => {
     if (map) {
       ["click", "idle"].forEach((eventName) => google.maps.event.clearListeners(map, eventName));
+
       if (onClick) {
         map.addListener("click", onClick);
       }
+
       if (onIdle) {
         map.addListener("idle", () => onIdle(map));
       }
