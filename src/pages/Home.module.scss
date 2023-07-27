@@ -21,12 +21,17 @@
   bottom: 0;
   width: 100vh;
   height: 100vh;
+  // For iOS
+  @supports (-webkit-touch-callout: none) {
+    height: -webkit-fill-available;
+  }
   display: flex;
   align-items: center;
   justify-content: center;
   overflow-x: hidden;
   flex: 1;
   flex-direction: column;
+  box-sizing: initial;
 
   > .map {
     position: absolute;
@@ -40,27 +45,18 @@
     align-items: center;
     justify-content: center;
   }
-  .new {
+  > .send {
     position: absolute;
-    bottom: 5vh;
-    opacity: 0.5;
-    background: none;
-    font: inherit;
+    width: 55px;
+    height: 55px;
+    right: 13px;
+    bottom: 189px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #369ed9; // TODO: _color.scss 이용
+    border-radius: 50%;
     border: none;
-    font-size: 32px;
-    font-weight: bold;
-    text-decoration: underline;
-  }
-  .my-position-btn {
-    position: absolute;
-    bottom: 5vh;
-    left: 1vw;
-    opacity: 0.5;
-    background: none;
-    font: inherit;
-    border: none;
-    font-size: 32px;
-    font-weight: bold;
-    text-decoration: underline;
+    z-index: 500; // ASK: z-index 규칙 필요
   }
 }

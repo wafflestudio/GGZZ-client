@@ -1,11 +1,12 @@
 import { useCallback, useLayoutEffect, useState } from "react";
 import { apiClient as axios } from "../client";
+
 const url = (path: string, param?: Record<string, any>): string => {
   const validParamData =
     param &&
     Object.fromEntries(
       Object.entries(param)
-        .filter(([key, value]) => value)
+        .filter(([, value]) => value)
         .map(([key, value]) => [key, String(value)])
     );
   return (
@@ -17,6 +18,7 @@ const url = (path: string, param?: Record<string, any>): string => {
 // 사용예시: url("/letters", {paramName1, paramName2, ...})
 // 구체적 사용에시는 아래 useApiGetLetters hook 참고
 
+// TODO: any 타입 해결
 export function useApiData<T>(fetch: () => Promise<T>, initialValue: T, deps: any[]): T {
   const [data, setData] = useState<T>(initialValue);
   useLayoutEffect(() => {
