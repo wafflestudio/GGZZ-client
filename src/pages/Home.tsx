@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import styles from "./Home.module.scss";
 import { useNavigate } from "react-router-dom";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
-// import { apiGetLetters, useApiData } from "../lib/hooks/apiHooks";
+import { apiGetLetters, useApiData } from "../lib/hooks/apiHooks";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useHomeModalStore } from "../store/useHomeModalStore";
 import { useMyPositionStore } from "../store/useMyPositionStore";
@@ -19,31 +19,39 @@ const Home = () => {
 
   const modalLetter = useHomeModalStore((state) => state.letter);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
-  //   const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
+  const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
   const setViewPosition = useMyPositionStore((state) => state.setViewCoordinates);
   const navigate = useNavigate();
 
-  //   const currentLLCoordinates = useCallback(() => {
-  //     if (viewPosition) return viewPosition;
-  //     if (myPosition) {
-  //       setCenter(myPosition);
-  //       return myPosition;
-  //     }
-  //     return null;
-  //   }, [myPosition, viewPosition]);
+  const currentLLCoordinates = useCallback(() => {
+    if (viewPosition) return viewPosition;
+    if (myPosition) {
+      setCenter(myPosition);
+      return myPosition;
+    }
+    return null;
+  }, [myPosition, viewPosition]);
 
-  //   const letters = useApiData<
-  //     { id: number; title: string; summary: string; longitude: number; latitude: number }[]
-  //   >(
-  //     () => {
-  //       const currentLL = currentLLCoordinates();
-  //       if (!currentLL) return Promise.resolve([]);
-  //       const { lat, lng } = currentLL;
-  //       return apiGetLetters(lat, lng);
-  //     },
-  //     [],
-  //     [myPosition, viewPosition]
-  //   );
+  const letters = useApiData<
+    {
+      id: number;
+      createdAt: string;
+      createdBy: string;
+      title: string;
+      summary: string;
+      longitude: number;
+      latitude: number;
+    }[]
+  >(
+    () => {
+      const currentLL = currentLLCoordinates();
+      if (!currentLL) return Promise.resolve([]);
+      const { lat, lng } = currentLL;
+      return apiGetLetters(lng, lat);
+    },
+    [],
+    [myPosition, viewPosition]
+  );
 
   const render = useCallback(
     (status: Status) => {
@@ -83,18 +91,9 @@ const Home = () => {
             onClick={onClick}
             onIdle={onIdle}
             zoom={zoom}
-            clicks={clicks}
+            letters={letters}
             className={styles["map"]}
           />
-          {/* TODO: 서버가 내려가 있어서 자세한 테스트는 진행 못함. */}
-          {/* {letters.map((letter) => (
-            <Marker
-              key={letter.id}
-              position={new google.maps.LatLng(letter.latitude, letter.longitude)}
-              labelContent={letterElement}
-              map={map}
-            />
-          ))} */}
         </Wrapper>
       </>
       <button
