@@ -10,7 +10,7 @@ const url = (path: string, param?: Record<string, any>): string => {
         .map(([key, value]) => [key, String(value)])
     );
   return (
-    "https://nostalgia-api-dev.wafflestudio.com" + // TODO: 배포 후 수정
+    "https://ggzz-api-dev.wafflestudio.com" + // TODO: 배포 후 수정
     path +
     (param ? "?" + new URLSearchParams(validParamData).toString() : "")
   );
