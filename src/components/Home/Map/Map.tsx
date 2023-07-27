@@ -7,10 +7,18 @@ interface MapProps extends PropsWithChildren<google.maps.MapOptions> {
   className: string;
   onClick?: (e: google.maps.MapMouseEvent) => void;
   onIdle?: (map: google.maps.Map) => void;
-  clicks: google.maps.LatLng[];
+  letters: {
+    id: number;
+    createdAt: string;
+    createdBy: string;
+    title: string;
+    summary: string;
+    longitude: number;
+    latitude: number;
+  }[];
 }
 
-const Map = ({ onClick, onIdle, clicks, className, ...options }: MapProps) => {
+const Map = ({ onIdle, onClick, className, letters, ...options }: MapProps) => {
   const [map, setMap] = useState<google.maps.Map>();
   const [highLight, setHighlight] = useState<number>();
   const ref = useRef<HTMLDivElement>(null);
@@ -33,11 +41,9 @@ const Map = ({ onClick, onIdle, clicks, className, ...options }: MapProps) => {
   useEffect(() => {
     if (map) {
       ["click", "idle"].forEach((eventName) => google.maps.event.clearListeners(map, eventName));
-
       if (onClick) {
         map.addListener("click", onClick);
       }
-
       if (onIdle) {
         map.addListener("idle", () => onIdle(map));
       }
@@ -53,12 +59,12 @@ const Map = ({ onClick, onIdle, clicks, className, ...options }: MapProps) => {
     <>
       <div ref={ref} className={className} />
       {map &&
-        clicks.map((click, i) => {
+        letters.map((letter, i) => {
           return (
             <Marker
               key={i}
               map={map}
-              position={{ lat: click.lat(), lng: click.lng() }}
+              position={{ lat: letter.latitude, lng: letter.longitude }}
               onClick={() => onMarkerClick(i)}
             >
               {highLight !== i ? (
