@@ -19,3 +19,15 @@ a {
   text-decoration: inherit;
   color: inherit;
 }
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  background: transparent;
+  border: none;
+  padding: none;
+  margin: none;
+}

@@ -1,5 +1,5 @@
 import styles from "./VoiceModal.module.scss";
-import { useReactMediaRecorder } from "react-media-recorder";
+import { useReactMediaRecorder } from "react-media-recorder-2";
 import { useLetterFormStore } from "../../../store/useLetterFormStore";
 
 const VoiceModal = () => {
