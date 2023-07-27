@@ -1,13 +1,19 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useLayoutEffect } from "react";
 import styles from "./Home.module.scss";
+import NavigationTab from "../components/Home/NavigationTab";
 import { useNavigate } from "react-router-dom";
 import { ReceiveContainer } from "../components/Home/Receive/Receive";
+import SplashScreen from "../components/Home/SplashScreen";
 import { apiGetLetters, useApiData } from "../lib/hooks/apiHooks";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useHomeModalStore } from "../store/useHomeModalStore";
 import { useMyPositionStore } from "../store/useMyPositionStore";
 import Map from "../components/Home/Map/Map";
 import sendIcon from "../assets/icon/Home/SendButton/send.svg";
+import React from "react";
+import { TypeEqualityComparator, createCustomEqual, deepEqual } from "fast-equals";
+import { isLatLngLiteral } from "@googlemaps/typescript-guards";
+import useEtcStore from "../store/useEtcStore";
 
 const Home = () => {
   const [clicks, setClicks] = useState<google.maps.LatLng[]>([]);
@@ -77,35 +83,54 @@ const Home = () => {
     setViewPosition(newCenter);
   }, []);
 
+  // show splash screen for first 4 seconds
+  // isLoading === true: splash screen
+  const isLoading = useEtcStore((state) => state.isLoading);
+  const check = useEtcStore((state) => state.check);
+  useLayoutEffect(() => {
+    if (isLoading)
+      setTimeout(() => {
+        check();
+      }, 4000);
+  }, [check]);
+      
   return (
-    <div className={styles["home"]}>
-      <>
-        <Wrapper
-          apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""}
-          version="beta"
-          libraries={["marker"]}
-          render={render}
+    <>
+      {isLoading && (
+        <div className={styles["splash-screen-container"]}>
+          <SplashScreen />
+        </div>
+      )}
+      <div className={styles["home"]}>
+        <NavigationTab />
+        <>
+          <Wrapper
+            apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""}
+            version="beta"
+            libraries={["marker"]}
+            render={render}
+          >
+            <Map
+              center={center}
+              onClick={onClick}
+              onIdle={onIdle}
+              zoom={zoom}
+              letters={letters}
+              className={styles["map"]}
+            />
+          </Wrapper>
+        </>
+        <button
+          className={styles["send"]}
+          onClick={() => {
+            navigate("send");
+          }}
         >
-          <Map
-            center={center}
-            onClick={onClick}
-            onIdle={onIdle}
-            zoom={zoom}
-            letters={letters}
-            className={styles["map"]}
-          />
-        </Wrapper>
-      </>
-      <button
-        className={styles["send"]}
-        onClick={() => {
-          navigate("send");
-        }}
-      >
-        <img src={sendIcon} />
-      </button>
-      {modalLetter && <ReceiveContainer />}
-    </div>
+          <img src={sendIcon} />
+        </button>
+        {modalLetter && <ReceiveContainer />}
+      </div>
+    </>
   );
 };
 
