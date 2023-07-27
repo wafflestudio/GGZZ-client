@@ -10,7 +10,7 @@ export function useDeepCompareEffectForMaps(
 }
 
 type LatLngObject = google.maps.LatLng | google.maps.LatLngLiteral;
-
+// TODO: any 타입 처리
 const customCompare: TypeEqualityComparator<LatLngObject, undefined> = (a: any, b: any) => {
   if (
     isLatLngLiteral(a) ||
