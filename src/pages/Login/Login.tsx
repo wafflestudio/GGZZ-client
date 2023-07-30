@@ -1,4 +1,4 @@
-import styles from "./index.module.scss";
+import styles from "./Login.module.scss";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import { apiLogin } from "../../apis/apis";
