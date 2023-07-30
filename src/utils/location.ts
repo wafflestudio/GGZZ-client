@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { TLLCoordinates } from "../../lib/types/locationTypes";
-import { useMyPositionStore } from "../../store/useMyPositionStore";
+import { TLLCoordinates } from "../lib/types/locationTypes";
+import { useMyPositionStore } from "../store/useMyPositionStore";
 
 export const useGetCurrentLocation = (options: PositionOptions = {}) => {
   // if (!navigator.geolocation) {
