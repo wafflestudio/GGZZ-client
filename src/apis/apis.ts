@@ -1,5 +1,7 @@
 import { useCallback, useLayoutEffect, useState } from "react";
-import { apiClient as axios } from "./client";
+import { apiClient as axios } from "./apiClient";
+
+// TODO : api 종류별로 파일 분리
 
 const url = (path: string, param?: Record<string, any>): string => {
   const validParamData =

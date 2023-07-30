@@ -5,6 +5,8 @@ import Register from "./pages/Register";
 import Send from "./pages/Send/Send";
 import { useIntervalToGetLocation } from "./utils/location";
 
+// TODO : assets 정리
+
 function InValidateURL() {
   return <Navigate to="/" />;
 }
