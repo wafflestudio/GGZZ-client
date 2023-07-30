@@ -1,7 +1,7 @@
 import styles from "./index.module.scss";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
-import { apiLogin } from "../../lib/hooks/apiHooks";
+import { apiLogin } from "../../apis/apis";
 import titleImage from "../../assets/icon/ggzz_title.svg";
 import GoogleButton from "../../components/Firebase/GoogleButton";
 

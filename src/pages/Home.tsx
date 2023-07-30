@@ -2,17 +2,12 @@ import { useCallback, useState, useLayoutEffect } from "react";
 import styles from "./Home.module.scss";
 import NavigationTab from "../components/Home/NavigationTab";
 import { useNavigate } from "react-router-dom";
-import { ReceiveContainer } from "../components/Home/Receive/Receive";
 import SplashScreen from "../components/Home/SplashScreen";
-import { apiGetLetters, useApiData } from "../lib/hooks/apiHooks";
+import { apiGetLetters, useApiData } from "../apis/apis";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { useHomeModalStore } from "../store/useHomeModalStore";
 import { useMyPositionStore } from "../store/useMyPositionStore";
 import Map from "../components/Home/Map/Map";
 import sendIcon from "../assets/icon/Home/SendButton/send.svg";
-import React from "react";
-import { TypeEqualityComparator, createCustomEqual, deepEqual } from "fast-equals";
-import { isLatLngLiteral } from "@googlemaps/typescript-guards";
 import useEtcStore from "../store/useEtcStore";
 
 const Home = () => {
@@ -23,7 +18,6 @@ const Home = () => {
     lng: 126.954547,
   });
 
-  const modalLetter = useHomeModalStore((state) => state.letter);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
   const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
   const setViewPosition = useMyPositionStore((state) => state.setViewCoordinates);
@@ -93,7 +87,7 @@ const Home = () => {
         check();
       }, 4000);
   }, [check]);
-      
+
   return (
     <>
       {isLoading && (
@@ -128,7 +122,6 @@ const Home = () => {
         >
           <img src={sendIcon} />
         </button>
-        {modalLetter && <ReceiveContainer />}
       </div>
     </>
   );
