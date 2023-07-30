@@ -1,5 +1,5 @@
 import { useCallback, useLayoutEffect, useState } from "react";
-import { apiClient as axios } from "../client";
+import { apiClient as axios } from "./client";
 
 const url = (path: string, param?: Record<string, any>): string => {
   const validParamData =
@@ -52,7 +52,7 @@ export const apiPostLetter = (postLetterData: {
 
 export const apiPutLetter = (id: number, postLetterData: FormData) =>
   axios.put(url(`/api/v1/letters/${id}/source`), postLetterData, {
-    headers: { "Content-Type": "multipart/form-data" }
+    headers: { "Content-Type": "multipart/form-data" },
   });
 
 export const apiGetLetters = (longitude: number, latitude: number) =>
