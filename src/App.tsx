@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
 import Send from "./pages/Send/Send";
 import { useIntervalToGetLocation } from "./utils/location";
 
