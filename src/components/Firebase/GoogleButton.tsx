@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./GoogleButton.module.scss";
-import { signInWithGoogle } from "../../lib/firebase";
+import { signInWithGoogle } from "../../utils/firebase";
 import { useRegisterInfoStore } from "../../store/useMyInfoStore";
 import { useNavigate } from "react-router-dom";
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { create } from "zustand";
 
 interface RegisterInfoStore {
@@ -14,6 +13,6 @@ export const useRegisterInfoStore = create<RegisterInfoStore>()(
     username: "",
     nickname: "",
     setUsername: (name) => set({ username: name }),
-    setNickname: (name) => set({ nickname: name })
+    setNickname: (name) => set({ nickname: name }),
   })
 );
