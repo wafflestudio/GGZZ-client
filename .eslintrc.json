@@ -8,12 +8,7 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
-  ],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
   "env": {
     "browser": true,
     "es2021": true
