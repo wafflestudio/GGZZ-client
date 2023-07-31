@@ -1,8 +1,7 @@
-import React from "react";
 import styles from "./GoogleButton.module.scss";
-import { signInWithGoogle } from "../../utils/firebase";
-import { useRegisterInfoStore } from "../../store/useMyInfoStore";
 import { useNavigate } from "react-router-dom";
+import { signInWithGoogle } from "utils/firebase";
+import { useRegisterInfoStore } from "store/useMyInfoStore";
 
 type GoogleButtonProps = {
   isLogin: boolean;

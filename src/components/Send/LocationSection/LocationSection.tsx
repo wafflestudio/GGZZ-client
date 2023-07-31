@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useMyPositionStore } from "../../../store/useMyPositionStore";
-import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import styles from "./LocationSection.module.scss";
-import Map from "../../Home/Map/Map";
+import { useCallback, useEffect, useState } from "react";
+import { Status, Wrapper } from "@googlemaps/react-wrapper";
+import { useMyPositionStore } from "store/useMyPositionStore";
+import Map from "components/Home/Map/Map";
 
 const LocationSection = () => {
   // TODO: clicks 고치기

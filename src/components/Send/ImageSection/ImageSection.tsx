@@ -1,7 +1,7 @@
-import { useLetterFormStore } from "../../../store/useLetterFormStore";
-import React, { useEffect, useMemo } from "react";
+import { useLetterFormStore } from "store/useLetterFormStore";
+import { useEffect, useMemo } from "react";
 import styles from "./ImageSection.module.scss";
-import plus_icon from "../../../assets/icon/Send/ImageSection/plus.svg";
+import plus_icon from "assets/icon/Send/ImageSection/plus.svg";
 
 const ImageSection = () => {
   const image = useLetterFormStore((state) => state.image);

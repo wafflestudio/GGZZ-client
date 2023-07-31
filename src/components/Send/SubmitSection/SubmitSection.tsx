@@ -1,7 +1,6 @@
-import { useLetterFormStore } from "../../../store/useLetterFormStore";
 import styles from "./SubmitSection.module.scss";
-import React from "react";
-import { useMyPositionStore } from "../../../store/useMyPositionStore";
+import { useLetterFormStore } from "store/useLetterFormStore";
+import { useMyPositionStore } from "store/useMyPositionStore";
 
 const SubmitSection = () => {
   const { text, audio, image } = useLetterFormStore((state) => state);

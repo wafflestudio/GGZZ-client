@@ -1,6 +1,6 @@
+import styles from "./Map.module.scss";
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import Marker from "./Marker";
-import styles from "./Map.module.scss";
 import { useDeepCompareEffectForMaps } from "./mapHooks";
 
 interface MapProps extends PropsWithChildren<google.maps.MapOptions> {

@@ -1,10 +1,10 @@
 import styles from "./Register.module.scss";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { apiRegister } from "../../apis/apis";
-import titleImage from "../../assets/icon/ggzz_title.svg";
-import GoogleButton from "../../components/Firebase/GoogleButton";
-import { useRegisterInfoStore } from "../../store/useMyInfoStore";
+import { apiRegister } from "apis/apis";
+import titleImage from "assets/icon/ggzzTitle/ggzz_title.svg";
+import GoogleButton from "components/Firebase/GoogleButton";
+import { useRegisterInfoStore } from "store/useMyInfoStore";
 
 export default function Register() {
   const navigate = useNavigate();

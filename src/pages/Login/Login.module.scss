@@ -1,6 +1,6 @@
-@use "../../styles/color";
-@use "../../styles/font";
-@import "../../styles/lib";
+@use "styles/color";
+@use "styles/font";
+@import "styles/lib";
 
 @mixin marker-animation {
   animation-duration: 1.5s;

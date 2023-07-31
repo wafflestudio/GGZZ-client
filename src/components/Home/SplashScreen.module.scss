@@ -1,6 +1,6 @@
-@use "../../styles/color";
-@use "../../styles/font";
-@import "../../styles/lib";
+@use "styles/color";
+@use "styles/font";
+@import "styles/lib";
 
 * {
   list-style-type: none;
@@ -110,7 +110,7 @@
       top: px2vh(-15px);
       width: 179px;
       height: 15px;
-      background: url("../../assets/icon/subtitle.svg");
+      background: url("../../assets/icon/ggzzTitle/subtitle.svg");
     }
     @keyframes appear {
       from {

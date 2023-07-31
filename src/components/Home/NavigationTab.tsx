@@ -1,11 +1,11 @@
 import styles from "./NavigationTab.module.scss";
 import { Link } from "react-router-dom";
-import writeIcon from "../../assets/icon/Home/NavigationTab/write.svg";
-import BlueWriteIcon from "../../assets/icon/Home/NavigationTab/write_blue.svg";
-import mapIcon from "../../assets/icon/Home/NavigationTab/map.svg";
-import BlueMapIcon from "../../assets/icon/Home/NavigationTab/map_blue.svg";
-import mypageIcon from "../../assets/icon/Home/NavigationTab/mypage.svg";
-import useNavigationTabStore from "../../store/useNavigationTabStore";
+import writeIcon from "assets/icon/Home/NavigationTab/write.svg";
+import BlueWriteIcon from "assets/icon/Home/NavigationTab/write_blue.svg";
+import mapIcon from "assets/icon/Home/NavigationTab/map.svg";
+import BlueMapIcon from "assets/icon/Home/NavigationTab/map_blue.svg";
+import mypageIcon from "assets/icon/Home/NavigationTab/mypage.svg";
+import useNavigationTabStore from "store/useNavigationTabStore";
 
 export default function NavigationTab() {
   const currentTabId = useNavigationTabStore((state) => state.currentTabId);

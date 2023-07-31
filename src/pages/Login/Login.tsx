@@ -1,9 +1,9 @@
 import styles from "./Login.module.scss";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
-import { apiLogin } from "../../apis/apis";
-import titleImage from "../../assets/icon/ggzz_title.svg";
-import GoogleButton from "../../components/Firebase/GoogleButton";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { apiLogin } from "apis/apis";
+import titleImage from "assets/icon/ggzzTitle/ggzz_title.svg";
+import GoogleButton from "components/Firebase/GoogleButton";
 
 export default function Login() {
   const navigate = useNavigate();

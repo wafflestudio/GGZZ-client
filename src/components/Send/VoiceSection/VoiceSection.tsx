@@ -1,8 +1,8 @@
-import { useLetterFormStore } from "../../../store/useLetterFormStore";
-import { useReactMediaRecorder } from "react-media-recorder-2";
-import React, { useEffect } from "react";
 import styles from "./VoiceSection.module.scss";
-import mic_icon from "../../../assets/icon/Send/VoiceSection/mic.svg";
+import { useEffect } from "react";
+import { useReactMediaRecorder } from "react-media-recorder-2";
+import { useLetterFormStore } from "store/useLetterFormStore";
+import mic_icon from "assets/icon/Send/VoiceSection/mic.svg";
 
 const VoiceSection = () => {
   const audio = useLetterFormStore((state) => state.audio);

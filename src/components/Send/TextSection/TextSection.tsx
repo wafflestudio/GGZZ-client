@@ -1,6 +1,5 @@
-import { useLetterFormStore } from "../../../store/useLetterFormStore";
 import styles from "./TextSection.module.scss";
-import React from "react";
+import { useLetterFormStore } from "store/useLetterFormStore";
 
 const TextSection = () => {
   const text = useLetterFormStore((state) => state.text);
