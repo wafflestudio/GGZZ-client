@@ -1,14 +1,14 @@
 import { useCallback, useState, useLayoutEffect } from "react";
 import styles from "./Home.module.scss";
-import NavigationTab from "../components/Home/NavigationTab";
+import NavigationTab from "../../components/Home/NavigationTab";
 import { useNavigate } from "react-router-dom";
-import SplashScreen from "../components/Home/SplashScreen";
-import { apiGetLetters, useApiData } from "../apis/apis";
+import SplashScreen from "../../components/Home/SplashScreen";
+import { apiGetLetters, useApiData } from "../../apis/apis";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { useMyPositionStore } from "../store/useMyPositionStore";
-import Map from "../components/Home/Map/Map";
+import { useMyPositionStore } from "../../store/useMyPositionStore";
+import Map from "../../components/Home/Map/Map";
 import sendIcon from "../assets/icon/Home/SendButton/send.svg";
-import useEtcStore from "../store/useEtcStore";
+import useEtcStore from "../../store/useEtcStore";
 
 const Home = () => {
   const [clicks, setClicks] = useState<google.maps.LatLng[]>([]);
