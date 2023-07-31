@@ -10,7 +10,9 @@ export default function Register() {
   const navigate = useNavigate();
   const [PW, setPW] = useState<string>("");
   const [PWCheck, setPWCheck] = useState<string>("");
-  const { username, setUsername, nickname, setNickname } = useRegisterInfoStore((state) => state);
+  const { username, setUsername, nickname, setNickname } = useRegisterInfoStore(
+    (state) => state,
+  );
 
   async function handleRegister() {
     if (!nickname || nickname.length < 2 || nickname.length > 10) {
@@ -95,7 +97,8 @@ export default function Register() {
           <div className={styles["input-container"]}>
             <input
               className={`${styles["text"]} ${
-                username && (username.length < 4 ? styles["caution"] : styles["pass"])
+                username &&
+                (username.length < 4 ? styles["caution"] : styles["pass"])
               }`}
               type="text"
               placeholder="아이디"
@@ -129,7 +132,9 @@ export default function Register() {
               }}
             />
           </div>
-          {PW && PW.length < 8 && <p className={styles["caution"]}>8자 이상 입력하세요</p>}
+          {PW && PW.length < 8 && (
+            <p className={styles["caution"]}>8자 이상 입력하세요</p>
+          )}
         </div>
 
         {/* 비밀번호 확인 */}
@@ -166,7 +171,8 @@ export default function Register() {
           <div className={styles["input-container"]}>
             <input
               className={`${styles["text"]} ${
-                nickname && (nickname.length < 2 ? styles["caution"] : styles["pass"])
+                nickname &&
+                (nickname.length < 2 ? styles["caution"] : styles["pass"])
               }`}
               type="text"
               placeholder="닉네임"

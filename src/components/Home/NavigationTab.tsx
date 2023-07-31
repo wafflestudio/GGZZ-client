@@ -9,7 +9,9 @@ import useNavigationTabStore from "store/useNavigationTabStore";
 
 export default function NavigationTab() {
   const currentTabId = useNavigationTabStore((state) => state.currentTabId);
-  const setCurrentTabId = useNavigationTabStore((state) => state.setCurrentTabId);
+  const setCurrentTabId = useNavigationTabStore(
+    (state) => state.setCurrentTabId,
+  );
   return (
     <nav>
       <ul className={styles["menus"]}>

@@ -18,7 +18,11 @@ export const useGetCurrentLocation = (options: PositionOptions = {}) => {
   };
 
   useLayoutEffect(() => {
-    navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
+    navigator.geolocation.getCurrentPosition(
+      handleSuccess,
+      handleError,
+      options,
+    );
   }, [handleError, handleSuccess, options]);
 
   // return { coordinates, errorMsg }; TODO: 추후 error handling 시 수정
@@ -54,7 +58,7 @@ export const useWatchLocation = (options = {}) => {
     locationWatchId.current = navigator.geolocation.watchPosition(
       handleSuccess,
       handleError,
-      options
+      options,
     );
     return cancelLocationWatch;
   }, [options]);
@@ -75,9 +79,17 @@ export const useIntervalToGetLocation = (options = {}) => {
     console.log("error");
   };
   useLayoutEffect(() => {
-    navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
+    navigator.geolocation.getCurrentPosition(
+      handleSuccess,
+      handleError,
+      options,
+    );
     setInterval(() => {
-      navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
+      navigator.geolocation.getCurrentPosition(
+        handleSuccess,
+        handleError,
+        options,
+      );
     }, 5000);
   }, []);
 };

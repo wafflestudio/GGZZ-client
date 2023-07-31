@@ -14,5 +14,5 @@ export const useRegisterInfoStore = create<RegisterInfoStore>()(
     nickname: "",
     setUsername: (name) => set({ username: name }),
     setNickname: (name) => set({ nickname: name }),
-  })
+  }),
 );

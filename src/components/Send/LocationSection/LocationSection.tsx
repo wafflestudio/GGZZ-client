@@ -9,14 +9,16 @@ const LocationSection = () => {
   const [zoom, setZoom] = useState(15); // initial zoom
   const [center, setCenter] = useState<google.maps.LatLngLiteral | null>(null);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
-  const setViewPosition = useMyPositionStore((state) => state.setViewCoordinates);
+  const setViewPosition = useMyPositionStore(
+    (state) => state.setViewCoordinates,
+  );
 
   const render = useCallback(
     (status: Status) => {
       if (status === Status.FAILURE) return <h3>{status} ...</h3>;
       return <h3>{status} ..</h3>;
     },
-    [center]
+    [center],
   );
 
   const onIdle = useCallback((m: google.maps.Map) => {

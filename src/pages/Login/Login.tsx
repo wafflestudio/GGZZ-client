@@ -67,7 +67,12 @@ export default function Login() {
         </div>
 
         <div className={styles["submit-btn"]}>
-          <input type="submit" value="로그인" className={styles["text"]} onClick={handleLogin} />
+          <input
+            type="submit"
+            value="로그인"
+            className={styles["text"]}
+            onClick={handleLogin}
+          />
         </div>
       </form>
 

@@ -1,17 +1,24 @@
-import { isLatLngLiteral } from "@googlemaps/typescript-guards";
-import { TypeEqualityComparator, createCustomEqual, deepEqual } from "fast-equals";
 import { useEffect, useRef } from "react";
+import { isLatLngLiteral } from "@googlemaps/typescript-guards";
+import {
+  TypeEqualityComparator,
+  createCustomEqual,
+  deepEqual,
+} from "fast-equals";
 
 export function useDeepCompareEffectForMaps(
   callback: React.EffectCallback,
-  dependencies: unknown[]
+  dependencies: unknown[],
 ) {
   useEffect(callback, dependencies.map(useDeepCompareMemoize));
 }
 
 type LatLngObject = google.maps.LatLng | google.maps.LatLngLiteral;
 // TODO: any 타입 처리
-const customCompare: TypeEqualityComparator<LatLngObject, undefined> = (a: any, b: any) => {
+const customCompare: TypeEqualityComparator<LatLngObject, undefined> = (
+  a: any,
+  b: any,
+) => {
   if (
     isLatLngLiteral(a) ||
     isLatLngLiteral(b) ||

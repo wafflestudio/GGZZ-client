@@ -6,7 +6,10 @@ import plus_icon from "assets/icon/Send/ImageSection/plus.svg";
 const ImageSection = () => {
   const image = useLetterFormStore((state) => state.image);
   const setImage = useLetterFormStore((state) => state.setImage);
-  const imagePreviewURL = useMemo(() => (image ? URL.createObjectURL(image) : ""), [image]);
+  const imagePreviewURL = useMemo(
+    () => (image ? URL.createObjectURL(image) : ""),
+    [image],
+  );
 
   useEffect(() => {
     return URL.revokeObjectURL(imagePreviewURL);
@@ -35,7 +38,9 @@ const ImageSection = () => {
           }}
         />
       </div>
-      {imagePreviewURL && <img className={styles["imagePreview"]} src={imagePreviewURL} />}
+      {imagePreviewURL && (
+        <img className={styles["imagePreview"]} src={imagePreviewURL} />
+      )}
     </section>
   );
 };

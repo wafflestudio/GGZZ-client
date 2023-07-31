@@ -20,7 +20,9 @@ const SubmitSection = () => {
   return (
     <section className={styles["submitSection"]}>
       <button
-        className={`${styles["mainPasteButton"]} ${(text || audio || image) && styles["active"]}`}
+        className={`${styles["mainPasteButton"]} ${
+          (text || audio || image) && styles["active"]
+        }`}
         onClick={() => {
           if (me) {
             fakePostLetter({

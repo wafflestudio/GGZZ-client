@@ -19,7 +19,9 @@ const Home = () => {
 
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
   const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
-  const setViewPosition = useMyPositionStore((state) => state.setViewCoordinates);
+  const setViewPosition = useMyPositionStore(
+    (state) => state.setViewCoordinates,
+  );
   const navigate = useNavigate();
 
   const currentLLCoordinates = useCallback(() => {
@@ -49,7 +51,7 @@ const Home = () => {
       return apiGetLetters(lng, lat);
     },
     [],
-    [myPosition, viewPosition]
+    [myPosition, viewPosition],
   );
 
   const render = useCallback(
@@ -57,7 +59,7 @@ const Home = () => {
       if (status === Status.FAILURE) return <h3>{status} ...</h3>;
       return <h3>{status} ..</h3>;
     },
-    [center]
+    [center],
   );
 
   const onClick = useCallback((e: google.maps.MapMouseEvent) => {
