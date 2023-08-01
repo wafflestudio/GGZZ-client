@@ -13,9 +13,12 @@ const SubmitSection = () => {
     latitude: number;
     text: string;
   }) => {
-    return Promise.resolve({ id: 0 });
+    return Promise.resolve({ id: 0, requestBody });
   };
-  const fakePutLetter = (id: number, requestBody: FormData) => null;
+  const fakePutLetter = (id: number, requestBody: FormData) => ({
+    id,
+    requestBody,
+  });
 
   return (
     <section className={styles["submitSection"]}>

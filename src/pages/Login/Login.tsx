@@ -20,7 +20,7 @@ export default function Login() {
         username: ID,
         password: PW,
       };
-      const res = await apiLogin(loginData);
+      await apiLogin(loginData);
       if (redirect) navigate(redirect);
       else navigate("/");
     } catch (e) {

@@ -45,7 +45,7 @@ export default function Register() {
 
     try {
       const registerData = { username, password: PW, nickname };
-      const res = await apiRegister(registerData);
+      await apiRegister(registerData);
       navigate("/login");
     } catch (e) {
       console.log(e);

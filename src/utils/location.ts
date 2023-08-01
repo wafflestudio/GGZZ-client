@@ -7,7 +7,7 @@ export const useGetCurrentLocation = (options: PositionOptions = {}) => {
   //   throw "위치 정보가 지원되지 않습니다.";
   // }
   const [coordinates, setCoordinates] = useState<TLLCoordinates>();
-  const [errorMsg, setErrorMsg] = useState<string>();
+  const [, setErrorMsg] = useState<string>();
 
   const handleSuccess = ({ coords }: { coords: GeolocationCoordinates }) => {
     const { latitude: lat, longitude: lng } = coords;

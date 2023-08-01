@@ -1,5 +1,5 @@
 import styles from "./Send.module.scss";
-import React, { useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LocationSection from "components/Send/LocationSection/LocationSection";
 import TextSection from "components/Send/TextSection/TextSection";
