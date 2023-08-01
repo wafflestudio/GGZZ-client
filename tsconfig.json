@@ -17,10 +17,10 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": false,
 
-    "strict": true
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": false,
-    // "noFallthroughCasesInSwitch": true
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["src"]
 }
