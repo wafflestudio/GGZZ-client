@@ -3,7 +3,7 @@ import { apiClient as axios } from "./apiClient";
 
 // TODO : api 종류별로 파일 분리
 
-const url = (path: string, param?: Record<string, any>): string => {
+const url = (path: string, param?: Record<string, unknown>): string => {
   const validParamData =
     param &&
     Object.fromEntries(
@@ -24,7 +24,7 @@ const url = (path: string, param?: Record<string, any>): string => {
 export function useApiData<T>(
   fetch: () => Promise<T>,
   initialValue: T,
-  deps: any[],
+  deps: unknown[], // any
 ): T {
   const [data, setData] = useState<T>(initialValue);
   useLayoutEffect(() => {

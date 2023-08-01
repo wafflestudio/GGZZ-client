@@ -16,8 +16,8 @@ export function useDeepCompareEffectForMaps(
 type LatLngObject = google.maps.LatLng | google.maps.LatLngLiteral;
 // TODO: any 타입 처리
 const customCompare: TypeEqualityComparator<LatLngObject, undefined> = (
-  a: any,
-  b: any,
+  a,
+  b,
 ) => {
   if (
     isLatLngLiteral(a) ||
@@ -46,8 +46,8 @@ const deepCompareEqualsForMaps = createCustomEqual({
   }),
 });
 
-function useDeepCompareMemoize(value: any) {
-  const ref = useRef();
+function useDeepCompareMemoize(value: unknown) {
+  const ref = useRef<unknown>();
 
   if (!deepCompareEqualsForMaps(value, ref.current)) {
     ref.current = value;
