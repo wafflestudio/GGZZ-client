@@ -1,11 +1,9 @@
-import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Receive from "./pages/Receive/Receive";
-import Register from "./pages/Register";
-import Send from "./pages/Send/Send";
-import { useIntervalToGetLocation } from "./lib/hooks/locationHooks";
+import Home from "pages/Home/Home";
+import Login from "pages/Login/Login";
+import Register from "pages/Register/Register";
+import Send from "pages/Send/Send";
+import { useIntervalToGetLocation } from "utils/location";
 
 function InValidateURL() {
   return <Navigate to="/" />;
@@ -18,7 +16,6 @@ function App() {
     <Routes>
       <Route path="/" index element={<Home />} />
       <Route path="/send" element={<Send />} />
-      <Route path="/receive" element={<Receive />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="*" element={<InValidateURL />} />

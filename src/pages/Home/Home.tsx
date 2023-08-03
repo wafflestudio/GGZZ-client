@@ -1,20 +1,14 @@
-import { useCallback, useState, useLayoutEffect } from "react";
 import styles from "./Home.module.scss";
-import NavigationTab from "../components/Home/NavigationTab";
+import { useCallback, useState, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ReceiveContainer } from "../components/Home/Receive/Receive";
-import SplashScreen from "../components/Home/SplashScreen";
-import { apiGetLetters, useApiData } from "../lib/hooks/apiHooks";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { useHomeModalStore } from "../store/useHomeModalStore";
-import { useMyPositionStore } from "../store/useMyPositionStore";
-import Map from "../components/Home/Map/Map";
-import sendIcon from "../assets/icon/Home/SendButton/send.svg";
-import React from "react";
-import { TypeEqualityComparator, createCustomEqual, deepEqual } from "fast-equals";
-import { isLatLngLiteral } from "@googlemaps/typescript-guards";
-import useEtcStore from "../store/useEtcStore";
-
+import NavigationTab from "components/Home/NavigationTab";
+import SplashScreen from "components/Home/SplashScreen";
+import Map from "components/Home/Map/Map";
+import { apiGetLetters, useApiData } from "apis/apis";
+import { useMyPositionStore } from "store/useMyPositionStore";
+import sendIcon from "assets/icon/Home/SendButton/send.svg";
+import useEtcStore from "store/useEtcStore";
 const Home = () => {
   const [clicks, setClicks] = useState<google.maps.LatLng[]>([]);
   const [zoom, setZoom] = useState(15); // initial zoom
@@ -23,10 +17,11 @@ const Home = () => {
     lng: 126.954547,
   });
 
-  const modalLetter = useHomeModalStore((state) => state.letter);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
   const viewPosition = useMyPositionStore((state) => state.viewCoordinates);
-  const setViewPosition = useMyPositionStore((state) => state.setViewCoordinates);
+  const setViewPosition = useMyPositionStore(
+    (state) => state.setViewCoordinates,
+  );
   const navigate = useNavigate();
 
   const currentLLCoordinates = useCallback(() => {
@@ -56,7 +51,7 @@ const Home = () => {
       return apiGetLetters(lng, lat);
     },
     [],
-    [myPosition, viewPosition]
+    [myPosition, viewPosition],
   );
 
   const render = useCallback(
@@ -64,7 +59,7 @@ const Home = () => {
       if (status === Status.FAILURE) return <h3>{status} ...</h3>;
       return <h3>{status} ..</h3>;
     },
-    [center]
+    [center],
   );
 
   const onClick = useCallback((e: google.maps.MapMouseEvent) => {
@@ -93,7 +88,7 @@ const Home = () => {
         check();
       }, 4000);
   }, [check]);
-      
+
   return (
     <>
       {isLoading && (
@@ -128,7 +123,6 @@ const Home = () => {
         >
           <img src={sendIcon} />
         </button>
-        {modalLetter && <ReceiveContainer />}
       </div>
     </>
   );

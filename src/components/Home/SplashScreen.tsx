@@ -1,6 +1,6 @@
 import styles from "./SplashScreen.module.scss";
 import { Link } from "react-router-dom";
-import titleImage from "../../assets/icon/ggzz_title.svg";
+import titleImage from "assets/icon/ggzzTitle/ggzz_title.svg";
 
 export default function SplashScreen() {
   return (

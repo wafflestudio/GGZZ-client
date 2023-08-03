@@ -1,7 +1,7 @@
+import styles from "./Map.module.scss";
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import Marker from "./Marker";
-import styles from "./Map.module.scss";
-import { useDeepCompareEffectForMaps } from "../../../lib/hooks/mapHooks";
+import { useDeepCompareEffectForMaps } from "./mapHooks";
 
 interface MapProps extends PropsWithChildren<google.maps.MapOptions> {
   className: string;
@@ -25,7 +25,12 @@ const Map = ({ onIdle, onClick, className, letters, ...options }: MapProps) => {
 
   useEffect(() => {
     if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, { ...options, disableDefaultUI: true }));
+      setMap(
+        new window.google.maps.Map(ref.current, {
+          ...options,
+          disableDefaultUI: true,
+        }),
+      );
     }
   }, []);
 
@@ -34,13 +39,18 @@ const Map = ({ onIdle, onClick, className, letters, ...options }: MapProps) => {
   useDeepCompareEffectForMaps(() => {
     if (map) {
       // TODO: mapId 추가하여 마커 로딩 확인
-      map.setOptions({ ...options, mapId: process.env.REACT_APP_WEB_VECTOR_MAP_ID });
+      map.setOptions({
+        ...options,
+        mapId: process.env.REACT_APP_WEB_VECTOR_MAP_ID,
+      });
     }
   }, [map, options]);
 
   useEffect(() => {
     if (map) {
-      ["click", "idle"].forEach((eventName) => google.maps.event.clearListeners(map, eventName));
+      ["click", "idle"].forEach((eventName) =>
+        google.maps.event.clearListeners(map, eventName),
+      );
 
       if (onClick) {
         map.addListener("click", onClick);
@@ -83,8 +93,9 @@ const Map = ({ onIdle, onClick, className, letters, ...options }: MapProps) => {
                   </div>
                   <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1774&q=80" />
                   <p className={styles.content}>
-                    내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지
-                    내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지
+                    내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐
+                    쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지
+                    내용 뭐 쓰지 내용 뭐 쓰지 내용 뭐 쓰지
                   </p>
                   <button className={styles.more}>더보기</button>
                 </div>

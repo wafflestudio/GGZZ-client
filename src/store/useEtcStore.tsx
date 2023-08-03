@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+// TODO: store 정리
+
 interface EtcStore {
   // for splash screen
   isLoading: boolean;
