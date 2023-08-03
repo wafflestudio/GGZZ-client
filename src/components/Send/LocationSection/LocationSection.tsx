@@ -1,22 +1,24 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useMyPositionStore } from "../../../store/useMyPositionStore";
-import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import styles from "./LocationSection.module.scss";
-import Map from "../../Home/Map/Map";
+import { useCallback, useEffect, useState } from "react";
+import { Status, Wrapper } from "@googlemaps/react-wrapper";
+import { useMyPositionStore } from "store/useMyPositionStore";
+import Map from "components/Home/Map/Map";
 
 const LocationSection = () => {
   // TODO: clicks 고치기
   const [zoom, setZoom] = useState(15); // initial zoom
   const [center, setCenter] = useState<google.maps.LatLngLiteral | null>(null);
   const myPosition = useMyPositionStore((state) => state.currentCoordinates);
-  const setViewPosition = useMyPositionStore((state) => state.setViewCoordinates);
+  const setViewPosition = useMyPositionStore(
+    (state) => state.setViewCoordinates,
+  );
 
   const render = useCallback(
     (status: Status) => {
       if (status === Status.FAILURE) return <h3>{status} ...</h3>;
       return <h3>{status} ..</h3>;
     },
-    [center]
+    [center],
   );
 
   const onIdle = useCallback((m: google.maps.Map) => {

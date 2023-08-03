@@ -1,9 +1,9 @@
-import styles from "./index.module.scss";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import styles from "./Login.module.scss";
 import { useState } from "react";
-import { apiLogin } from "../../lib/hooks/apiHooks";
-import titleImage from "../../assets/icon/ggzz_title.svg";
-import GoogleButton from "../../components/Firebase/GoogleButton";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { apiLogin } from "apis/apis";
+import titleImage from "assets/icon/ggzzTitle/ggzz_title.svg";
+import GoogleButton from "components/Firebase/GoogleButton";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export default function Login() {
         username: ID,
         password: PW,
       };
-      const res = await apiLogin(loginData);
+      await apiLogin(loginData);
       if (redirect) navigate(redirect);
       else navigate("/");
     } catch (e) {
@@ -67,7 +67,12 @@ export default function Login() {
         </div>
 
         <div className={styles["submit-btn"]}>
-          <input type="submit" value="로그인" className={styles["text"]} onClick={handleLogin} />
+          <input
+            type="submit"
+            value="로그인"
+            className={styles["text"]}
+            onClick={handleLogin}
+          />
         </div>
       </form>
 

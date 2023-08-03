@@ -25,6 +25,9 @@ interface Promise<T> {
    * @returns A Promise for the completion of the callback.
    */
   catch<TResult = never>(
-    onRejected?: ((reason: unknown) => TResult | PromiseLike<TResult>) | undefined | null
+    onRejected?:
+      | ((reason: unknown) => TResult | PromiseLike<TResult>)
+      | undefined
+      | null,
   ): Promise<T | TResult>;
 }

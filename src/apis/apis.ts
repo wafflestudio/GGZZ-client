@@ -1,13 +1,15 @@
 import { useCallback, useLayoutEffect, useState } from "react";
-import { apiClient as axios } from "../client";
+import { apiClient as axios } from "./apiClient";
 
-const url = (path: string, param?: Record<string, any>): string => {
+// TODO : api 종류별로 파일 분리
+
+const url = (path: string, param?: Record<string, unknown>): string => {
   const validParamData =
     param &&
     Object.fromEntries(
       Object.entries(param)
         .filter(([, value]) => value)
-        .map(([key, value]) => [key, String(value)])
+        .map(([key, value]) => [key, String(value)]),
     );
   return (
     "https://ggzz-api-dev.wafflestudio.com" + // TODO: 배포 후 수정
@@ -19,7 +21,11 @@ const url = (path: string, param?: Record<string, any>): string => {
 // 구체적 사용에시는 아래 useApiGetLetters hook 참고
 
 // TODO: any 타입 해결
-export function useApiData<T>(fetch: () => Promise<T>, initialValue: T, deps: any[]): T {
+export function useApiData<T>(
+  fetch: () => Promise<T>,
+  initialValue: T,
+  deps: unknown[], // any
+): T {
   const [data, setData] = useState<T>(initialValue);
   useLayoutEffect(() => {
     fetch().then((res) => {
@@ -29,7 +35,8 @@ export function useApiData<T>(fetch: () => Promise<T>, initialValue: T, deps: an
   return data;
 }
 
-export const useApiGetLetters = () => useCallback(() => axios.get(url("/letters"), {}), []);
+export const useApiGetLetters = () =>
+  useCallback(() => axios.get(url("/letters"), {}), []);
 
 export const apiRegister = (registerData: {
   username: string;
@@ -52,12 +59,15 @@ export const apiPostLetter = (postLetterData: {
 
 export const apiPutLetter = (id: number, postLetterData: FormData) =>
   axios.put(url(`/api/v1/letters/${id}/source`), postLetterData, {
-    headers: { "Content-Type": "multipart/form-data" }
+    headers: { "Content-Type": "multipart/form-data" },
   });
 
 export const apiGetLetters = (longitude: number, latitude: number) =>
   axios
-    .get(url("/api/v1/letters", { longitude: longitude, latitude: latitude }), {})
+    .get(
+      url("/api/v1/letters", { longitude: longitude, latitude: latitude }),
+      {},
+    )
     .then((res) => {
       return Promise.resolve(res.data.data);
     });

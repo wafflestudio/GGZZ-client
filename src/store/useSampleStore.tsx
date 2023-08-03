@@ -7,7 +7,8 @@ interface SampleStore {
 
 const useSampleStore = create<SampleStore>()((set) => ({
   sampleData: 0,
-  addData: (addValue) => set((state) => ({ sampleData: state.sampleData + addValue })),
+  addData: (addValue) =>
+    set((state) => ({ sampleData: state.sampleData + addValue })),
 }));
 
 export default useSampleStore;

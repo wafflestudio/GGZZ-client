@@ -1,8 +1,7 @@
-import React from "react";
 import styles from "./GoogleButton.module.scss";
-import { signInWithGoogle } from "../../lib/firebase";
-import { useRegisterInfoStore } from "../../store/useMyInfoStore";
 import { useNavigate } from "react-router-dom";
+import { signInWithGoogle } from "utils/firebase";
+import { useRegisterInfoStore } from "store/useMyInfoStore";
 
 type GoogleButtonProps = {
   isLogin: boolean;
@@ -16,6 +15,7 @@ function GoogleButton({ isLogin }: GoogleButtonProps) {
       alert("구글 로그인에 실패했습니다.\n" + "다시 시도해주세요.");
       return;
     }
+
     if (isLogin === false) {
       const email = res.user.email;
       if (email) {
@@ -26,6 +26,7 @@ function GoogleButton({ isLogin }: GoogleButtonProps) {
       setNickname(res.user.displayName || "");
       alert("구글 로그인에 성공했습니다. 회원정보 기입을 완료해주세요.");
     }
+
     if (isLogin === true) {
       alert("구글 로그인에 성공했습니다.");
       // TODO: 소셜 로그인 엔드포인트에 토큰 전달

@@ -1,7 +1,6 @@
-import { useLetterFormStore } from "../../../store/useLetterFormStore";
 import styles from "./SubmitSection.module.scss";
-import React from "react";
-import { useMyPositionStore } from "../../../store/useMyPositionStore";
+import { useLetterFormStore } from "store/useLetterFormStore";
+import { useMyPositionStore } from "store/useMyPositionStore";
 
 const SubmitSection = () => {
   const { text, audio, image } = useLetterFormStore((state) => state);
@@ -14,14 +13,19 @@ const SubmitSection = () => {
     latitude: number;
     text: string;
   }) => {
-    return Promise.resolve({ id: 0 });
+    return Promise.resolve({ id: 0, requestBody });
   };
-  const fakePutLetter = (id: number, requestBody: FormData) => null;
+  const fakePutLetter = (id: number, requestBody: FormData) => ({
+    id,
+    requestBody,
+  });
 
   return (
     <section className={styles["submitSection"]}>
       <button
-        className={`${styles["mainPasteButton"]} ${(text || audio || image) && styles["active"]}`}
+        className={`${styles["mainPasteButton"]} ${
+          (text || audio || image) && styles["active"]
+        }`}
         onClick={() => {
           if (me) {
             fakePostLetter({

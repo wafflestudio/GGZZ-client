@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const apiClient = axios.create({
-  withCredentials: true
+  withCredentials: true,
 });
 // TODO: refresh token 관련 처리
 apiClient.interceptors.request.use(
@@ -16,5 +16,5 @@ apiClient.interceptors.request.use(
   function (error) {
     // 요청 오류가 있는 작업 수행
     return Promise.reject(error);
-  }
+  },
 );
